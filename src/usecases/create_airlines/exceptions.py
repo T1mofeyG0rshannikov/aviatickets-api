@@ -1,0 +1,2 @@
+class InvalidFileContentException(Exception):
+    pass
