@@ -1,7 +1,7 @@
 from sqlalchemy import Select, and_
 
-from src.db.models.models import TicketOrm
 from src.entities.tickets.filters import TicketsFilter
+from src.infrastructure.db.models.models import TicketOrm
 
 
 class SqlalchemyTicketsFilter(TicketsFilter):
@@ -32,6 +32,6 @@ class SqlalchemyTicketsFilter(TicketsFilter):
             query &= and_(TicketOrm.return_at <= self.return_at)
 
         if self.departure_at:
-            query &= and_(TicketOrm.departure_at <= self.departure_at)
+            query &= and_(TicketOrm.departure_at >= self.departure_at)
 
         return query

@@ -1,8 +1,10 @@
 from src.depends.annotations.db_annotation import DbAnnotation
-from src.repositories.airlline_repository import AirlineRepository
-from src.repositories.airport_repository import AirportRepository
-from src.repositories.location_repository import LocationRepository
-from src.repositories.tickets_repository import TicketRepository
+from src.infrastructure.repositories.airlline_repository import AirlineRepository
+from src.infrastructure.repositories.airport_repository import AirportRepository
+from src.infrastructure.repositories.location_repository import LocationRepository
+from src.infrastructure.repositories.tickets_repository import TicketRepository
+from src.infrastructure.repositories.user_repository import UserRepository
+from src.infrastructure.repositories.user_ticket_repository import UserTicketRepository
 from src.usecases.tickets.filter.repository.tickets_repository import (
     TicketReadRepository,
 )
@@ -26,3 +28,11 @@ def get_ticket_repository(db: DbAnnotation) -> TicketRepository:
 
 def get_ticket_read_repository(db: DbAnnotation) -> TicketReadRepository:
     return TicketReadRepository(db)
+
+
+def get_user_repository(db: DbAnnotation) -> UserRepository:
+    return UserRepository(db)
+
+
+def get_user_ticket_repository(db: DbAnnotation) -> UserTicketRepository:
+    return UserTicketRepository(db)

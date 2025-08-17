@@ -1,5 +1,5 @@
 from src.dto.airlines import CreateAirlineDTO
-from src.repositories.airlline_repository import AirlineRepository
+from src.infrastructure.repositories.airlline_repository import AirlineRepository
 from src.usecases.create_airlines.txt_parser import AirlinesTXTParser
 
 
@@ -21,8 +21,6 @@ class CreateAirlines:
 
         exist_data = await self.get_exist_airlines_as_create_dto()
 
-        data_to_create = [
-            data for data in parsed_data if data not in exist_data
-        ]
+        data_to_create = [data for data in parsed_data if data not in exist_data]
 
         return await self.repository.create_many(airlines=data_to_create)

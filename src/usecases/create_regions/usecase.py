@@ -1,5 +1,5 @@
 from src.entities.region.iso import ISOCode
-from src.repositories.location_repository import LocationRepository
+from src.infrastructure.repositories.location_repository import LocationRepository
 from src.usecases.create_regions.adapter import RegionCsvToCreateDTOAdapter
 from src.usecases.create_regions.csv_parser import RegionsCsvParser
 

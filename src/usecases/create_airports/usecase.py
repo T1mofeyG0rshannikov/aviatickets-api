@@ -1,9 +1,7 @@
-from typing import List
-
 from src.entities.airport.iata_code import IATACode
 from src.entities.airport.icao_code import ICAOCode
-from src.repositories.airport_repository import AirportRepository
-from src.repositories.location_repository import LocationRepository
+from src.infrastructure.repositories.airport_repository import AirportRepository
+from src.infrastructure.repositories.location_repository import LocationRepository
 from src.usecases.create_airports.adapter import AirportsCsvToCreateDTOAdapter
 from src.usecases.create_airports.csv_parser import AirportsCsvParser
 

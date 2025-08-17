@@ -4,11 +4,13 @@ from sqladmin.authentication import AuthenticationBackend
 from starlette.requests import Request
 
 from src.admin.config import AdminConfig
+from src.depends.base import get_login_interactor
 from src.depends.decorator import inject_dependencies
-from src.depends.repos_container import ReposContainer
-from src.repositories.user_repository import UserRepository
-from src.user.auth.jwt_processor import JwtProcessor
-from src.user.password_hasher import PasswordHasher
+from src.entities.exceptions import AccessDeniedError
+from src.entities.user.exceptions import InvalidPasswordError, UserNotFoundError
+from src.infrastructure.jwt.jwt_processor import JwtProcessor
+from src.infrastructure.security.password_hasher import PasswordHasher
+from src.usecases.user.login import Login
 from src.web.schemas.login import LoginResponse
 
 
@@ -20,28 +22,21 @@ class AdminAuth(AuthenticationBackend):
         self.config = config
 
     @inject_dependencies
-    async def login(
-        self: Self, request: Request, user_repository: Annotated[UserRepository, ReposContainer.user_repository]
-    ) -> LoginResponse:
+    async def login(self: Self, request: Request, login: Annotated[Login, get_login_interactor]) -> LoginResponse:
         if self.config.debug:
             LoginResponse(ok=True)
 
         form = await request.form()
         email, password = form["email"], form["password"]
 
-        user = await user_repository.get(email=email)
-        if not user:
-            return LoginResponse(ok=False, email_error_message=f"нет пользователя с email адресом {email}")
-
-        if not user.is_superuser:
+        try:
+            access_token = await login(email, password)
+            request.session.update({"token": access_token})
+            return LoginResponse(ok=True)
+        except (UserNotFoundError, InvalidPasswordError) as e:
+            return LoginResponse(ok=False, email_error_message=str(e))
+        except AccessDeniedError:
             return LoginResponse(ok=False, email_error_message="Недостаточно прав для входа в панель администратора")
-
-        if not self.password_hasher.verify(password, user.hash_password):
-            return LoginResponse(ok=False, password_error_message="Неверный пароль")
-
-        access_token = self.jwt_processor.create_access_token(user.email, user.id)
-        request.session.update({"token": access_token})
-        return LoginResponse(ok=True)
 
     async def logout(self, request: Request) -> bool:
         request.session.clear()

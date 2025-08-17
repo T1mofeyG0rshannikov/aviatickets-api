@@ -1,6 +1,4 @@
-from typing import List
-
-from src.repositories.location_repository import LocationRepository
+from src.infrastructure.repositories.location_repository import LocationRepository
 from src.usecases.create_cities.csv_parser import CitiesCsvParser
 
 

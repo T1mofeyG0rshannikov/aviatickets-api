@@ -12,4 +12,4 @@ class IATACode(str):
 
     @classmethod
     def is_valid_iata(cls, value):
-        return isinstance(value, str) and len(value) == 2 and (cls.valid_letter(letter) for letter in value)
+        return isinstance(value, str) and len(value) == 2 and all(cls.valid_letter(letter) for letter in value)

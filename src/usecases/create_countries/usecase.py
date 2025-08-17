@@ -1,7 +1,5 @@
-from typing import List
-
 from src.entities.region.iso import ISOCode
-from src.repositories.location_repository import LocationRepository
+from src.infrastructure.repositories.location_repository import LocationRepository
 from src.usecases.create_countries.csv_parser import CountriesCsvParser
 
 

@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -17,18 +17,38 @@ class FilterTicketsRequest(BaseModel, TicketsFilter):
     pass
 
 
-class AirportResponse(BaseModel):
+class CountryResponse(BaseModel):
+    id: int
+    iso: str
+    name: str
+    name_english: str
+
+
+class RegionResponse(BaseModel):
+    id: int
+    iso: str
+    name: str
+    name_english: str
+
+
+class CityResponse(BaseModel):
+    id: int
+    name: str
+    name_english: str
+
+
+class AirportFullInfoResponse(BaseModel):
     id: int
     name: str
     continent: str
-    country_id: int
-    region_id: int
-    city_id: int
     scheduled_service: str
     icao: str
     iata: str
     gps_code: str
-    name_russian: str = None
+    country: CountryResponse | None = None
+    region: RegionResponse | None = None
+    city: CityResponse | None = None
+    name_russian: str | None = None
 
 
 class AirlineResponse(BaseModel):
@@ -41,8 +61,8 @@ class AirlineResponse(BaseModel):
 
 class TicketFullInfoResponse(BaseModel):
     id: int
-    origin_airport: AirportResponse
-    destination_airport: AirportResponse
+    origin_airport: AirportFullInfoResponse
+    destination_airport: AirportFullInfoResponse
     airline: AirlineResponse
     departure_at: datetime
     return_at: datetime

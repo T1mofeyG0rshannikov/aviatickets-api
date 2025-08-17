@@ -1,5 +1,5 @@
 from src.admin.model_views.base import BaseModelView
-from src.db.models.models import TicketOrm
+from src.infrastructure.db.models.models import TicketOrm
 
 
 class TicketAdmin(BaseModelView, model=TicketOrm):

@@ -1,7 +1,6 @@
+from collections.abc import Callable
 from functools import wraps
 from typing import Any, _AnnotatedAlias, get_type_hints
-
-from collections.abc import Callable
 
 
 def inject_dependencies(func: Callable) -> Callable:

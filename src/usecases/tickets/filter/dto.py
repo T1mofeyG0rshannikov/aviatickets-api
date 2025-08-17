@@ -1,15 +1,15 @@
 from dataclasses import dataclass
 from datetime import datetime
 
+from src.dto.airport import AirportFullInfoDTO
 from src.entities.airline.airline import Airline
-from src.entities.airport.airport import Airport
 
 
 @dataclass
 class TicketFullInfoDTO:
     id: int
-    origin_airport: Airport
-    destination_airport: Airport
+    origin_airport: AirportFullInfoDTO
+    destination_airport: AirportFullInfoDTO
     airline: Airline
     departure_at: datetime
     return_at: datetime

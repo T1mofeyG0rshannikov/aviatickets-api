@@ -1,5 +1,5 @@
 from src.admin.model_views.base import BaseModelView
-from src.db.models.models import CityOrm
+from src.infrastructure.db.models.models import CityOrm
 
 
 class CityAdmin(BaseModelView, model=CityOrm):

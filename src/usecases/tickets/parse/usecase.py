@@ -1,10 +1,9 @@
 from datetime import datetime
-from typing import List
 
 from src.dto.ticket import CreateAviaTicketDTO
 from src.entities.exceptions import AirportNotFoundException, FetchAPIException
-from src.repositories.airport_repository import AirportRepository
-from src.repositories.tickets_repository import TicketRepository
+from src.infrastructure.repositories.airport_repository import AirportRepository
+from src.infrastructure.repositories.tickets_repository import TicketRepository
 from src.usecases.tickets.parse.parsers.base import TicketsParser
 
 

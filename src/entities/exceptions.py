@@ -10,5 +10,9 @@ class FetchAPIException(Exception):
     pass
 
 
-class NotPermittedError(Exception):
+class AccessDeniedError(Exception):
+    pass
+
+
+class InvalidCreditnailsError(Exception):
     pass

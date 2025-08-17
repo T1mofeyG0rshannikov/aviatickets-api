@@ -1,7 +1,5 @@
-from typing import List
-
 from src.dto.locations import CreateRegionDTO
-from src.repositories.location_repository import LocationRepository
+from src.infrastructure.repositories.location_repository import LocationRepository
 from src.usecases.create_regions.dto import CsvRegionData
 
 

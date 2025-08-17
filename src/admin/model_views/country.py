@@ -1,5 +1,5 @@
 from src.admin.model_views.base import BaseModelView
-from src.db.models.models import CountryOrm
+from src.infrastructure.db.models.models import CountryOrm
 
 
 class CountryAdmin(BaseModelView, model=CountryOrm):
@@ -14,3 +14,5 @@ class CountryAdmin(BaseModelView, model=CountryOrm):
     name_plural = "Страны"
 
     column_default_sort = ("id", "desc")
+
+    form_excluded_columns = ["airports", "regions"]

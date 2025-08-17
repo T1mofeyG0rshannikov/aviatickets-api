@@ -1,13 +1,12 @@
 from datetime import datetime
-from typing import List
 
 import httpx
 
 from src.dto.ticket import CreateAviaTicketDTO
 from src.entities.airport.airport import Airport
 from src.entities.exceptions import FetchAPIException
-from src.repositories.airlline_repository import AirlineRepository
-from src.repositories.airport_repository import AirportRepository
+from src.infrastructure.repositories.airlline_repository import AirlineRepository
+from src.infrastructure.repositories.airport_repository import AirportRepository
 from src.usecases.tickets.parse.parsers.aviasales.config import AviasalesAPIConfig
 from src.usecases.tickets.parse.parsers.base import TicketsParser
 

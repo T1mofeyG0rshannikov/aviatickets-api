@@ -1,5 +1,3 @@
-from typing import List
-
 from src.usecases.create_airports.dto import CsvAirportData
 
 
