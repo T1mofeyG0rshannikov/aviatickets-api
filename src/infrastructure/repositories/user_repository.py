@@ -4,7 +4,7 @@ from src.entities.user.dto import CreateUserDTO
 from src.entities.user.user import User
 from src.infrastructure.db.mappers.user import from_orm_to_user
 from src.infrastructure.db.models.models import UserOrm
-from src.infrastructure.repositories.base_reposiotory import BaseRepository
+from src.infrastructure.repositories.base_repository import BaseRepository
 
 
 class UserRepository(BaseRepository):

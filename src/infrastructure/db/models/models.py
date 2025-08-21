@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, Date, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, Date, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.types import TIMESTAMP
 
@@ -30,18 +30,20 @@ class AirportOrm(Model):
     name_russian = Column(String)
 
     origin_tickets = relationship(
-        "TicketOrm", back_populates="origin_airport", foreign_keys="[TicketOrm.origin_airport_id]"
+        "TicketSegmentOrm", back_populates="origin_airport", foreign_keys="[TicketSegmentOrm.origin_airport_id]"
     )
     destination_tickets = relationship(
-        "TicketOrm", back_populates="destination_airport", foreign_keys="[TicketOrm.destination_airport_id]"
+        "TicketSegmentOrm",
+        back_populates="destination_airport",
+        foreign_keys="[TicketSegmentOrm.destination_airport_id]",
     )
 
     def __str__(self) -> str:
         return self.name
 
 
-class TicketOrm(Model):
-    __tablename__ = "tickets"
+class TicketSegmentOrm(Model):
+    __tablename__ = "ticketsegments"
 
     id = Column(Integer, primary_key=True, index=True)
     origin_airport_id = Column(Integer, ForeignKey("airports.id"), index=True)
@@ -55,10 +57,25 @@ class TicketOrm(Model):
     departure_at = Column(TIMESTAMP(timezone=True))
     return_at = Column(TIMESTAMP(timezone=True))
     duration = Column(Integer)
-    price = Column(Integer)
+    flight_number = Column(String)
+    status = Column(String)
+    seat_class = Column(String)
+
+    ticket_id = Column(Integer, ForeignKey("tickets.id"))
+    ticket = relationship("TicketOrm", back_populates="segments")
+
+
+class TicketOrm(Model):
+    __tablename__ = "tickets"
+
+    id = Column(Integer, primary_key=True, index=True)
+    duration = Column(Integer)
+    price = Column(Float, index=True)
+    currency = Column(String)
     transfers = Column(Integer)
 
     user_tickets = relationship("UserTicketOrm", back_populates="ticket")
+    segments = relationship("TicketSegmentOrm", back_populates="ticket")
 
 
 class UserOrm(Model):
@@ -87,7 +104,7 @@ class AirlineOrm(Model):
     name = Column(String)
     name_russian = Column(String)
 
-    tickets = relationship(TicketOrm, back_populates="airline")
+    tickets = relationship(TicketSegmentOrm, back_populates="airline")
 
     def __str__(self) -> str:
         return self.name
@@ -164,6 +181,8 @@ class PassengerOrm(Model):
     second_name = Column(String)
 
     birth_date = Column(Date)
+    passport = Column(String)
+    expiration_date = Column(Date)
 
     def __str__(self) -> str:
         return f"{self.first_name} {self.second_name}"

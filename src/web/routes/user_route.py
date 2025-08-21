@@ -1,20 +1,24 @@
+from io import BytesIO
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Request, Response
+from fastapi import APIRouter, Depends, Request
+from fastapi.responses import StreamingResponse
 
-from src.depends.annotations.user_annotation import UserAnnotation
-from src.depends.usecases import (
+from src.application.usecases.create_user_ticket import CreateUserTicket
+from src.application.usecases.tickets.email import SendPdfTicketToEmail
+from src.application.usecases.tickets.pdf.usecase import CreatePdfTicket
+from src.application.usecases.user.login import Login
+from src.application.usecases.user.register import Register
+from src.entities.exceptions import InvalidcredentialsError
+from src.entities.user_ticket.dto import CreatePassengerDTO
+from src.web.depends.annotations.user_annotation import UserAnnotation
+from src.web.depends.usecases import (
     get_create_pdf_ticket_interactor,
     get_create_user_ticket_interactor,
     get_login_interactor,
     get_register_interactor,
     get_send_pdf_ticket_to_email_interactor,
 )
-from src.usecases.create_user_ticket.usecase import CreateUserTicket
-from src.usecases.tickets.email.usecase import SendPdfTicketToEmail
-from src.usecases.tickets.pdf.usecase import CreatePdfTicket
-from src.usecases.user.login import Login
-from src.usecases.user.register import Register
 from src.web.routes.base import user_required
 from src.web.schemas.user import CreateUserTicketRequest, LoginRequest, RegisterRequest
 
@@ -28,20 +32,28 @@ async def add_user_ticket(
     data: CreateUserTicketRequest,
     usecase: Annotated[CreateUserTicket, Depends(get_create_user_ticket_interactor)],
 ):
-    return await usecase(data.ticket_id, data.passangers, user)
+    passengers_dto = []
+    for passenger in data.passangers:
+        try:
+            passengers_dto.append(CreatePassengerDTO(**passenger.model_dump()))
+        except ValueError as e:
+            raise InvalidcredentialsError(
+                f"{passenger.first_name} {passenger.second_name}: Неправильный номер загран паспорта - {passenger.passport}"
+            )
+
+    return await usecase(data.ticket_id, passengers_dto, user)
 
 
-@router.get("/pdf-ticket", status_code=200)
+@router.get("/pdf-ticket", status_code=200, response_class=StreamingResponse)
 @user_required
 async def generate_pdf_ticket(
     user: UserAnnotation,
     user_ticket_id: int,
     usecase: Annotated[CreatePdfTicket, Depends(get_create_pdf_ticket_interactor)],
 ):
-    file_content = await usecase(user_ticket_id, user)
-
-    headers = {"Content-Disposition": "attachment; filename=my_bytes_file.pdf"}
-    return Response(content=file_content, media_type="text/plain", headers=headers)
+    file = await usecase(user_ticket_id, user)
+    headers = {"Content-Disposition": f"attachment; filename={file.name}.pdf"}
+    return StreamingResponse(BytesIO(file.content), media_type="application/pdf", headers=headers)
 
 
 @router.get("/pdf-ticket-email", status_code=200)

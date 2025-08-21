@@ -18,3 +18,7 @@ class CreateUserDTO:
     first_name: str
     second_name: str
     is_superuser: bool
+
+    def __post__init__(self) -> None:
+        if not isinstance(self.email, Email):
+            self.email = Email(self.email)

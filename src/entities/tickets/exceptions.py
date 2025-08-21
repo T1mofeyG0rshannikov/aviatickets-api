@@ -1,5 +1,5 @@
-from src.entities.exceptions import RecordNotFoundException
+from src.entities.exceptions import RecordNotFoundError
 
 
-class TicketNotFoundError(RecordNotFoundException):
+class TicketNotFoundError(RecordNotFoundError):
     pass

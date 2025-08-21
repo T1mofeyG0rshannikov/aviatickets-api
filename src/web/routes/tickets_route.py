@@ -2,9 +2,20 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends
 
-from src.depends.annotations.user_annotation import UserAnnotation
-from src.depends.files_from_request import get_csv_file, get_txt_file
-from src.depends.usecases import (
+from src.application.usecases.airports.create.usecase import CreateAirports
+from src.application.usecases.airports.get.usecase import GetAirports
+from src.application.usecases.create_airlines.usecase import CreateAirlines
+from src.application.usecases.create_cities.usecase import CreateCities
+from src.application.usecases.create_countries.usecase import CreateCountries
+from src.application.usecases.create_regions.usecase import CreateRegions
+from src.application.usecases.tickets.filter import FilterTickets
+from src.application.usecases.tickets.get import GetTicket
+from src.application.usecases.tickets.parse import ParseAviaTickets
+from src.entities.tickets.filters import TicketsFilter
+from src.web.depends.annotations.user_annotation import UserAnnotation
+from src.web.depends.files_from_request import get_csv_file, get_txt_file
+from src.web.depends.usecases import (
+    get_airports_interactor,
     get_create_airlines_interactor,
     get_create_airports_interactor,
     get_create_cities_interactor,
@@ -12,21 +23,10 @@ from src.depends.usecases import (
     get_create_regions_interactor,
     get_filter_tickets_interactor,
     get_parse_tickets_interactor,
+    get_ticket_interactor,
 )
-from src.entities.tickets.filters import TicketsFilter
-from src.usecases.create_airlines.usecase import CreateAirlines
-from src.usecases.create_airports.usecase import CreateAirports
-from src.usecases.create_cities.usecase import CreateCities
-from src.usecases.create_countries.usecase import CreateCountries
-from src.usecases.create_regions.usecase import CreateRegions
-from src.usecases.tickets.filter.usecase import FilterTickets
-from src.usecases.tickets.parse.usecase import ParseAviaTickets
 from src.web.routes.base import admin_required
-from src.web.schemas.tickets import (
-    FilterTicketsRequest,
-    ParseTicketsRequest,
-    TicketFullInfoResponse,
-)
+from src.web.schemas.tickets import FilterTicketsRequest, ParseTicketsRequest
 
 router = APIRouter(prefix="", tags=["tickets"])
 
@@ -88,8 +88,18 @@ async def parse_tickets(
     return await usecase(**data.model_dump())
 
 
-@router.post("/filter-tickets", status_code=200, response_model=list[TicketFullInfoResponse])
+@router.post("/filter-tickets", status_code=200)
 async def filter_tickets(
     data: FilterTicketsRequest, usecase: Annotated[FilterTickets, Depends(get_filter_tickets_interactor)]
-) -> list[TicketFullInfoResponse]:
+):
     return await usecase(TicketsFilter(**data.model_dump()))
+
+
+@router.get("/ticket/{ticket_id}", status_code=200)
+async def get_ticket(ticket_id: int, usecase: Annotated[GetTicket, Depends(get_ticket_interactor)]):
+    return await usecase(ticket_id)
+
+
+@router.get("/airports/{start_with}", status_code=200)
+async def get_airports(start_with: str, usecase: Annotated[GetAirports, Depends(get_airports_interactor)]):
+    return await usecase(start_with)

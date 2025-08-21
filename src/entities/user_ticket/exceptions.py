@@ -1,5 +1,9 @@
-from src.entities.exceptions import RecordNotFoundException
+from src.entities.exceptions import InvalidcredentialsError, RecordNotFoundError
 
 
-class UserTicketNotFoundError(RecordNotFoundException):
+class UserTicketNotFoundError(RecordNotFoundError):
+    pass
+
+
+class ExpiredInternationalPassportError(InvalidcredentialsError):
     pass

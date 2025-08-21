@@ -1,9 +1,7 @@
-import json
-
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
-from src.infrastructure.db.database import Model, delete_tables
+from src.infrastructure.db.database import Model
 from src.infrastructure.db.models.models import (
     AirlineOrm,
     AirportOrm,
@@ -11,6 +9,7 @@ from src.infrastructure.db.models.models import (
     CountryOrm,
     RegionOrm,
     TicketOrm,
+    TicketSegmentOrm,
     UserOrm,
 )
 
@@ -55,4 +54,5 @@ async def populate_db(engine, db, orm_json_loader: OrmJsonLoader):
     await orm_json_loader.load_objects(AirlineOrm, db, "tests/data/airlines.json")
     await orm_json_loader.load_objects(AirportOrm, db, "tests/data/airports.json")
     await orm_json_loader.load_objects(TicketOrm, db, "tests/data/tickets.json")
+    await orm_json_loader.load_objects(TicketSegmentOrm, db, "tests/data/ticket_segments.json")
     await orm_json_loader.load_objects(UserOrm, db, "tests/data/users.json")

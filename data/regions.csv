@@ -1,0 +1,213 @@
+Калифорния,California,US-CA
+Техас,Texas,US-TX
+Нью-Йорк,New York,US-NY
+Флорида,Florida,US-FL
+Иллинойс,Illinois,US-IL
+Пенсильвания,Pennsylvania,US-PA
+Огайо,Ohio,US-OH
+Джорджия,Georgia,US-GA
+Северная Каролина,North Carolina,US-NC
+Мичиган,Michigan,US-MI
+Нью-Джерси,New Jersey,US-NJ
+Вирджиния,Virginia,US-VA
+Вашингтон,Washington,US-WA
+Аризона,Arizona,US-AZ
+Массачусетс,Massachusetts,US-MA
+Теннесси,Tennessee,US-TN
+Индиана,Indiana,US-IN
+Мэриленд,Maryland,US-MD
+Миссури,Missouri,US-MO
+Висконсин,Wisconsin,US-WI
+Колорадо,Colorado,US-CO
+Миннесота,Minnesota,US-MN
+Южная Каролина,South Carolina,US-SC
+Алабама,Alabama,US-AL
+Луизиана,Louisiana,US-LA
+Кентукки,Kentucky,US-KY
+Орегон,Oregon,US-OR
+Оклахома,Oklahoma,US-OK
+Коннектикут,Connecticut,US-CT
+Юта,Utah,US-UT
+Айова,Iowa,US-IA
+Невада,Nevada,US-NV
+Арканзас,Arkansas,US-AR
+Миссисипи,Mississippi,US-MS
+Канзас,Kansas,US-KS
+Нью-Мексико,New Mexico,US-NM
+Небраска,Nebraska,US-NE
+Айдахо,Idaho,US-ID
+Западная Вирджиния,West Virginia,US-WV
+Гавайи,Hawaii,US-HI
+Нью-Гэмпшир,New Hampshire,US-NH
+Мэн,Maine,US-ME
+Монтана,Montana,US-MT
+Род-Айленд,Rhode Island,US-RI
+Делавэр,Delaware,US-DE
+Южная Дакота,South Dakota,US-SD
+Северная Дакота,North Dakota,US-ND
+Аляска,Alaska,US-AK
+Округ Колумбия,District of Columbia,US-DC
+Вермонт,Vermont,US-VT
+Вайоминг,Wyoming,US-WY
+Онтарио,Ontario,CA-ON
+Квебек,Quebec,CA-QC
+Британская Колумбия,British Columbia,CA-BC
+Альберта,Alberta,CA-AB
+Манитоба,Manitoba,CA-MB
+Саскачеван,Saskatchewan,CA-SK
+Новая Шотландия,Nova Scotia,CA-NS
+Нью-Брансуик,New Brunswick,CA-NB
+Ньюфаундленд и Лабрадор,Newfoundland and Labrador,CA-NL
+Остров Принца Эдуарда,Prince Edward Island,CA-PE
+Северо-Западные территории,Northwest Territories,CA-NT
+Юкон,Yukon,CA-YT
+Нунавут,Nunavut,CA-NU
+Бавария,Bayern,DE-BY
+Северный Рейн-Вестфалия,Nordrhein-Westfalen,DE-NW
+Баден-Вюртемберг,Baden-Württemberg,DE-BW
+Нижняя Саксония,Niedersachsen,DE-NI
+Гессен,Hessen,DE-HE
+Рейнланд-Пфальц,Rheinland-Pfalz,DE-RP
+Берлин,Berlin,DE-BE
+Бранденбург,Brandenburg,DE-BB
+Шлезвиг-Гольштейн,Schleswig-Holstein,DE-SH
+Саксония,Sachsen,DE-SN
+Тюрингия,Thüringen,DE-TH
+Гамбург,Hamburg,DE-HH
+Мекленбург-Передняя Померания,Mecklenburg-Vorpommern,DE-MV
+Саар,Saarland,DE-SL
+Бремен,Bremen,DE-HB
+Иль-де-Франс,Île-de-France,FR-IDF
+Овернь — Рона — Альпы,Auvergne-Rhône-Alpes,FR-ARA
+Новая Аквитания,Nouvelle-Aquitaine,FR-NAQ
+Окситания,Occitanie,FR-OCC
+Бретань,Bretagne,FR-BRE
+Центр — Долина Луары,Centre-Val de Loire,FR-CVL
+Бургундия — Франш-Конте,Bourgogne-Franche-Comté,FR-BFC
+Гранд-Эст,Grand Est,FR-GES
+Нормандия,Normandie,FR-NOR
+О-де-Франс,Hauts-de-France,FR-HDF
+Земли Луары,Pays de la Loire,FR-PDL
+Новый Южный Уэльс,New South Wales,AU-NSW
+Виктория,Victoria,AU-VIC
+Квинсленд,Queensland,AU-QLD
+Западная Австралия,Western Australia,AU-WA
+Южная Австралия,South Australia,AU-SA
+Тасмания,Tasmania,AU-TAS
+Австралийская столичная территория,Australian Capital Territory,AU-ACT
+Северная территория,Northern Territory,AU-NT
+Токио,Tokyo,JP-13
+Киото,Kyoto,JP-26
+Осака,Osaka,JP-27
+Канагава,Kanagawa,JP-14
+Хоккайдо,Hokkaido,JP-01
+Айти,Aichi,JP-23
+Хиросима,Hiroshima,JP-34
+Фукуока,Fukuoka,JP-40
+Хёго,Hyōgo,JP-28
+Саитама,Saitama,JP-11
+Москва,Moskva,RU-MOW
+Санкт-Петербург,Sankt-Peterburg,RU-SPE
+Московская область,Moskovskaya oblast,RU-MOS
+Ленинградская область,Leningradskaya oblast,RU-LEN
+Свердловская область,Sverdlovskaya oblast,RU-SVE
+Краснодарский край,Krasnodarskiy kray,RU-KDA
+Республика Татарстан,Respublika Tatarstan,RU-TA
+Ростовская область,Rostovskaya oblast,RU-ROS
+Нижегородская область,Nizhegorodskaya oblast,RU-NIZ
+Самарская область,Samarskaya oblast,RU-SAM
+Челябинская область,Chelyabinskaya oblast,RU-CHE
+Республика Башкортостан,Respublika Bashkortostan,RU-BA
+Пермский край,Permskiy kray,RU-PER
+Волгоградская область,Volgogradskaya oblast,RU-VGG
+Киев,Kyiv,UA-30
+Харьковская область,Kharkivska oblast,UA-63
+Днепропетровская область,Dnipropetrovska oblast,UA-12
+Одесская область,Odeska oblast,UA-51
+Львовская область,Lvivska oblast,UA-46
+Донецкая область,Donetska oblast,UA-14
+Винницкая область,Vinnytska oblast,UA-05
+Запорожская область,Zaporizka oblast,UA-23
+Ивано-Франковская область,Ivano-Frankivska oblast,UA-26
+Кировоградская область,Kirovohradska oblast,UA-35
+Луганская область,Luhanska oblast,UA-09
+Николаевская область,Mykolaivska oblast,UA-48
+Полтавская область,Poltavska oblast,UA-53
+Сумская область,Sumska oblast,UA-59
+Тернопольская область,Ternopilska oblast,UA-61
+Херсонская область,Khersonska oblast,UA-65
+Хмельницкая область,Khmelnytska oblast,UA-68
+Черкасская область,Cherkaska oblast,UA-71
+Черновицкая область,Chernivetska oblast,UA-77
+Черниговская область,Chernihivska oblast,UA-74
+Волынская область,Volynska oblast,UA-07
+Закарпатская область,Zakarpatska oblast,UA-21
+Житомирская область,Zhytomyrska oblast,UA-18
+Пекин,Beijing,CN-11
+Шанхай,Shanghai,CN-31
+Гуандун,Guangdong,CN-44
+Чжэцзян,Zhejiang,CN-33
+Цзянсу,Jiangsu,CN-32
+Шаньдун,Shandong,CN-37
+Хэнань,Henan,CN-41
+Сычуань,Sichuan,CN-51
+Хубэй,Hubei,CN-42
+Хунань,Hunan,CN-43
+Фуцзянь,Fujian,CN-35
+Ляонин,Liaoning,CN-21
+Хэйлунцзян,Heilongjiang,CN-23
+Хэбэй,Hebei,CN-13
+Махараштра,Maharashtra,IN-MH
+Уттар-Прадеш,Uttar Pradesh,IN-UP
+Тамилнад,Tamil Nadu,IN-TN
+Карнатака,Karnataka,IN-KA
+Гуджарат,Gujarat,IN-GJ
+Раджастхан,Rajasthan,IN-RJ
+Западная Бенгалия,West Bengal,IN-WB
+Андхра-Прадеш,Andhra Pradesh,IN-AP
+Мадхья-Прадеш,Madhya Pradesh,IN-MP
+Телангана,Telangana,IN-TG
+Сан-Паулу,São Paulo,BR-SP
+Рио-де-Жанейро,Rio de Janeiro,BR-RJ
+Минас-Жерайс,Minas Gerais,BR-MG
+Риу-Гранди-ду-Сул,Rio Grande do Sul,BR-RS
+Парана,Paraná,BR-PR
+Баия,Bahia,BR-BA
+Пернамбуку,Pernambuco,BR-PE
+Сеара,Ceará,BR-CE
+Пара,Pará,BR-PA
+Санта-Катарина,Santa Catarina,BR-SC
+Англия,England,GB-ENG
+Шотландия,Scotland,GB-SCT
+Уэльс,Wales,GB-WLS
+Северная Ирландия,Northern Ireland,GB-NIR
+Большой Лондон,Greater London,
+Ломбардия,Lombardia,IT-LOM
+Лацио,Lazio,IT-LAZ
+Венето,Veneto,IT-VEN
+Кампания,Campania,IT-CAM
+Пьемонт,Piemonte,IT-PMN
+Сицилия,Sicilia,IT-SIC
+Эмилия-Романья,Emilia-Romagna,IT-EMR
+Тоскана,Toscana,IT-TOS
+Апулия,Puglia,IT-PUG
+Лигурия,Liguria,IT-LIG
+Мехико,Ciudad de México,MX-CMX
+Халиско,Jalisco,MX-JAL
+Веракрус,Veracruz,MX-VER
+Мехико (штат),México,MX-MEX
+Пуэбла,Puebla,MX-PUE
+Гуанахуато,Guanajuato,MX-GUA
+Нуэво-Леон,Nuevo León,MX-NLE
+Чиапас,Chiapas,MX-CHP
+Мичоакан,Michoacán,MX-MIC
+Оахака,Oaxaca,MX-OAX
+Мадрид,Madrid,ES-MD
+Каталония,Cataluña,ES-CT
+Андалусия,Andalucía,ES-AN
+Валенсия,València,ES-VC
+Галисия,Galicia,ES-GA
+Страна Басков,País Vasco,ES-PV
+Кастилия и Леон,Castilla y León,ES-CL
+Канарские острова,Canarias,ES-CN
+Кастилия — Ла-Манча,Castilla-La Mancha,ES-CM

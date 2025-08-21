@@ -1,13 +1,21 @@
-from typing import List
+from datetime import datetime
 
 from pydantic import BaseModel
 
-from src.entities.user_ticket.dto import CreatePassengerDTO
+
+class CreatePassengerRequest(BaseModel):
+    first_name: str
+    second_name: str
+
+    gender: str
+    birth_date: datetime
+    passport: str
+    expiration_date: datetime
 
 
 class CreateUserTicketRequest(BaseModel):
     ticket_id: int
-    passangers: list[CreatePassengerDTO]
+    passangers: list[CreatePassengerRequest]
 
 
 class RegisterRequest(BaseModel):

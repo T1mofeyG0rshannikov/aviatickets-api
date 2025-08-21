@@ -1,14 +1,11 @@
 import smtplib
-from dataclasses import dataclass
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-from fastapi import FastAPI, HTTPException, UploadFile
-
-from src.dto.file import File
 from src.infrastructure.email_sender.config import EmailSenderConfig
+from src.interface_adapters.file import File
 
 
 class EmailSender:
@@ -28,13 +25,9 @@ class EmailSender:
             part.set_payload(file.content)
             encoders.encode_base64(part)
 
-            # Correct Content-Disposition with filename
             part.add_header("Content-Disposition", f'attachment; filename="{file.name}.pdf"')
             msg.attach(part)
 
-        server = smtplib.SMTP("smtp.gmail.com", 587)  # Замените на ваш SMTP сервер
-        server.starttls()
-        server.login(self._config.sender_email, self._config.sender_password)
-        text = msg.as_string()
-        server.sendmail(self._config.sender_email, recipient_email, text)
-        server.quit()
+        with smtplib.SMTP_SSL(self._config.sender_server, self._config.sender_port) as server:
+            server.login(self._config.sender_email, self._config.sender_password)
+            server.sendmail(self._config.sender_email, recipient_email, msg.as_string())

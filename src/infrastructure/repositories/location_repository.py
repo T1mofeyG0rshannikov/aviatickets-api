@@ -1,14 +1,16 @@
 from sqlalchemy import select
 
-from src.dto.locations import CreateCityDTO, CreateCountryDTO, CreateRegionDTO
-from src.entities.city import City
+from src.entities.city.city import City
+from src.entities.city.dto import CreateCityDTO
 from src.entities.country.country import Country
+from src.entities.country.dto import CreateCountryDTO
+from src.entities.region.dto import CreateRegionDTO
 from src.entities.region.region import Region
 from src.infrastructure.db.mappers.city import orm_to_city
 from src.infrastructure.db.mappers.country import orm_to_country
 from src.infrastructure.db.mappers.region import orm_to_region
 from src.infrastructure.db.models.models import CityOrm, CountryOrm, RegionOrm
-from src.infrastructure.repositories.base_reposiotory import BaseRepository
+from src.infrastructure.repositories.base_repository import BaseRepository
 
 
 class LocationRepository(BaseRepository):

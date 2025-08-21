@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from datetime import datetime
 
+from src.entities.user_ticket.passport import InternationalPassport
+
 
 @dataclass
 class UserTicket:
@@ -16,3 +18,5 @@ class Passenger:
     first_name: str
     second_name: str
     birth_date: datetime
+    passport: InternationalPassport
+    expiration_date: datetime

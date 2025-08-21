@@ -1,0 +1,907 @@
+AA	AAL	American Airlines Inc.	Американские авиалинии
+AB	BNZ	Bonza Aviation Pty Ltd	Bonza
+AB	BER	Air Berlin (Ceased)	Air Berlin
+AC	ACA	Air Canada	Эйр Канада
+AD	AZU	Azul Brazilian Airlines	Azul
+AE	MDA	Mandarin Airlines Ltd.	Mandarin Airlines
+AF	AFR	Air France	Эйр Франс
+AG	ARU	Aruba Airlines	Aruba Airlines
+AH	DAH	Air Algerie	Air Algérie
+AI	AIC	Air India Ltd.	Air India
+AJ	 	Aztec Worldwide Airlines Inc.	Aztec Worldwide Airlines
+AK	AXM	AirAsia Berhad	ЭйрАзия
+AL	ALD	Air Leisure (Ceased)	Air Leisure
+AM	AMX	Aeromexico	Aeroméxico
+AN	WSN	Advanced Air	Advanced Air
+AO	 	Air One Aviation Pvt Ltd.	Аир Оне Авиатион Пвт Лтд
+AP	LAV	Alba Star.es	Алба Старес
+AQ	JYH	9 Air	9 Аир
+AQ	AAH	Aloha Airlines (Ceased)	Алоха Аирлинес
+AR	ARG	Aerolineas Argentinas S.A.	Эролинеас Аргентинас Са
+AS	ASA	Alaska Airlines Inc.	Аласка Аирлинес Инк
+AT	RAM	Royal Air Maroc	Royal Air Maroc
+AU	AUT	Cielos del Sur S.A.	Киелос Дел Сур Са
+AV	AVA	Avianca	Aвианка
+AW*	AFW	Africa World Airlines	Africa World Airlines
+AX	LOF	Trans States Airlines, LLC	Trans States Airlines
+AY	FIN	Finnair	Finnair
+AZ	ITY	ITA Airways	ITA Airways
+AZ	AZA	Alitalia (Ceased)	Alitalia
+A0	ANC	Avianca Argentina (Ceased)	Авианка Аргентина
+A2	AZI	Astra Airlines (Ceased)	Астра Аирлинес
+A3	AEE	Aegean Airlines	Aegean Airlines
+A4	AZO	Azimuth Airlines	Азимут
+A5	HOP	HOP!	HOP!
+A6	OTC	Hongtu Airline	Хонгту Аирлине
+A9	TGZ	Georgian Airways	Georgian Airways
+BA	BAW	British Airlines	British Airways
+BB	SBS	Seaborne Airlines	Seaborne Airlines
+BC	SKY	Skymark Airlines	Skymark Airlines
+BD	BYC	Cambodia Bayon Airlines (Ceased)	Камбодиа Баён Аирлинес
+BE	BEE	Flybe (Ceased)	Flybe
+BF	FBU	French Bee	French Bee
+BG	BBC	Biman Bangladesh Airlines	Biman Bangladesh Airlines
+BH	BML	Bismillah Airlines	Бисмиллах Аирлинес
+BI	RBA	Royal Brunei Airlines	Royal Brunei Airlines
+BJ	LBT	Nouvelair Tunisie	Нувелаир Тунисие
+BK	OKA	Okay Airways	Okay Airways
+BL	PIC	Jetstar Pacific Airlines	Jetstar Pacific
+BM	BMR	Flybmi (Ceased)	Флйбми
+BO	BBD	Bluebird Nordic	Блуебирд Нордик
+BP	BOT	Air Botswana	Аир Ботсвана
+BR	EVA	EVA Air	EVA Air
+BS	UBG	US-Bangla Airlines	Ус-бангла Аирлинес
+BT	BTI	Air Baltic	Аир Балтик
+BU	FPY	Compagnie Africaine d'Aviation	Компагние Африкаине Давиатион
+BV	BPA	Blue Panorama Airlines S.P.A.	Блуе Панорама Аирлинес Спа
+BW	BWA	Caribbean Airlines	Кариббеан Аирлинес
+BX	ABL	Air Busan	Аир Бусан
+BY	TOM	Thomson Airways Limited	Томсон Аирвайс Лимитед
+BZ	BBG	Blue Bird Airways	Блуе Бирд Аирвайс
+BZ*	BDA	Blue Dart Aviation Ltd.	Блуе Дарт Авиатион Лтд
+B0	DJT	La Compagnie	Ла Компагние
+B2	BRU	Belavia Belarusian Airlines	Белавиа
+B3	BTN	Bhutan Airlines	Бхутан Аирлинес
+B5	EXZ	East African Safari Air Express Ltd.	Еаст Африкан Сафари Аир Експресс Лтд
+B6	JBU	Jetblue Airways	JetBlue
+B7	UIA	Uni Air	Уни Аир
+B8	ERT	Eritrean Airlines	Еритреан Аирлинес
+B9	IRB	Iran Airtour Airline	Иран Аиртур Аирлине
+CA	CCA	Air China Ltd.	Air China
+CB	 	Trans Caribbean Air	Транс Кариббеан Аир
+CC	ABD	Air Atlanta Icelandic	Air Atlanta Icelandic
+CC*	OMT	CM Airlines	Км Аирлинес
+CD	CND	Corendon Dutch Airlines	Корендон Дутч Аирлинес
+CE	CLG	Chalair Aviation	Чалаир Авиатион
+CF	CYZ	China Postal Airlines Ltd.	Чина Постал Аирлинес Лтд
+CF	SDR	City Airline AB (Ceased)	Китй Аирлине Аб
+CG	TOK	Airlines of Papua New Guinea Limited	Аирлинес Оф Папуа Нев Гуинеа Лимитед
+CI	CAL	China Airlines	China Airlines
+CK	CKK	China Cargo Airlines Ltd.	Чина Карго Аирлинес Лтд
+CL	CLH	Lufthansa CityLine GmbH	Луфтанса Китйлине Гмбх
+CM	CMP	Copa Airlines	Copa Airlines
+CM*	 	PSI AIR 2007	Пси Аир 2007
+CN	GDC	Grand China Air Co., Ltd.	Гранд Чина Аир Ко Лтд
+CO	COA	Continental Airlines (Ceased)	Континентал Аирлинес
+CO	FCB	Cobalt Air (Ceased)	Кобалт Аир
+CP	CPZ	Compass Airlines Inc. (Ceased)	Компасс Аирлинес Инк
+CQ	 	Charterlines	Чартерлинес
+CU	CUB	Cubana	Cubana
+CV	CLX	Cargolux	Cargolux
+CW	CCC	Air Cargo Global (Ceased)	Аир Карго Глобал
+CX	CPA	Cathay Pacific	Cathay Pacific
+CY	CYP	Charlie Airlines	Чарлие Аирлинес
+CY	CYP	Cyprus Airways (Ceased)	Кйпрус Аирвайс
+CZ	CSN	China Southern Airlines	China Southern Airlines
+C2	 	CEIBA Intercontinental S.A.	Кеиба Интерконтинентал Са
+C3	TDR	Trade Air	Траде Аир
+C5	UCA	Champlain Enterprises Inc.	Чамплаин Ентерприсес Инк
+C7	CIN	Cinnamon Air	Киннамон Аир
+C8	ICV	Cargolux Italia S.p.A.	Карголукс Италиа Спа
+C8*	CRA	Cronos Airlines	Кронос Аирлинес
+C9	RUS	Cirrus Airlines	Киррус Аирлинес
+DB	 	Maleth-Aero Aoc Limited	Малет-эро Аок Лимитед
+DD	NOK	Nok Air	Нок Аир
+DE	CFG	Condor Flugdienst	Condor
+DF	 	Condor Berlin GmbH	Кондор Берлин Гмбх
+DG	SRQ	Cebgo	Кебго
+DI	 	Norwegian Air UK	Норвегиан Аир Ук
+DK	VKG	Sunclass Airlines	Сункласс Аирлинес
+DL	DAL	Delta Air	Delta Air Lines
+DN	NAA	Norwegian Air Argentina	Норвегиан Аир Аргентина
+DO	SHH	Sky High Aviation Services	Скй Хигх Авиатион Сервикес
+DP	PBD	Pobeda Airlines	Победа
+DQ	DCP	Air Direct Connect Ltd.	Аир Директ Коннект Лтд
+DR	RLH	Ruili Airlines	Руили Аирлинес
+DT	DTA	TAAG Angola Airlines	TAAG Angola Airlines
+DV	VSV	JSC Aircompany SCAT	Джск Аиркомпанй Скат
+DW	UCR	Joint Stock Company "Air Company Aero-Charter"	Джоинт Стокк Компанй Аир Компанй Эро-чартер
+DY	NAX	Norwegian Air	Norwegian Air
+DZ	EPA	Donghai Airlines	Донгхаи Аирлинес
+D0	DHK	DHL Air Limited	Дхл Аир Лимитед
+D2	SSF	Severstal Aircompany	Северстал Аиркомпанй
+D3	DAO	Daallo Airlines (United Arab Emirates)	Даалло Аирлинес
+D4	 	Airline GEO SKY	Аирлине Гео Скй
+D5	DAE	DHL Aero Expresso	Дхл Эро Експрессо
+D6	ILN	Interair South Africa (Ceased)	Интераир Сут Африка
+D7	XAX	Air Asia X	Аир Асиа Кс
+D8	IBK	Norwegian Air International LTD.	Норвегиан Аир Интернатионал Лтд
+D9	DMQ	Daallo Airlines (Somalia)	Даалло Аирлинес
+EA	EAL	Eastern Air Lines (Ceased)	Еастерн Аир Линес
+EB	PLM	Wamos Air	Вамос Аир
+ED	AXE	AirExplore, s.r.o.	Аирексплоре Сро
+EE	EST	Regional Jet Ou	Регионал Джет У
+EF	CPR	Aerolinea del Caribe Peru	Эролинеа Дел Карибе Перу
+EI	EIN	Aer Lingus Limited	Эр Лингус Лимитед
+EK	UAE	Emirates	Эмирейтс
+EL	ELB	Ellinair	Еллинаир
+EM	CFS	Empire Airlines	Емпире Аирлинес
+EN	DLA	Air Dolomiti S.p.A.	Аир Доломити Спа
+EO	KAR	Pegas Fly	Pegas Fly
+EP	IRC	Iran Aseman Airlines	Иран Асеман Аирлинес
+EQ	TAE	TAME Linea Aerea del Ecuador (Ceased)	Таме Линеа Эреа Дел Екуадор
+ER	SEP	Serene Air	Серене Аир
+ER	DHL	ASTAR Air Cargo Inc. (Ceased)	Астар Аир Карго Инк
+ES	DHX	DHL Aviation EEMEA B.S.C.	Дхл Авиатион Еемеа Бск
+ET	ETH	Ethiopian Airlines Enterprise	Ethiopian Airlines
+EU	UEA	Chengdu Airlines	Ченгду Аирлинес
+EV	ASQ	ExpressJet Airlines, Inc.	Експрессджет Аирлинес Инк
+EW	EWG	Eurowings GmbH	Еуровингс Гмбх
+EX	5AH	Avianca Express	Avianca Express
+EY	ETD	Etihad Airways	Etihad Airways
+EZ	SUS	Sun Air of Scandinavia A.S.	Сун Аир Оф Скандинавиа Ас
+E3	VGO	New Gen Airways (Ceased)	Нев Ген Аирвайс
+E4	ENT	Enter Air	Ентер Аир
+E5	RBG	Air Arabia Egypt	Аир Арабиа Егйпт
+E6	BRC	Bringer Air Cargo	Брингер Аир Карго
+E7	EKA	Equaflight	Екуафлигхт
+E7*	ESF	Estafeta	Естафета
+E9	EVE	Evelop Airlines	Евелоп Аирлинес
+FA	SFR	Safair (Proprietary) Ltd.	Сафаир Лтд
+FB	LZB	Bulgaria Air	Булгариа Аир
+FC	 	Link Airways	Линк Аирвайс
+FC	FCX	Falcon Express Cargo Airlines (Ceased)	Фалкон Експресс Карго Аирлинес
+FD	AIQ	Thai AirAsia	Таи Аирасиа
+FE	FEA	Far Eastern Air Transport Corp.	Фар Еастерн Аир Транспорт Корп
+FG	AFG	Ariana Afghan Airlines	Ариана Афгхан Аирлинес
+FH	FHY	Freebird Airlines	Фреебирд Аирлинес
+FI	ICE	Iceland Air	Икеланд Аир
+FJ	FJI	Fiji Airways	Фиджи Аирвайс
+FK	KFA	KF Cargo	Кф Карго
+FL	TRS	AirTran Airways, Inc.	Аиртран Аирвайс Инк
+FM	CSH	Shanghai Airlines	Шангхаи Аирлинес
+FN	FTZ	Fastjet Tanzania	Фастджет Танзаниа
+FP	 	Pelican Airlines	Пеликан Аирлинес
+FR	RYR	Ryanair	Рянаир
+FS	SYA	Syphax Airlines S.A.	Сйфакс Аирлинес Са
+FT	FEG	FlyEgypt	Флйегйпт
+FT	SRH	Siem Reap Airways (Ceased)	Сием Реап Аирвайс
+FU	FZA	Fuzhou Airlines	Фужу Аирлинес
+FV	PLK	Rossiya Airlines	Россия
+FX	FDX	FedEx	Федекс
+FY	FFM	Firefly	Фирефлй
+FZ	FDB	flydubai	Флйдубаи
+F4	WAF	Air Flamenco	Аир Фламенко
+F4	SHQ	Shanghai Airlines Cargo (Ceased)	Шангхаи Аирлинес Карго
+F5	ATG	Aerotranscargo	Эротранскарго
+F7	RSY	iFly Airlines	Ифлй Аирлинес
+F8	FLE	Flair Airlines	Флаир Аирлинес
+F9	FTT	Frontier Airlines, Inc.	Фронтиер Аирлинес Инк
+GA	GIA	Garuda Indonesia	Garuda Indonesia
+GB	ABX	Airborne Express	Аирборне Експресс
+GC	 	Global Feeder Services, LLC	Глобал Феедер Сервикес Ллк
+GD	 	Aviair	Авиаир
+GE	TNA	TransAsia Airways Corp.	Трансасиа Аирвайс Корп
+GF	GFA	Gulf Air	Gulf Air
+GG	KYE	Sky Lease I, Inc.	Скй Леасе И Инк
+GH	GLP	Globus LLC	Глобус Ллк
+GI	LHA	Guangdong Longhao Airlines	Гуангдонг Лонгхао Аирлинес
+GJ	CDC	Zhejiang Loong Airlines	Жеджианг Лоонг Аирлинес
+GK	JJP	Jetstar Japan	Джетстар Джапан
+GL	GRL	Air Greenland A/S	Аир Греенланд А/с
+GM	GSW	Chair Airlines	Чаир Аирлинес
+GO	KZU	ULS Airlines Cargo	Улс Аирлинес Карго
+GP	RIV	APG Airlines	Апг Аирлинес
+GQ	SEH	Sky Express	Скй Експресс
+GR	AUR	Aurigny	Ауригнй
+GS	GCR	TianJin Airlines	Тианджин Аирлинес
+GT	CGH	Air Guilin Co. Ltd.	Аир Гуилин Ко Лтд
+GU	GUG	AVIATECA S.A.	Авиатека Са
+GV	SKG	Sky Gabon S.A.	Скй Габон Са
+GW	SGR	SkyGreece Airlines	Скйгрееке Аирлинес
+GW	 	GO FLY (Ceased)	Го Флй
+GW*	GJT	GetJet Airlines	Гетджет Аирлинес
+GX	CBG	Guangxi Beibu Gulf Airlines Co.,Ltd	Гуангкси Беибу Гулф Аирлинес Колтд
+GX	LLG	Luftline Georgia Ltd. (Ceased)	Луфтлине Георгиа Лтд
+GY	CGZ	Colorful GuiZhou Airlines	Колорфул Гуижу Аирлинес
+GZ	RAR	Air Rarotonga	Аир Раротонга
+G3	GLO	Gol Intelligent Airlines	Гол Интеллигент Аирлинес
+G4	AAY	Allegiant Air	Аллегиант Аир
+G5	HXA	China Express Airlines	Чина Експресс Аирлинес
+G7	GJS	GoJet Airlines LLC	Годжет Аирлинес Ллк
+G7	KAO	JSC "KAPO Avia" (Ceased)	Джск Капо Авиа
+G8	GOW	GoAir	Гоаир
+G9	ABY	Air Arabia	Аир Арабиа
+HA	HAL	Hawaiian Airlines, Inc.	Хаваииан Аирлинес Инк
+HB	HGB	Greater Bay Airlines	Греатер Бай Аирлинес
+HB	AAQ	Asia Atlantic Airlines (Ceased)	Асиа Атлантик Аирлинес
+HC	SZN	Air Senegal	Аир Сенегал
+HF	VRE	Air Cote D'Ivoire	Аир Коте Дивоире
+HG	NLY	NIKI	Ники
+HH	TBM	Taban Airlines	Табан Аирлинес
+HK	HAY	Hamburg Airways (Ceased)	Хамбург Аирвайс
+HM	SEY	Air Seychelles	Аир Сейчеллес
+HO	DKH	Juneyao Airlines	Джунеяо Аирлинес
+HP	APF	Amapola Flyg	Амапола Флйг
+HR	HHN	Hahn Air lines	Хахн Аир Линес
+HT	 	Tianjin Air Cargo	Тианджин Аир Карго
+HU	CHH	Hainan Airlines	Хаинан Аирлинес
+HV	TRA	Transavia Airlines	Трансавиа Аирлинес
+HX	CRK	Hong Kong Airlines Limited	Хонг Конг Аирлинес Лимитед
+HY	UZB	Uzbekistan Airways	Узбекистан Аирвайс
+HZ	SHU	Aurora Airlines	Аурора Аирлинес
+H2	SKU	Sky Airline S.A.	Скй Аирлине Са
+H5*	AHO	Air Hamburg	Аир Хамбург
+H9	HIM	Himalaya Airlines	Хималая Аирлинес
+IA	IAW	Iraqi Airways	Iraqi Airways
+IB	IBE	IBERIA Lineas Aereas	Ибериа Линеас Эреас
+ID	BTK	Batik Air Indonesia	Батик Аир Индонесиа
+IE	SOL	Solomon Airlines Limited	Соломон Аирлинес Лимитед
+IF	FBA	Fly Baghdad	Флй Багхдад
+IF*	IFL	Gulf & Caribbean Cargo, Inc	Гулф И Кариббеан Карго Инк
+IG	EEZ	Air Italy (Ceased)	Аир Италй
+II	CSQ	IBC Airways, Inc.	Ибк Аирвайс Инк
+IJ	SJO	Spring Japan	Спринг Джапан
+IN	NIH	Nam Air	Нам Аир
+IO	IAE	IrAero	Ирэро
+IQ	QAZ	Qazaq Air	Казак Аир
+IQ	AUB	Augsburg Airways (Ceased)	Аугсбург Аирвайс
+IR	IRA	Iran Air	Иран Аир
+IS	SHI	Sepehran Airlines	Сепехран Аирлинес
+IT	TTW	Tigerair Taiwan	Тигераир Таиван
+IU	CSW	SW Italia	Св Италиа
+IW	WON	Wings Air	Вингс Аир
+IW	OAN	Aerospace One S.A. (Ceased)	Эроспаке Оне Са
+IX	AXB	Air India Express	Аир Индиа Експресс
+IY	IYE	Yemenia - Yemen Airways	Йемениа - Йемен Аирвайс
+IZ	AIZ	Arkia Israeli Airlines	Аркиа Исрэли Аирлинес
+I2	IBS	Radio Iberia Express, S.A.U.	Радио Ибериа Експресс Сау
+I8	IZA	Izhavia Public Stock Company	Ижавиа Публик Стокк Компанй
+I9	HLF	China Central Airlines	Чина Кентрал Аирлинес
+JB	JBA	Helijet	Хелиджет
+JD	CBJ	Beijing Capital Airlines Co. Ltd.	Беиджинг Капитал Аирлинес Ко Лтд
+JD	JAS	Japan Air System (Ceased)	Джапан Аир Сйстем
+JE	MNO	Mango Airlines	Манго Аирлинес
+JF	JAA	Jet Asia Airways Company Limited	Джет Асиа Аирвайс Компанй Лимитед
+JG	JGO	Jetgo Australia Holdings Pty Ltd.	Джетго Аустралиа Холдингс Птй Лтд
+JH	FDA	Fuji Dream Airlines	Фуджи Дреам Аирлинес
+JI	JAE	Jade Cargo International Company Limited	Джаде Карго Интернатионал Компанй Лимитед
+JJ	TAM	LATAM Airlines Brasil	LATAM Brasil
+JK	ACL	AerCaribe	Эркарибе
+JL	JAL	Japan Airlines	Japan Airlines
+JP	ADR	Adria Airways (Ceased)	Адриа Аирвайс
+JQ	JST	Jetstar Airways Pty Limited	Джетстар Аирвайс Птй Лимитед
+JR	JOY	Joy Air	Джой Аир
+JS	KOR	Air Koryo	Аир Корё
+JT	LNI	Lion Airlines	Lion Air
+JU	JAT	Air Serbia	Аир Сербиа
+JV	PAG	Perimeter Aviation	Периметер Авиатион
+JW	VNL	Vanilla Air Inc.	Ванилла Аир Инк
+JX	SJX	Starlux Airlines	Старлукс Аирлинес
+JY	IWY	interCaribbean Airways, Ltd.	Интеркариббеан Аирвайс Лтд
+J2	AHY	Azerbaijan Hava Yollary	Азербаиджан Хава Ёлларй
+J4	BDR	Badr Airlines	Бадр Аирлинес
+J8	BVT	Berjaya Air	Берджая Аир
+J9	JZR	Jazeera Airways	Джазеера Аирвайс
+KA	HDA	Cathay Dragon (Ceased)	Катай Драгон
+KB	DRK	Druk Air Corporation Ltd.	Друк Аир Корпоратион Лтд
+KC	KZR	Air Astana	Аир Астана
+KD	WGN	Western Global Airlines LLC	Вестерн Глобал Аирлинес Ллк
+KE	KAL	Korean Air	Korean Air
+KF	ABB	Air Belgium	Аир Белгиум
+KG	LYM	Key Lime Air	Кей Лиме Аир
+KH	AAH	Aloha Air Cargo	Алоха Аир Карго
+KJ	AII	Air Incheon	Аир Инчеон
+KJ	LAJ	British Mediterranean Airways (Ceased)	Бритиш Медитерранеан Аирвайс
+KK	KKK	Atlasjet Airlines, Inc.	Атласджет Аирлинес Инк
+KL	KLM	KLM Royal Dutch Airlines	Клм Роял Дутч Аирлинес
+KM	AMC	Air Malta	Аир Малта
+KN	CUA	China United Airlines	Чина Унитед Аирлинес
+KO	AER	Alaska Central Express	Аласка Кентрал Експресс
+KP	SKK	ASKY Airlines	Аскй Аирлинес
+KP*	AKC	Asialink Cargo Express	Асиалинк Карго Експресс
+KQ	KQA	Kenya Airways	Kenya Airways
+KR	KME	Cambodia Airways	Камбодиа Аирвайс
+KR	EAA	Air Bishkek (Ceased)	Аир Бишкек
+KS	PEN	Peninsula Airways	Пенинсула Аирвайс
+KU	KAC	Kuwait Airways	Kuwait Airways
+KX	CAY	Cayman Airways	Кайман Аирвайс
+KY	KNA	Kunming Airlines	Кунминг Аирлинес
+KZ	NCA	Nippon Cargo Airlines	Ниппон Карго Аирлинес
+K3	 	SAC (K) Limited	Сак Лимитед
+K4	CKS	Kalitta Air	Калитта Аир
+K6	KHV	Cambodia Angkor Air	Камбодиа Ангкор Аир
+K7	KBZ	Air KBZ	Аир Кбз
+K9	TSP	TonleSap Airlines (Ceased)	Тонлесап Аирлинес
+LA	LAN	Lan Airlines Chile	Лан Аирлинес Чиле
+LC	PTI	Equatorial Congo Airlines (Ceased)	Екуаториал Конго Аирлинес
+LD	AHK	Air Hong Kong	Аир Хонг Конг
+LE	 	Lion Air Cargo Tanzania (Ceased)	Лион Аир Карго Танзаниа
+LG	LGL	Luxair	Луксаир
+LH	GEC	Lufthansa Cargo	Луфтанса Карго
+LH	DLH	Deutsche Lufthansa AG	Деутсче Луфтанса Аг
+LI	LIA	LIAT Airlines	Лиат Аирлинес
+LJ	 	Jin Air	Джин Аир
+LK	KGZ	Kyrgyz Airlines	Кйргйз Аирлинес
+LM	LOG	Loganair Limited	Логанаир Лимитед
+LN	LAA	Libyan Airlines	Либян Аирлинес
+LO	LOT	LOT Polish Airlines	LOT
+LP	LPE	Lan Peru S.A.	Лан Перу Са
+LQ	MKR	Lanmei Airlines	Ланмеи Аирлинес
+LR	LRC	Avianca Costa Rica	Авианка Коста Рика
+LS	EXS	Jet2.com Limited	Джет2ком Лимитед
+LT	SNG	LongJiang Airlines	Лонгджианг Аирлинес
+LT	LTU	Air Lituanica (Ceased)	Аир Литуаника
+LU	LXP	LATAM Express	Латам Експресс
+LV	BOS	Openskies	Опенскиес
+LW	NWI	Pacific Wings, L.L.C.	Пакифик Вингс Ллк
+LX	SWR	Swiss	Свисс
+LY	ELY	EL AL Israel Airlines Ltd.	Ел Ал Исрэл Аирлинес Лтд
+LZ	LBY	Belle Air Company	Белле Аир Компанй
+L2	LYC	Lynden Air Cargo, LLC	Лйнден Аир Карго Ллк
+L3	JOS	DHL de Guatemala	Дхл Де Гуатемала
+L5	TLB	Atlantique Air Assistance (Ceased)	Атлантикуе Аир Ассистанке
+L6	MAI	Mauritania Airlines	Мауританиа Аирлинес
+L7	LAE	LATAM Cargo Colombia	Латам Карго Коломбиа
+MA	MAH	Malev	Малев
+MB	MNB	MNG Airlines Cargo	Мнг Аирлинес Карго
+MD	MDG	Air Madagascar	Аир Мадагаскар
+ME	MEA	Middle East Airlines AirLiban	Миддле Еаст Аирлинес Аирлибан
+MF	CXA	Xiamen Airlines	Ксиамен Аирлинес
+MG	EZA	Eznis Airways	Езнис Аирвайс
+MG	 	Miami Air Lease (Ceased)	Миами Аир Леасе
+MH	MAS	Malaysia Airlines	Malaysia Airlines
+MI	SLK	Silk Air	Силк Аир
+MJ	MYW	Myway Airlines	Мйвай Аирлинес
+MJ	MLR	Mihin Lanka (Ceased)	Михин Ланка
+MK	MAU	Air Mauritius	Аир Мауритиус
+ML	BIE	Air Mediterranee	Аир Медитерранее
+MM	APJ	Peach Aviation Limited	Пеач Авиатион Лимитед
+MN	CAW	Comair (Ceased)	Комаир
+MO	CAV	Calm Air International Ltd.	Калм Аир Интернатионал Лтд
+MP	MPH	Martinair Holland N.V.	Мартинаир Холланд Нв
+MQ	ENY	Envoy Air	Енвой Аир
+MR	MML	Hunnu Air LLC	Хунну Аир Ллк
+MS	MSR	Egypt Air	Егйпт Аир
+MT	TCX	Thomas Cook Airlines Limited of Manchester	Томас Коок Аирлинес Лимитед Оф Манчестер
+MU	CES	China Eastern Airlines	Чина Еастерн Аирлинес
+MV	MDF	Air Mediterranean	Аир Медитерранеан
+MW	MHD	Mokulele Flight Service	Мокулеле Флигхт Сервике
+MX	MXY	Breeze Airways	Бреезе Аирвайс
+MX	MXA	Compania Mexicana (Ceased)	Компаниа Мексикана
+M2	 	Sunrise Airlines Inc.	Сунрисе Аирлинес Инк
+M3	TUS	LATAM Cargo Brasil	Латам Карго Брасил
+M4	MSA	Poste Air Cargo	Посте Аир Карго
+M5	MGC	Air Cargo Mongolia LLC	Аир Карго Монголиа Ллк
+M6	AJT	Amerijet	Америджет
+M7	MAA	Masair	Масаир
+M9	 	Motor-Sich JSC	Мотор-сич Джск
+NC	NAC	Northern Air Cargo	Нортерн Аир Карго
+ND	 	Nordica Airline	Нордика Аирлине
+NE	NMA	Nesma Airlines	Несма Аирлинес
+NF	AVN	Air Vanuatu (Operations) Limited	Аир Вануату Лимитед
+NH	ANA	All Nippon Airways Co. Ltd.	ANA
+NI	PGA	Portugalia Alines	Португалиа Алинес
+NJ	NGB	Nordic Global Airlines Oy	Нордик Глобал Аирлинес Ой
+NK	NKS	Spirit Airlines	Спирит Аирлинес
+NL	AEH	Aero4M	Эро4м
+NL	SAI	Shaheen Air (Ceased)	Шахеен Аир
+NN	MOV	VIM Airlines	Вим Аирлинес
+NO	NAB	Niger Air Cargo	Нигер Аир Карго
+NO*	NOS	Neos S.P.A.	Неос Спа
+NP	NIA	Nile Air	Ниле Аир
+NS	HBH	Hebei Airlines	Хебеи Аирлинес
+NT	IBB	Binter Canarias	Бинтер Канариас
+NU	JTA	Japan Transocean Air Co. Ltd.	Джапан Трансокеан Аир Ко Лтд
+NV	IRG	Iranian Naft Airlines	Ираниан Нафт Аирлинес
+NX	AMU	Air Macau Company Limited	Аир Макау Компанй Лимитед
+NY	FXI	Flugfelag Islands ehf	Флугфелаг Исландс Ехф
+NZ	ANZ	Air New Zealand Ltd.	Air New Zealand
+NZ	EAG	Eagle Airways (Ceased)	Еагле Аирвайс
+N2	NIG	Aero Contractors	Эро Контракторс
+N2	TMA	Trans-Mediterranean Airways (Ceased)	Транс-медитерранеан Аирвайс
+N4	NWS	Nordwind Airlines	Nordwind Airlines
+N7	NEP	My Jet Xpress Airlines	Мй Джет Кспресс Аирлинес
+N8	MUA	National Air Cargo Group, Inc.	Натионал Аир Карго Груп Инк
+N9	NVR	Nova Airlines AB	Нова Аирлинес Аб
+OA	OAL	Olympic Air	Олймпик Аир
+OB	BOV	Boliviana de Aviacion	Боливиана Де Авиакион
+OB	BLA	Blue Air (Ceased)	Блуе Аир
+OD	MXD	Malindo Airline	Малиндо Аирлине
+OH	JIA	PSA Airlines	Пса Аирлинес
+OJ	FJM	Fly Jamaica Airways	Флй Джамаика Аирвайс
+OK	CSA	Czech Airlines Cargo	Czech Airlines Cargo
+OL	PAO	Samoa Airways	Самоа Аирвайс
+OM	MGL	MIAT Mongolian Airlines	Миат Монголиан Аирлинес
+ON	RON	Nauru Airlines	Науру Аирлинес
+OO	SKW	Skywest Airlines	Скйвест Аирлинес
+OP	DIG	PassionAir	Пассионаир
+OQ	CQN	Chongqing Airlines	Чонгкинг Аирлинес
+OR	TFL	TUI Airlines Nederland B.V.	Туи Аирлинес Недерланд Бв
+OS	AUA	Austrian Airlines	Austrian Airlines
+OU	CTN	Croatia Airlines	Кроатиа Аирлинес
+OV	OMS	Salam Air	Салам Аир
+OV	ELL	Estonian Air (Ceased)	Естониан Аир
+OX	OEA	Orient Thai Airlines	Ориент Таи Аирлинес
+OY	OAE	Omni Air International	Омни Аир Интернатионал
+OZ	AAR	Asiana Airlines	Asiana Airlines
+O2	 	Hopscotch Air	Хопскотч Аир
+O3	CSS	SF Airlines	Сф Аирлинес
+O6	ONE	Oceanair Linhas (Ceased)	Океанаир Линхас
+O8	SQM	Siam Air	Сиам Аир
+O9	NOV	Nova Airlines	Нова Аирлинес
+PA	ABQ	Airblue	Аирблуе
+PA	PAA	Pan American World Airways (Ceased)	Пан Американ Ворлд Аирвайс
+PB	PVL	Provincial Airlines	Провинкиал Аирлинес
+PC	PGT	Pegasus Airlines	Pegasus
+PD	POE	Porter Airlines Inc.	Портер Аирлинес Инк
+PE	PEV	People's Airline	Пеоплес Аирлине
+PE*	PAQ	Pacific Air Express Australia Pty Limited.	Пакифик Аир Експресс Аустралиа Птй Лимитед
+PF	 	Air Sial	Аир Сиал
+PF	PRI	Primera Air (Ceased)	Примера Аир
+PG	BKP	Bangkok Airways	Бангкок Аирвайс
+PJ	SPM	Air Saint Pierre	Аир Саинт Пиерре
+PK	PIA	Pakistan International Airlines	Pakistan International Airlines
+PM	CNF	Canary Fly	Канарй Флй
+PN	CHB	China West Air Co. Ltd.	Чина Вест Аир Ко Лтд
+PO	PAC	Polar Air Cargo	Полар Аир Карго
+PQ	SQP	SkyUp Airlines	Скюп Аирлинес
+PR	PAL	Philippine Airlines	Philippine Airlines
+PS	AUI	Ukraine International Airlines	Международные авиалинии Украины
+PT	PDT	Piedmont Airlines	Пиедмонт Аирлинес
+PU	PUE	Plus Ultra Lineas	Плус Ултра Линеас
+PW	PRF	Precision Air	Прекисион Аир
+PX	ANG	Air Niugini	Аир Ниугини
+PY	SLM	Surinam Airways Ltd.	Суринам Аирвайс Лтд
+PZ	LAP	TAM - Transportes Aereos del Mercosur S.A.	Там - Транспортес Эреос Дел Меркосур Са
+P0	PFZ	Proflight Zambia	Профлигхт Замбиа
+P3	CLU	Cargo Logic Air	Карго Логик Аир
+P4	APK	Air Peace	Аир Пеаке
+P5	RPB	Aero Republica S.A.	Эро Република Са
+P6	PSC	Pascan Aviation	Паскан Авиатион
+P7	NPG	Supernova Airlines	Супернова Аирлинес
+P7	ESL	Russian Sky Airlines (Ceased)	Руссиан Скй Аирлинес
+P7*	LLP	Small Planet Airline Sp. Z.o.o. (Ceased)	Смалл Планет Аирлине Сп Зоо
+P9	MGE	Asia Pacific AirlinesAero	Асиа Пакифик Аирлинесэро
+QB	IRQ	Qeshm Air	Кешм Аир
+QC	CRC	Camair-Co	Камаир-ко
+QD	JCC	JC International Airlines (Ceased)	Джк Интернатионал Аирлинес
+QF	QFA	Qantas Airways Ltd.	Qantas
+QG	CTV	Citilink	Китилинк
+QH	BAV	Bamboo Airways	Бамбоо Аирвайс
+QH	LYN	Air Kyrgyzstan (Ceased)	Аир Кйргйзстан
+QJ	 	Jet Airways Inc.	Джет Аирвайс Инк
+QK	JZA	Jazz Aviation LP	Джазз Авиатион Лп
+QL	LER	Linea Aerea de Servicio Ejecutivo	Линеа Эреа Де Сервикио Еджекутиво
+QM	AIM	Air Malawi (Ceased)	Аир Малави
+QO	FQA	Quikjet Airlines	Куикджет Аирлинес
+QP	SLT	Starlight Airline	Старлигхт Аирлине
+QQ	UTY	Alliance Airlines	Аллианке Аирлинес
+QR	QTR	Qatar Airways	Qatar Airways
+QS	TVS	Travel Service Airline	Травел Сервике Аирлине
+QT	TPA	Tampa Cargo S.A.	Тампа Карго Са
+QU	UTN	Airline Utair - Ukraine	Аирлине Утаир - Украине
+QV	LAO	Lao Airlines	Лао Аирлинес
+QW	QBA	Qingdao Airlines	Кингдао Аирлинес
+QX	QXE	Horizon Air Industries, Inc.	Хоризон Аир Индустриес Инк
+QY	BCS	European Air Transport Leipzig GmbH	Еуропеан Аир Транспорт Леипзиг Гмбх
+QZ	AWQ	PT. Indonesia AirAsia	Пт Индонесиа Аирасиа
+Q2	DQA	Island Aviation Services Ltd.	Исланд Авиатион Сервикес Лтд
+Q8	TSG	Trans Air Congo (TAC)	Транс Аир Конго
+RA	RNA	Nepal Airlines	Непал Аирлинес
+RB	SYR	Syrian Arab Airlines	Сйриан Араб Аирлинес
+RC	FLI	Atlantic Airways	Атлантик Аирвайс
+RD	LKH	Small Planet Airlines	Смалл Планет Аирлинес
+RF	 	Erofey Airline	Ерофей Аирлине
+RG	RJD	Rotana Jet	Ротана Джет
+RH	 	Hong Kong Air Cargo Carrier Limited	Хонг Конг Аир Карго Карриер Лимитед
+RI	MDL	Tigerair Mandala	Тигераир Мандала
+RJ	RJA	Royal Jordanian	Royal Jordanian
+RL	ABG	JSC Royal Flight Airlines	Джск Роял Флигхт Аирлинес
+RM	NGT	Aircompany Armenia	Аиркомпанй Армениа
+RO	ROT	TAROM - Romanian Air Transport	Таром - Романиан Аир Транспорт
+RP	CHQ	Chautauqua Airlines Inc.	Чаутаукуа Аирлинес Инк
+RQ	KMF	Kam Air	Кам Аир
+RS	ASV	Air Seoul	Аир Сеул
+RT	RKM	Rak Airways (Ceased)	Рак Аирвайс
+RU	ABW	AirBridgeCargo (Suspended)	Аирбридгекарго
+RW	RYL	Royal Air Philippines	Роял Аир Филиппинес
+RX	RGE	HG Aviation Limited d/b/a Regent Airways	Хг Авиатион Лимитед Д/б/а Регент Аирвайс
+RY	CJX	Jiangxi Air	Джиангкси Аир
+R1	 	Zapways	Запвайс
+R2	ORB	Orenburg Airlines	Оренбург Аирлинес
+R3	SVL	Yakutia Airlines	Якутиа Аирлинес
+R4	RLB	Reliable Unique Services Aviation LLC	Релиабле Уникуе Сервикес Авиатион Ллк
+R5	JAV	Jordan Aviation	Джордан Авиатион
+SA	SAA	South African Airways (SAA)	Сут Африкан Аирвайс
+SB	ACI	Air Caledonie International	Аир Каледоние Интернатионал
+SC	CDG	Shandong Airlines	Шандонг Аирлинес
+SD	SUD	Sudan Airways Co. Ltd.	Судан Аирвайс Ко Лтд
+SE	XLF	XL Airways France	Ксл Аирвайс Франке
+SG	MOD	SpiceJet Ltd.	Спикеджет Лтд
+SH	 	Sharp Airlines	Шарп Аирлинес
+SJ	SJY	PT. Sriwijaya Air	Пт Сривиджая Аир
+SK	SAS	Scandinavian Airlines	SAS
+SK	SGB	Songbird Airways (Ceased)	Сонгбирд Аирвайс
+SL	TLM	Thai Lion Air	Таи Лион Аир
+SM	MSC	Air Cairo	Аир Каиро
+SN	DAT	Brussels Airlines	Brussels Airlines
+SP	SAT	Air Acores	Аир Акорес
+SQ	SQC	Singapore Airlines Ltd.	Singapore Airlines
+SS	CRL	Corsair	Корсаир
+SU	AFL	Aeroflot Russian Airlines	Аэрофлот
+SV	SVA	Saudi Arabian Airlines	Сауди Арабиан Аирлинес
+SW	NMB	Air Namibia (Ceased)	Аир Намибиа
+SX	 	Skywagon Corporation	Скйвагон Корпоратион
+SY	SCX	MN Airlines LLC	Мн Аирлинес Ллк
+SZ	SMR	Somon Air	Сомон Аир
+S2	JLL	Jet Lite (India) Limited	Джет Лите Лимитед
+S3	BBR	SBA Airlines (Ceased)	Сба Аирлинес
+S4	RZO	Azores Airlines	Азорес Аирлинес
+S7	SBI	Siberia Airlines	Сибериа Аирлинес
+S8	SDA	Sounds Air	Сундс Аир
+S9	IKM	Aero Surveys Ltd (Ceased)	Эро Сурвейс Лтд
+S9*	 	Air Company LLC Silk Road Cargo	Аир Компанй Ллк Силк Роад Карго
+TA	TAI	Avianca El Salvador	Авианка Ел Салвадор
+TA*	 	Transafrican Air	Трансафрикан Аир
+TB	JAF	Jetairfly	Джетаирфлй
+TC	ATC	Air Tanzania	Аир Танзаниа
+TE	IGA	Sky Taxi	Скй Такси
+TF	SCW	Braathens Regional Airways	Браатенс Регионал Аирвайс
+TG	THA	Thai Airways	Thai Airways
+TH	RMY	Raya Airways	Рая Аирвайс
+TJ	GPD	Tradewind Aviation	Традевинд Авиатион
+TK	THY	Turkish Airlines	Turkish Airlines
+TL	ANO	Air North	Аир Норт
+TM	LAM	LAM - Linhas Aereas de Mocambique	Лам - Линхас Эреас Де Мокамбикуе
+TN	THT	Air Tahiti Nui	Air Tahiti Nui
+TO	TVF	Transavia France	Трансавиа Франке
+TP	TAP	TAP Portugal	TAP Portugal
+TQ	PGN	Tailwind Air	Таилвинд Аир
+TQ	TDM	Tandem Aero Ltd. (Ceased)	Тандем Эро Лтд
+TR	TGW	Scoot Pte Ltd	Скоот Пте Лтд
+TR	TGW	Tigerair (Ceased)	Тигераир
+TR	TBA	TransBrasil (Ceased)	Трансбрасил
+TS	TSC	Air Transat	Аир Трансат
+TU	TAR	Tunisair	Тунисаир
+TV	TBA	Tibet Airlines	Тибет Аирлинес
+TW	TWB	Tway Air	Твай Аир
+TX	FWI	Air Caraibes	Аир Караибес
+TY	TPC	Air Caledonie	Аир Каледоние
+TZ	TDS	Tsaradia	Тсарадиа
+T0	TPU	Avianca Peru	Авианка Перу
+T2*	MCS	TUM Aerocarga	Тум Эрокарга
+T3	EZE	Eastern Airways	Еастерн Аирвайс
+T5	TUA	Turkmenistan Airlines	Turkmenistan Airlines
+T7	TJT	Twin Jet	Твин Джет
+T7*	TIW	Transcarga Int’l Airways, C.A.	Транскарга Инт’л Аирвайс Ка
+T8*	 	Terra Avia	Терра Авиа
+T9	VTU	Turpial Airlines	Турпиал Аирлинес
+UA	UAL	United Airlines, Inc.	United Airlines
+UB	UBA	Myanmar National Airlines	Мянмар Натионал Аирлинес
+UC	LCO	Lan Chile Cargo S.A.	Лан Чиле Карго Са
+UG	TUX	Tunisair Express	Тунисаир Експресс
+UH	UJX	Atlasjet Ukraine (Ceased)	Атласджет Украине
+UJ	LMU	AlMasria Universal Airlines	Алмасриа Универсал Аирлинес
+UK	VTI	Vistara	Вистара
+UL	ALK	SriLankan Airlines	Сриланкан Аирлинес
+UM	AZW	Air Zimbabwe	Аир Зимбабве
+UN	TSO	Transaero Airlines	Трансэро Аирлинес
+UO	HKE	Hong Kong Express Airways Limited	Хонг Конг Експресс Аирвайс Лимитед
+UP	BHS	Bahamasair	Бахамасаир
+UQ	CUH	Urumqi Airlines	Урумки Аирлинес
+UR	UGD	Uganda Airlines	Уганда Аирлинес
+UR	UTX	UTair Express LLC (Ceased)	Утаир Експресс Ллк
+UT	UTA	UTair Aviation	Утаир Авиатион
+UU	REU	Air Austral	Аир Аустрал
+UW	UTP	Uni-Top Airlines	Уни-топ Аирлинес
+UX	AEA	Air Europa Lineas Aereas, S.A.	Аир Еуропа Линеас Эреас Са
+UZ	BRQ	Buraq Air	Бурак Аир
+U2	EZY	Easyjet	easyJet
+U3	SAY	Sky Gates Airlines	Скй Гатес Аирлинес
+U6	SVR	Ural Airlines	Урал Аирлинес
+U7	UCG	Uniworld Air Cargo	Униворлд Аир Карго
+U8	CYF	TUS Airways	Тус Аирвайс
+U9	TAK	OJSC “Aircompany Tatarstan”	Оджск “аиркомпанй Татарстан”
+VA	VOZ	Virgin Australia	Virgin Australia
+VB	VIV	Viva Aerobus	Вива Эробус
+VF	FBB	Fly Armenia Airways	Флй Армениа Аирвайс
+VF	VLU	Valuair Ltd. (Ceased)	Валуаир Лтд
+VG	 	Vipper	Виппер
+VI	VDA	Volga-Dnepr Airline Joint Stock	Волга-днепр Аирлине Джоинт Стокк
+VJ	VJC	VietJet Air	VietJet Air
+VK	FOO	Anisec Luftfahrt (Ceased)	Анисек Луфтфахрт
+VL	MEV	Med View Airlines (NIG) Ltd.	Мед Виев Аирлинес Лтд
+VL	VIM	Air Via (Ceased)	Аир Виа
+VN	HVN	Vietnam Airlines Corp.	Vietnam Airlines
+VO	TYR	Tyrolean Airways Tiroler Luftfahrt GmbH	Тйролеан Аирвайс Тиролер Луфтфахрт Гмбх
+VQ	NVQ	Novoair Limited	Новоаир Лимитед
+VR	TCV	Cabo Verde Airlines	Кабо Верде Аирлинес
+VS	VIR	Virgin Atlantic	Virgin Atlantic
+VT	VTA	Air Tahiti	Аир Тахити
+VU	VAG	Vietravel Airlines	Виетравел Аирлинес
+VU	VAR	VECA Airlines (Ceased)	Века Аирлинес
+VV	AEW	Aerosvit Airlines	Эросвит Аирлинес
+VW	TAO	Transportes Aeromar S.A. de C.V.	Транспортес Эромар Са Де Кв
+VX	VRD	Virgin America Inc.	Виргин Америка Инк
+VY	VLG	Vueling Airlines S.A.	Vueling
+VZ	TVJ	Thai Vietjet Air	Таи Виетджет Аир
+VZ*	QCL	Air Class Lineas Aereas	Аир Класс Линеас Эреас
+V0	VCV	CONVIASA	Конвиаса
+V2	TWN	Avialeasing Aviation Company	Авиалеасинг Авиатион Компанй
+V3	KRP	Carpatair	Карпатаир
+V4	VEC	Vensecar	Венсекар
+V7	VOE	Volotea, S.A.	Волотеа Са
+V8	VAS	Atran, LLC (Suspended Ceased)	Атран Ллк
+WB	RWD	Rwand Air	Рванд Аир
+WC	ISV	Avianca Honduras	Авианка Хондурас
+WD	 	Wat Phnom Airlines	Ват Фном Аирлинес
+WE	CWC	Centurion Cargo (Ceased)	Кентурион Карго
+WE*	THD	Thai Smile Airways	Таи Смиле Аирвайс
+WF	WIF	Wideroe’s Flyveselskap A.S.	Видерое’с Флйвеселскап Ас
+WG	SWG	Sunwing Airlines	Сунвинг Аирлинес
+WH	WDL	German Regional Airlines	Герман Регионал Аирлинес
+WI	WHT	White Airways	Вхите Аирвайс
+WJ	LAL	Labrador Airways Ltd.	Лабрадор Аирвайс Лтд
+WK	EDW	Edelweiss Air AG	Еделвеисс Аир Аг
+WM	WIA	Windward Islands Airways Int’l N.V.	Виндвард Исландс Аирвайс Инт’л Нв
+WN	SWA	Southwest Airlines	Southwest Airlines
+WO	WSW	Swoop	Свооп
+WP	MKU	Hawaii Island Air (Ceased)	Хаваии Исланд Аир
+WS	WJA	WestJet	WestJet
+WT	SWT	Swiftair	Свифтаир
+WU	CWU	Wuhan Airline	Вухан Аирлине
+WW	 	Rutas Aereas de Venezuela RAV S.A.	Рутас Эреас Де Венезуела Рав Са
+WW*	 	MJets	Мджетс
+WX	BCY	Cityjet	Китйджет
+WY	OAS	Oman Air (S.A.O.C)	Oman Air
+WZ	RWZ	Red Wings	Ред Вингс
+W2	FXT	FlexFlight	Флексфлигхт
+W3	ARA	Arik Air	Арик Аир
+W5	IRM	Mahan Airlines	Махан Аирлинес
+W6	WZZ	Wizz Air	Wizz Air
+W7	WLB	Wings of Lebanon	Вингс Оф Лебанон
+W8	CJT	Cargojet Airways	Каргоджет Аирвайс
+XB	 	International Air Transport Association (IATA)	Интернатионал Аир Транспорт Ассокиатион
+XC	CAI	Corendon Airlines	Корендон Аирлинес
+XD	 	SATO	Сато
+XE	JSX	JSX Airline	Джскс Аирлине
+XF	MGW	Mongolian Airways	Монголиан Аирвайс
+XF	VLK	Vladivostok Air (Ceased)	Владивосток Аир
+XJ	TAX	Thai Airasia X	Таи Аирасиа Кс
+XK	CCM	Air Corsica	Аир Корсика
+XL	LNE	LATAM Airlines Ecuador	Латам Аирлинес Екуадор
+XM	EME	Australian Air Express Pty. Ltd.	Аустралиан Аир Експресс Птй Лтд
+XQ	SXS	SunExpress	SunExpress
+XW	NCT	NokScoot (Ceased)	Нокскоот
+XY	KNE	Flynas	Флйнас
+X3*	TUI	TUIfly GmbH	Туифлй Гмбх
+X4	 	Air Excursion, LLC	Аир Екскурсион Ллк
+X7	CHG	Challenge Airlines BE	Чалленге Аирлинес Бе
+X8	 	Airmax	Аирмакс
+YB	EXY	South African Express (Ceased)	Сут Африкан Експресс
+YC	LLM	Joint-Stock Company “Yamal Airlines”	Джоинт-стокк Компанй “ямал Аирлинес”
+YD	SYG	Synergy Aviation	Сйнергй Авиатион
+YG	HYT	YTO Cargo Airlines	Йто Карго Аирлинес
+YH	 	Sunsplash Aviation, LLC.	Сунсплаш Авиатион Ллк
+YK	AVJ	Avia Traffic Company	Авиа Траффик Компанй
+YM	MGX	Montenegro Airlines (Ceased)	Монтенегро Аирлинес
+YN	CRQ	Air Creebec (1994) Inc.	Аир Креебек Инк
+YO	MCM	Heli Air Monaco	Хели Аир Монако
+YP	APZ	Air Premia	Аир Премиа
+YQ	POT	Aircompany Polet	Аиркомпанй Полет
+YR	EGJ	Grand Canyan Airlines, Inc.	Гранд Канян Аирлинес Инк
+YS	TSY	Tristar Air (Ceased)	Тристар Аир
+YT	NYT	Yeti Airlines	Йети Аирлинес
+YU	MMZ	EuroAtlantic Airways S.A.	Еуроатлантик Аирвайс Са
+YV	ASH	Mesa Airlines, Inc.	Меса Аирлинес Инк
+YW	ANE	Air Nostrum L.A.M. S.A.	Аир Нострум Лам Са
+YX	RPA	Republic Airline, Inc.	Републик Аирлине Инк
+Y2	AFJ	Alliance Air (Uganda)	Аллианке Аир
+Y4	VOI	Concesionaria Vuela Compania De SA de CV (Volaris)	Конкесионариа Вуела Компаниа Де Са Де Кв
+Y5	GMR	Golden Myanmar Airlines	Голден Мянмар Аирлинес
+Y7	TYA	NordStar Airlines	Нордстар Аирлинес
+Y8	YZR	Suparna Airlines	Супарна Аирлинес
+Y9	IRK	Kish Airlines	Киш Аирлинес
+ZA	SWM	Sky Angkor Airlines	Скй Ангкор Аирлинес
+ZB	ABN	Air Albania	Аир Албаниа
+ZB	MON	Monarch Airlines (Ceased)	Монарч Аирлинес
+ZC	KGO	Korongo Airlines	Коронго Аирлинес
+ZD	EWR	EWA Air	Ева Аир
+ZE	ESR	Eastar Jet	Еастар Джет
+ZF	AZV	AZUR Air	Азур Аир
+ZF*	SXY	Safari Express Cargo	Сафари Експресс Карго
+ZH	CSZ	Shenzhen Airlines	Шенжен Аирлинес
+ZI	AAF	Aigle Azur (Ceased)	Аигле Азур
+ZK	ZAV	Aircompany ZetAvia	Аиркомпанй Зетавиа
+ZK	GLA	Great Lakes Airlines (Ceased)	Греат Лакес Аирлинес
+ZL	RXA	Regional Express Holdings	Регионал Експресс Холдингс
+ZM	MBB	Air Manas	Аир Манас
+ZN	NAY	Naysa	Найса
+ZP	AZP	Paranair S.A.	Паранаир Са
+ZP*	AZQ	Silk Way Airlines	Силк Вай Аирлинес
+ZQ	AZM	Azman Air	Азман Аир
+ZR	AZS	Aviacon Zitotrans Air Company JSC	Авиакон Зитотранс Аир Компанй Джск
+ZT	AWC	Titan Airways Limited	Титан Аирвайс Лимитед
+ZU	BBT	Air Bashkortostan Ltd. (Ceased)	Аир Башкортостан Лтд
+ZU	EMZ	Ethiopian Mozambique Airlines (Ceased)	Етиопиан Мозамбикуе Аирлинес
+ZV	IZG	Zagros Airlines	Загрос Аирлинес
+ZW	AWI	Air Wisconsin Airlines Corporation (AWAC)	Аир Висконсин Аирлинес Корпоратион
+ZY	SHY	Sky Airlines (Ceased)	Скй Аирлинес
+Z2	EZD	Philippines AirAsia, Inc.	Филиппинес Аирасиа Инк
+Z4	GZQ	Zagrosjet (Ceased)	Загросджет
+Z6	UDN	Dniproavia - Joint Stock Aviation Co.	Днипроавиа - Джоинт Стокк Авиатион Ко
+Z7	 	Amaszonas Uruguay	Амасзонас Уругуай
+Z8	AZN	Linea Aerea Amaszonas S.A.	Линеа Эреа Амасзонас Са
+0J	PJZ	Premium Jet AG	Премиум Джет Аг
+1S	 	Sabre	Сабре
+2B	AWT	Albawings	Албавингс
+2C	CMA	CMA CGM Air Cargo	Кма Кгм Аир Карго
+2D	EAL	Eastern Airlines	Еастерн Аирлинес
+2G	AGU	JSC Angara Airlines	Джск Ангара Аирлинес
+2H	 	Thalys International	Талйс Интернатионал
+2I	SRU	Star Peru	Стар Перу
+2I*	CSB	21 Air LLC	21 Аир Ллк
+2J	VBW	Air Burkina	Аир Буркина
+2K	GLG	Aerolineas Galapagos S.A. Aerogal	Эролинеас Галапагос Са Эрогал
+2L	BOL	Transportes Aereos Bolivianos	Транспортес Эреос Боливианос
+2M	MYD	Maya Island Air	Мая Исланд Аир
+2P	GAP	Air Philippines Corporation	Аир Филиппинес Корпоратион
+2Q	 	Air Cargo Carriers	Аир Карго Карриерс
+2S	STW	Southwind Airlines	Сутвинд Аирлинес
+2S*	MSB	Air Stork SRL	Аир Сторк Срл
+2T	TBS	Timbis Air	Тимбис Аир
+2Y	MYU	My Indo Airlines	Мй Индо Аирлинес
+3A*	 	Chu Kong Passenger Transport	Чу Конг Пассенгер Транспорт
+3B	BCV	Bestfly Cabo Verde	Бестфлй Кабо Верде
+3C	CVA	Air Chathams Limited	Аир Чатамс Лимитед
+3E	WBR	Air Choice One	Аир Чоике Оне
+3G	GSB	DRB-HICOM Asia Cargo Express	Дрб-хиком Асиа Карго Експресс
+3H	AIE	Air Inuit Ltd/Ltee.	Аир Инуит Лтд/лтее
+3J	JBW	Jubba Airways	Джубба Аирвайс
+3K	JSA	Jetstar Asia Airways	Джетстар Асиа Аирвайс
+3L	 	Air Arabia Abu Dhabi	Аир Арабиа Абу Дхаби
+3M	GFT	Silver Airways Corp	Силвер Аирвайс Корп
+3N	URG	Air Urga	Аир Урга
+3O	MAC	Air Arabia Maroc	Аир Арабиа Марок
+3P	TNM	Tiara Air (Ceased)	Тиара Аир
+3Q	KCA	KC International Airlines	Кк Интернатионал Аирлинес
+3S	GUY	Air Antilles	Аир Антиллес
+3S*	BOX	Aerologic GmbH	Эрологик Гмбх
+3U	CSC	Sichuan Airlines	Сичуан Аирлинес
+3V	TAY	ASL Airlines Belgium	Асл Аирлинес Белгиум
+3W	MWI	Malawian Airlines	Малавиан Аирлинес
+3X	 	Premier Trans Aire Inc.	Премиер Транс Аире Инк
+4B	BTQ	Boutique Air	Бутикуе Аир
+4B*	TUP	Aviastar-TU Airlines	Авиастар-ту Аирлинес
+4C	ARE	LATAM Airlines Colombia	Латам Аирлинес Коломбиа
+4D	ASD	Air Sinai	Аир Синаи
+4E	SBO	Stabo Air Limited	Стабо Аир Лимитед
+4G	GZP	Gazpromavia	Газпромавиа
+4H	HGG	Hi Air	Хи Аир
+4I	IZM	Izmir Airlines	Измир Аирлинес
+4L	LAU	Lineas Aereas Suramericanas	Линеас Эреас Сурамериканас
+4M	DSM	LATAM Argentina (Ceased)	Латам Аргентина
+4N	ANT	Air North Charter and Training Ltd.	Аир Норт Чартер Анд Траининг Лтд
+4O	AIJ	ABC Aerolineas (Ceased)	Абк Эролинеас
+4Q	SFW	Safi Airways Ltd.	Сафи Аирвайс Лтд
+4S	OLC	Solar Cargo	Солар Карго
+4T	ABS	Transwest Air	Трансвест Аир
+4U	GWI	Germanwings	Германвингс
+4W	AJK	Allied Air Ltd.	Аллиед Аир Лтд
+4X	 	Mercury Air Cargo Inc.	Меркурй Аир Карго Инк
+4Y	OCN	Eurowings Discover	Еуровингс Дисковер
+4Z	LNK	SA Airlink	Са Аирлинк
+5A	 	Alpine Aviation Inc.	Алпине Авиатион Инк
+5B	BSX	Bassaka Air	Бассака Аир
+5C	ICL	C.A.L. Cargo Airlines	Кал Карго Аирлинес
+5D	SLI	Aerolitoral S.A. de C.V.	Эролиторал Са Де Кв
+5F	 	Fly One S.R.L.	Флй Оне Срл
+5H	FFV	Five Fourty Aviation Limited	Фиве Фуртй Авиатион Лимитед
+5J	CPI	Cebu Air, Inc	Кебу Аир Инк
+5K	HFY	Hi Fly	Хи Флй
+5M	MNT	FlyMontserrat	Флймонтсеррат
+5N	AUL	Smartavia	Смартавиа
+5O	FPO	ASL Airlines France	Асл Аирлинес Франке
+5P	LLX	Small Planet Airlines GmbH	Смалл Планет Аирлинес Гмбх
+5Q	BQB	Los Cipreses S.A.	Лос Кипресес Са
+5R	RUC	Rutas Aereas, C.A.	Рутас Эреас Ка
+5S	GAK	Global Aviation Services Group	Глобал Авиатион Сервикес Груп
+5T	MPE	Canadian North Inc.	Канадиан Норт Инк
+5U	TGU	Transportes Aereos Guatemaltecos	Транспортес Эреос Гуатемалтекос
+5V	VTS	Everts Air Alaska	Евертс Аир Аласка
+5W	WAZ	Wizz Air Abu Dhabi	Визз Аир Абу Дхаби
+5X	UPS	UPS Airlines	Упс Аирлинес
+5Y	GTI	Atlas Air Inc.	Атлас Аир Инк
+5Z	KEM	Cemair	Кемаир
+6A	BKV	Armenia Airways Aircompany CJSC	Армениа Аирвайс Аиркомпанй Кджск
+6B	BLX	TUIfly Nordic AB	Туифлй Нордик Аб
+6C	 	Air Timor (Ceased)	Аир Тимор
+6E	IGO	Interglobe Aviation Ltd.	Интерглобе Авиатион Лтд
+6H	ISR	Israir Airlines	Исраир Аирлинес
+6J	SNJ	Solaseed Air	Соласеед Аир
+6L	AKK	Aklak Air	Аклак Аир
+6M	MXU	Maximus Airlines	Максимус Аирлинес
+6R	TNO	Aerotransporte de Carga Union S.A. de C.v.	Эротранспорте Де Карга Унион Са Де Кв
+6S	SGQ	SaudiGulf Airlines	Саудигулф Аирлинес
+6U	ACX	Air Cargo Germany	Аир Карго Германй
+6W	FBS	FlyBosnia (Ceased)	Флйбосниа
+6W	LBO	Libo Air Cargo (Ceased)	Либо Аир Карго
+7A	XRC	Express Air Cargo	Експресс Аир Карго
+7C	JJA	Jeju Air	Джеджу Аир
+7C*	COY	Coyne Airways Ltd	Койне Аирвайс Лтд
+7D	UDC	Donbassaero (Ceased)	Донбассэро
+7F	FAB	Bradley Air Services	Брадлей Аир Сервикес
+7H	RVF	Northern Pacific Airways	Нортерн Пакифик Аирвайс
+7I	INC	Insel Air International B.V.	Инсел Аир Интернатионал Бв
+7J	TJK	Tajik Air	Таджик Аир
+7L	AZG	Silk Way West Airlines Limited	Силк Вай Вест Аирлинес Лимитед
+7N	PWD	PAWA Dominicana (Ceased)	Пава Доминикана
+7P	PST	Air Panama	Аир Панама
+7Q	MNU	Elite Airways LLC	Елите Аирвайс Ллк
+7R	RLU	RusLine	Руслине
+7T	RTM	DHL Ecuador	Дхл Екуадор
+7U	 	Commercial Aviation Services, LLC.	Коммеркиал Авиатион Сервикес Ллк
+7V	FDR	Federal Airlines	Федерал Аирлинес
+7W	WRC	Wind Rose Aviation Company	Винд Росе Авиатион Компанй
+7Z	AJI	Ameristar Air Cargo, Inc.	Америстар Аир Карго Инк
+8A	WAP	Panama Airways	Панама Аирвайс
+8C	ATN	Air Transport International, Inc.	Аир Транспорт Интернатионал Инк
+8C	DXH	East Star Airlines (Ceased)	Еаст Стар Аирлинес
+8D	EXV	FITS Air	Фитс Аир
+8E	EFX	Easy Fly Express Limited	Еасй Флй Експресс Лимитед
+8F	STP	STP Airways	Стп Аирвайс
+8H	BGH	BH Air	Бх Аир
+8I	NLU	InselAir Aruba (Ceassed)	Инселаир Аруба
+8K	KMI	K-Mile Air Co. Ltd.	К-миле Аир Ко Лтд
+8L	LKE	Lucky Air	Луккй Аир
+8M	MMA	Myanmar Airways	Мянмар Аирвайс
+8P	PCO	Pacific Coastal Airlines	Пакифик Коастал Аирлинес
+8Q	OHY	Onur Air	Онур Аир
+8R	OLS	SOL S.A. Lineas Aereas	Сол Са Линеас Эреас
+8S	 	Shun Tak-China Travel Ship Mgmt. Ltd.	Шун Так-чина Травел Шип Мгмт Лтд
+8U	AAW	Afriqiyah Airways	Африкиях Аирвайс
+8V	ACP	Astral Aviation	Астрал Авиатион
+8Z	CGA	Congo Airways	Конго Аирвайс
+9A	GCA	GCA Air	Гка Аир
+9C	CQH	Spring Airlines	Спринг Аирлинес
+9D	THE	Toumai Air Tchad	Тумаи Аир Тчад
+9E	FLG	Endeavor Air	Ендеавор Аир
+9H	CGN	Air Changan	Аир Чанган
+9H	DNL	Dutch Antilles Express (Ceased)	Дутч Антиллес Експресс
+9I	LLR	Alliance Air (India)	Аллианке Аир
+9J	DAN	Dana Air	Дана Аир
+9K	KAP	Cape Air	Капе Аир
+9M	GLR	Central Mountain Air Ltd.	Кентрал Мунтаин Аир Лтд
+9N	TOS	Tropic Air	Тропик Аир
+9R	NSE	SATENA	Сатена
+9S	SOO	Southern Air Inc.	Сутерн Аир Инк
+9T	RUN	ACT Airlines	Акт Аирлинес
+9U	MLD	Air Moldova	Аир Молдова
+9V	ROI	Avior Airlines, C.A.	Авиор Аирлинес Ка
+9W	JAI	Jet Airways (India) Ltd.	Джет Аирвайс Лтд
+9X	FDY	Southern Airways Express	Сутерн Аирвайс Експресс
+9Y	NAE	National Airways Ethiopia	Натионал Аирвайс Етиопиа
+ 	ADB	Antonov Airlines	Антонов Аирлинес
+ 	BBW	BB Airways Pvt. Ltd.	Бб Аирвайс Пвт Лтд
+ 	BRP	Aerobratsk	Эробратск
+ 	BZH	Brit Air	Брит Аир
+ 	CAD	Cardig Air	Кардиг Аир
+ 	CHF	Chitaavia	Читаавиа
+ 	EXT	Nightexpress (Ceased)	Нигхтекспресс
+ 	GNX	Genex Ltd.	Генекс Лтд
+ 	KJA	Kinda Airlines	Кинда Аирлинес
+ 	LXA	Luxaviation S.A.	Луксавиатион Са
+ 	RLI	Reliant Air	Релиант Аир
+ 	SLQ	Skylink Express	Скйлинк Експресс
+ 	WLX	Smart Cargo S.A.	Смарт Карго Са

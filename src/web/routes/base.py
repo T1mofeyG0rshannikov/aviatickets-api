@@ -5,11 +5,11 @@ from typing import Annotated
 from fastapi import Depends
 from starlette.requests import Request
 
-from src.depends.annotations.annotations import UserRepositoryAnnotation
-from src.depends.depends import get_jwt_processor
 from src.entities.user.exceptions import AdminRequiredError, UserRequiredError
 from src.entities.user.user import User
 from src.infrastructure.jwt.jwt_processor import JwtProcessor
+from src.web.depends.annotations.annotations import UserRepositoryAnnotation
+from src.web.depends.depends import get_jwt_processor
 
 
 def admin_required(func: Callable = None) -> Callable:
@@ -46,8 +46,11 @@ async def get_user(
     request: Request,
     user_repository: UserRepositoryAnnotation,
     jwt_processor: Annotated[JwtProcessor, Depends(get_jwt_processor)],
-) -> User:
+) -> User | None:
     token = request.session.get("token")
+    if token is None:
+        token = request.headers.get("Autorization")
+
     if token:
         payload = jwt_processor.validate_token(token)
         if payload:

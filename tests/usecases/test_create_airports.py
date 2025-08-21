@@ -1,10 +1,12 @@
 import pytest
 
+from src.application.usecases.airports.create.adapter import (
+    AirportsCsvToCreateDTOAdapter,
+)
+from src.application.usecases.airports.create.csv_parser import AirportsCsvParser
+from src.application.usecases.airports.create.usecase import CreateAirports
 from src.infrastructure.repositories.airport_repository import AirportRepository
 from src.infrastructure.repositories.location_repository import LocationRepository
-from src.usecases.create_airports.adapter import AirportsCsvToCreateDTOAdapter
-from src.usecases.create_airports.csv_parser import AirportsCsvParser
-from src.usecases.create_airports.usecase import CreateAirports
 
 
 @pytest.fixture

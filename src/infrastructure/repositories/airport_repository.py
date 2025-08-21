@@ -1,10 +1,13 @@
+from collections.abc import Iterable
+
 from sqlalchemy import insert, select
 
-from src.dto.airport import CreateAirportDTO
 from src.entities.airport.airport import Airport
+from src.entities.airport.dto import CreateAirportDTO
+from src.entities.airport.iata_code import IATACode
 from src.infrastructure.db.mappers.airport import orm_to_airport
 from src.infrastructure.db.models.models import AirportOrm
-from src.infrastructure.repositories.base_reposiotory import BaseRepository
+from src.infrastructure.repositories.base_repository import BaseRepository
 
 
 class AirportRepository(BaseRepository):
@@ -21,6 +24,12 @@ class AirportRepository(BaseRepository):
     async def all(self) -> list[Airport]:
         airports = await self.db.execute(select(AirportOrm))
         return [orm_to_airport(airport) for airport in airports.scalars()]
+
+    async def filter(self, iata_codes: Iterable[IATACode]) -> list[Airport]:
+        results = await self.db.execute(select(AirportOrm).where(AirportOrm.iata.in_(iata_codes)))
+        airports = results.scalars().all()
+
+        return [orm_to_airport(airport) for airport in airports]
 
     async def get(self, iata: str = None, id: int = None) -> Airport:
         if iata is not None:

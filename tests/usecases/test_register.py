@@ -1,12 +1,12 @@
 import pytest
 
+from src.application.usecases.user.register import Register
 from src.entities.user.access_token import AccessToken
 from src.entities.user.dto import RegisterUserDTO
 from src.entities.user.exceptions import UserWithEmailAlreadyExistError
 from src.infrastructure.jwt.jwt_processor import JwtProcessor
 from src.infrastructure.repositories.user_repository import UserRepository
 from src.infrastructure.security.password_hasher import PasswordHasher
-from src.usecases.user.register import Register
 
 
 @pytest.fixture
@@ -31,4 +31,4 @@ async def test_register_not_unique_email(register: Register):
     with pytest.raises(UserWithEmailAlreadyExistError) as excinfo:
         await register(RegisterUserDTO(email=email, password="zaq123!", first_name="Вася", second_name="Смирнов"))
 
-    assert f"Пользователь с почтой '{email}' уже существует" in str(excinfo)
+    assert f"Пользователь с почтой '{email}' уже существует" in str(excinfo.value)

@@ -1,12 +1,12 @@
 import pytest
 
+from src.application.usecases.user.login import Login
 from src.entities.exceptions import AccessDeniedError
 from src.entities.user.access_token import AccessToken
 from src.entities.user.exceptions import InvalidPasswordError, UserNotFoundError
 from src.infrastructure.jwt.jwt_processor import JwtProcessor
 from src.infrastructure.repositories.user_repository import UserRepository
 from src.infrastructure.security.password_hasher import PasswordHasher
-from src.usecases.user.login import Login
 
 
 @pytest.fixture

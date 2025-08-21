@@ -2,11 +2,11 @@ import asyncio
 from getpass import getpass
 from typing import Annotated
 
-from src.depends.decorator import inject_dependencies
-from src.depends.depends import get_password_hasher
-from src.depends.repos_container import ReposContainer
 from src.entities.user.dto import CreateUserDTO
 from src.entities.user.email import Email
+from src.infrastructure.depends.base import get_password_hasher
+from src.infrastructure.depends.decorator import inject_dependencies
+from src.infrastructure.depends.repos_container import ReposContainer
 from src.infrastructure.repositories.user_repository import UserRepository
 from src.infrastructure.security.password_hasher import PasswordHasher
 
@@ -22,7 +22,7 @@ async def create_admin_user(
 ) -> None:
     hashed_password = password_hasher.hash_password(password)
     create_dto = CreateUserDTO(
-        email=Email(email),
+        email=email,
         hashed_password=hashed_password,
         first_name=first_name,
         second_name=second_name,

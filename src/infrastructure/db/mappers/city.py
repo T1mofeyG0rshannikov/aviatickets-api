@@ -1,4 +1,4 @@
-from src.entities.city import City
+from src.entities.city.city import City
 from src.infrastructure.db.models.models import CityOrm
 
 

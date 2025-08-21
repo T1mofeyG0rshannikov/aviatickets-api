@@ -3,12 +3,12 @@ from fastapi.responses import JSONResponse
 
 from src.entities.exceptions import (
     AccessDeniedError,
-    InvalidCreditnailsError,
-    RecordNotFoundException,
+    InvalidcredentialsError,
+    RecordNotFoundError,
 )
 
 
-async def record_not_found_exc_handler(request: Request, exc: RecordNotFoundException) -> JSONResponse:
+async def record_not_found_exc_handler(request: Request, exc: RecordNotFoundError) -> JSONResponse:
     return JSONResponse(status_code=404, content={"message": str(exc)})
 
 
@@ -16,11 +16,11 @@ async def access_denied_exc_handler(request: Request, exc: AccessDeniedError) ->
     return JSONResponse(status_code=403, content={"message": str(exc)})
 
 
-async def invalid_creditnails_exc_handler(request: Request, exc: InvalidCreditnailsError) -> JSONResponse:
+async def invalid_creditnails_exc_handler(request: Request, exc: InvalidcredentialsError) -> JSONResponse:
     return JSONResponse(status_code=400, content={"message": str(exc)})
 
 
 def init_exc_handlers(app: FastAPI) -> None:
-    app.add_exception_handler(RecordNotFoundException, record_not_found_exc_handler)
+    app.add_exception_handler(RecordNotFoundError, record_not_found_exc_handler)
     app.add_exception_handler(AccessDeniedError, access_denied_exc_handler)
-    app.add_exception_handler(InvalidCreditnailsError, invalid_creditnails_exc_handler)
+    app.add_exception_handler(InvalidcredentialsError, invalid_creditnails_exc_handler)
