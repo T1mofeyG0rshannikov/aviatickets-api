@@ -1,0 +1,56 @@
+from sqlalchemy import select
+from sqlalchemy.exc import SQLAlchemyError
+
+from src.entities.user_ticket.user_ticket import Passenger, UserTicket
+from src.entities.user_ticket.user_ticket_repository import (
+    UserTicketRepositoryInterface,
+)
+from src.entities.value_objects.entity_id import EntityId
+from src.infrastructure.persistence.db.models.models import PassengerOrm, UserTicketOrm
+from src.infrastructure.persistence.repositories.base_repository import BaseRepository
+from src.infrastructure.persistence.repositories.mappers.passengers import (
+    from_orm_to_passenger,
+)
+from src.infrastructure.persistence.repositories.mappers.user_ticket import (
+    from_orm_to_user_ticket,
+)
+
+
+class UserTicketRepository(UserTicketRepositoryInterface, BaseRepository):
+    async def get(self, id: EntityId) -> UserTicket:
+        result = await self.db.execute(select(UserTicketOrm).where(UserTicketOrm.id == id))
+
+        user_ticket = result.scalar()
+        return from_orm_to_user_ticket(user_ticket) if user_ticket else None
+
+    async def get_passangers(self, user_ticket_id: EntityId) -> list[Passenger]:
+        results = await self.db.execute(select(PassengerOrm).where(PassengerOrm.user_ticket_id == user_ticket_id.value))
+
+        passengers = results.scalars().all()
+        return [from_orm_to_passenger(passenger) for passenger in passengers]
+
+    async def save(self, user_ticket: UserTicket, passengers: list[Passenger]) -> UserTicket:
+        try:
+            user_ticket_orm = UserTicketOrm(
+                id=user_ticket.id.value, user_id=user_ticket.user_id.value, ticket_id=user_ticket.ticket_id.value
+            )
+
+            passangers_orm = [
+                PassengerOrm(
+                    user_ticket_id=user_ticket.id.value,
+                    gender=passenger.gender,
+                    first_name=passenger.first_name,
+                    second_name=passenger.second_name,
+                    birth_date=passenger.birth_date,
+                    passport=passenger.passport,
+                    expiration_date=passenger.expiration_date,
+                )
+                for passenger in passengers
+            ]
+
+            self.db.add(user_ticket_orm)
+            self.db.add_all(passangers_orm)
+            await self.db.commit()
+        except SQLAlchemyError as e:
+            await self.db.rollback()
+            raise e

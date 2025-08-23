@@ -1,18 +1,17 @@
 from dataclasses import dataclass
+from uuid import UUID
 
-from src.entities.city.city import City
-from src.entities.country.country import Country
-from src.entities.region.region import Region
+from src.application.dto.location import CityDTO, CountryDTO, RegionDTO
 
 
 @dataclass
 class AirportFullInfoDTO:
-    id: int
+    id: UUID
     name: str
     continent: str
-    country: Country
-    region: Region
-    city: City
+    country: CountryDTO
+    region: RegionDTO | None = None
+    city: CityDTO
     scheduled_service: str
     icao: str
     iata: str

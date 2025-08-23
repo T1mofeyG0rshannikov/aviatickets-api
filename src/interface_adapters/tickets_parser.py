@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from datetime import datetime
 
 from src.entities.airport.airport import Airport
-from src.entities.tickets.dto import CreateAviaTicketDTO
+from src.entities.tickets.ticket import Ticket
 from src.infrastructure.clients.base_http_client import BaseHttpClient
 
 
@@ -20,5 +20,5 @@ class TicketsParseParams:
 
 class TicketsParser(ABC):
     @abstractmethod
-    async def parse(self, params: TicketsParseParams) -> list[CreateAviaTicketDTO]:
+    async def parse(self, params: TicketsParseParams) -> list[Ticket]:
         ...

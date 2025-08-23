@@ -2,11 +2,11 @@ from typing import Annotated
 
 from fastapi import Depends
 
+from application.usecases.user.create import CreateUser
 from src.application.builders.user_ticket import UserTicketFullInfoAssembler
 from src.application.services.currency_converter import CurrencyConverter
-from src.application.usecases.airports.create.adapter import (
-    AirportsCsvToCreateDTOAdapter,
-)
+from src.application.usecases.airports.airport_importer import AirportImporterInterface
+from src.application.usecases.airports.create.adapter import CsvToAirportAdapter
 from src.application.usecases.airports.create.csv_parser import AirportsCsvParser
 from src.application.usecases.airports.create.usecase import CreateAirports
 from src.application.usecases.airports.get.usecase import GetAirports
@@ -16,7 +16,7 @@ from src.application.usecases.create_cities.csv_parser import CitiesCsvParser
 from src.application.usecases.create_cities.usecase import CreateCities
 from src.application.usecases.create_countries.csv_parser import CountriesCsvParser
 from src.application.usecases.create_countries.usecase import CreateCountries
-from src.application.usecases.create_regions.adapter import RegionCsvToCreateDTOAdapter
+from src.application.usecases.create_regions.adapter import RegionCsvToEntitiesAdapter
 from src.application.usecases.create_regions.csv_parser import RegionsCsvParser
 from src.application.usecases.create_regions.usecase import CreateRegions
 from src.application.usecases.create_user_ticket import CreateUserTicket
@@ -28,17 +28,17 @@ from src.application.usecases.tickets.pdf.strategies.default.generator import (
     DefaultPdfTicketGenerator,
 )
 from src.application.usecases.tickets.pdf.usecase import CreatePdfTicket
-from src.application.usecases.user.login import Login
-from src.application.usecases.user.register import Register
+from src.application.usecases.user.auth.login import Login
+from src.application.usecases.user.auth.register import Register
 from src.infrastructure.clients.ticket_parsers.amadeus.parser import AmadeusTicketParser
 from src.infrastructure.clients.ticket_parsers.aviasales.parser import (
     AviasalesTicketParser,
 )
 from src.infrastructure.depends.base import (
-    get_airports_scv_to_dto_adapter,
     get_cities_csv_parser,
     get_countries_csv_parser,
     get_csv_airports_parser,
+    get_csv_to_airport_adapter,
     get_password_hasher,
     get_regions_csv_parser,
     get_txt_airlines_parser,
@@ -48,10 +48,10 @@ from src.infrastructure.security.password_hasher import PasswordHasher
 from src.interface_adapters.pdf_templates import PdfTemplatesEnum
 from src.web.depends.annotations.annotations import (
     AirlineRepositoryAnnotation,
-    AirportReadRepositoryAnnotation,
+    AirportDAOAnnotation,
     AirportRepositoryAnnotation,
     LocationRepositoryAnnotation,
-    TicketReadRepositoryAnnotation,
+    TicketDAOAnnotation,
     TicketRepositoryAnnotation,
     UserRepositoryAnnotation,
     UserTicketRepositoryAnnotation,
@@ -66,15 +66,17 @@ from src.web.depends.depends import (
     get_regions_csv_to_create_adapter,
     get_user_ticket_assembler,
 )
+from src.web.importers import get_airports_importer
 
 
 def get_create_airports_interactor(
     repository: AirportRepositoryAnnotation,
+    importer: Annotated[AirportImporterInterface, Depends(get_airports_importer)],
     csv_parser: Annotated[AirportsCsvParser, Depends(get_csv_airports_parser)],
-    adapter: Annotated[AirportsCsvToCreateDTOAdapter, Depends(get_airports_scv_to_dto_adapter)],
+    adapter: Annotated[CsvToAirportAdapter, Depends(get_csv_to_airport_adapter)],
     location_repository: LocationRepositoryAnnotation,
 ) -> CreateAirports:
-    return CreateAirports(repository, csv_parser, adapter, location_repository)
+    return CreateAirports(repository, importer, csv_parser, adapter, location_repository)
 
 
 def get_create_airlines_interactor(
@@ -93,7 +95,7 @@ def get_create_countries_interactor(
 def get_create_regions_interactor(
     csv_parser: Annotated[RegionsCsvParser, Depends(get_regions_csv_parser)],
     repository: LocationRepositoryAnnotation,
-    adapter: Annotated[RegionCsvToCreateDTOAdapter, Depends(get_regions_csv_to_create_adapter)],
+    adapter: Annotated[RegionCsvToEntitiesAdapter, Depends(get_regions_csv_to_create_adapter)],
 ) -> CreateRegions:
     return CreateRegions(csv_parser=csv_parser, repository=repository, adapter=adapter)
 
@@ -122,13 +124,13 @@ def get_parse_tickets_interactor(
 
 
 def get_filter_tickets_interactor(
-    ticket_repository: TicketReadRepositoryAnnotation,
+    ticket_repository: TicketDAOAnnotation,
     currency_converter: Annotated[CurrencyConverter, Depends(get_currency_converter)],
 ) -> FilterTickets:
     return FilterTickets(ticket_repository, currency_converter)
 
 
-def get_ticket_interactor(ticket_repository: TicketReadRepositoryAnnotation) -> GetTicket:
+def get_ticket_interactor(ticket_repository: TicketDAOAnnotation) -> GetTicket:
     return GetTicket(ticket_repository)
 
 
@@ -156,12 +158,18 @@ def get_create_user_ticket_interactor(
     return CreateUserTicket(repository, ticket_repository)
 
 
-def get_register_interactor(
+def get_create_user(
     user_repository: UserRepositoryAnnotation,
-    jwt_processor: JwtProcessorAnnotation,
     password_hasher: Annotated[PasswordHasher, Depends(get_password_hasher)],
+) -> CreateUser:
+    return CreateUser(user_repository, password_hasher)
+
+
+def get_register_interactor(
+    create_user: Annotated[CreateUser, get_create_user],
+    jwt_processor: JwtProcessorAnnotation,
 ) -> Register:
-    return Register(user_repository, jwt_processor, password_hasher)
+    return Register(create_user, jwt_processor)
 
 
 def get_login_interactor(
@@ -172,5 +180,5 @@ def get_login_interactor(
     return Login(user_repository, jwt_processor, password_hasher)
 
 
-def get_airports_interactor(airport_read_repository: AirportReadRepositoryAnnotation) -> GetAirports:
+def get_airports_interactor(airport_read_repository: AirportDAOAnnotation) -> GetAirports:
     return GetAirports(airport_read_repository)

@@ -4,9 +4,7 @@ from typing import Annotated
 import httpx
 from redis import Redis
 
-from src.application.usecases.airports.create.adapter import (
-    AirportsCsvToCreateDTOAdapter,
-)
+from src.application.usecases.airports.create.adapter import CsvToAirportAdapter
 from src.application.usecases.airports.create.csv_parser import AirportsCsvParser
 from src.application.usecases.create_airlines.txt_parser import AirlinesTXTParser
 from src.application.usecases.create_cities.csv_parser import CitiesCsvParser
@@ -15,7 +13,8 @@ from src.application.usecases.create_regions.csv_parser import RegionsCsvParser
 from src.application.usecases.tickets.pdf.strategies.default.config import (
     DefaultPdfTicketAdapterConfig,
 )
-from src.application.usecases.user.login import Login
+from src.application.usecases.user.auth.login import Login
+from src.application.usecases.user.create import CreateUser
 from src.infrastructure.admin.config import AdminConfig
 from src.infrastructure.clients.exchange_rates.exchange_rates_service import (
     ExchangeRateService,
@@ -31,8 +30,8 @@ from src.infrastructure.email_sender.config import EmailSenderConfig
 from src.infrastructure.jwt.jwt_config import JwtConfig
 from src.infrastructure.jwt.jwt_processor import JwtProcessor
 from src.infrastructure.pdf_service.service import PdfService
+from src.infrastructure.persistence.repositories.user_repository import UserRepository
 from src.infrastructure.redis.config import RedisConfig
-from src.infrastructure.repositories.user_repository import UserRepository
 from src.infrastructure.security.password_hasher import PasswordHasher
 
 
@@ -64,6 +63,14 @@ async def get_login_interactor(
     return Login(user_repository, jwt_processor, password_hasher)
 
 
+@inject_dependencies
+async def get_create_user(
+    user_repository: Annotated[UserRepository, ReposContainer.user_repository],
+    password_hasher: Annotated[PasswordHasher, get_password_hasher],
+) -> CreateUser:
+    return CreateUser(user_repository, password_hasher)
+
+
 @lru_cache
 def get_email_config() -> EmailSenderConfig:
     return EmailSenderConfig()
@@ -73,8 +80,8 @@ def get_csv_airports_parser() -> AirportsCsvParser:
     return AirportsCsvParser()
 
 
-def get_airports_scv_to_dto_adapter() -> AirportsCsvToCreateDTOAdapter:
-    return AirportsCsvToCreateDTOAdapter()
+def get_csv_to_airport_adapter() -> CsvToAirportAdapter:
+    return CsvToAirportAdapter()
 
 
 def get_txt_airlines_parser() -> AirlinesTXTParser:

@@ -1,12 +1,12 @@
 from src.application.dto.ticket import TicketFullInfoDTO
 from src.application.dto.user_ticket import UserTicketFullInfoDTO
 from src.application.usecases.tickets.pdf.strategies.base import (
+    PdfServiceInterface,
     PdfTicketGeneratorStrategy,
 )
 from src.application.usecases.tickets.pdf.strategies.default.adapter import (
     DefaultPdfTicketAdapter,
 )
-from src.infrastructure.pdf_service.service import PdfService
 from src.interface_adapters.file import File
 
 
@@ -14,7 +14,7 @@ class DefaultPdfTicketGenerator(PdfTicketGeneratorStrategy):
     def __init__(
         self,
         adapter: DefaultPdfTicketAdapter,
-        pdf_service: PdfService,
+        pdf_service: PdfServiceInterface,
     ) -> None:
         self.adapter = adapter
         self.pdf_service = pdf_service

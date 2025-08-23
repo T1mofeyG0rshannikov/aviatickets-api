@@ -1,12 +1,11 @@
 import asyncio
 import functools
-from typing import Any, Type
-
 from collections.abc import Callable
+from typing import Any, Type
 
 import httpx
 
-from src.entities.exceptions import FetchAPIError
+from src.infrastructure.exceptions import FetchAPIError
 
 
 def retry(
@@ -23,8 +22,8 @@ def retry(
                     if attempt < retries:
                         await asyncio.sleep(1)
                     else:
-                        raise FetchAPIError("error while fetching amadeus api")
-            raise FetchAPIError("error while fetching amadeus api")
+                        raise FetchAPIError()
+            raise FetchAPIError()
 
         return wrapper
 

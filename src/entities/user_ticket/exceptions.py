@@ -7,3 +7,7 @@ class UserTicketNotFoundError(RecordNotFoundError):
 
 class ExpiredInternationalPassportError(InvalidcredentialsError):
     pass
+
+
+class InvalidInternationalPassportError(InvalidcredentialsError):
+    pass

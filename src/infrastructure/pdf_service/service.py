@@ -1,18 +1,11 @@
-import random
-import string
-
 import fitz
 
 from src.application.dto.user_ticket import AdapterPdfField
+from src.application.usecases.tickets.pdf.strategies.base import PdfServiceInterface
 from src.infrastructure.pdf_service.exceptions import FileNotSetYetError
 
 
-def generate_random_string(length=5) -> str:
-    letters = string.ascii_uppercase
-    return "".join(random.choice(letters) for _ in range(length))
-
-
-class PdfService:
+class PdfService(PdfServiceInterface):
     def set_file(self, file_path: str) -> None:
         self._file = fitz.open(file_path)
 

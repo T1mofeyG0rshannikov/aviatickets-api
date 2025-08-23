@@ -4,15 +4,15 @@ from datetime import datetime, timedelta
 from transliterate import translit
 
 from src.application.dto.airports.full_info import AirportFullInfoDTO
-from src.application.dto.ticket import TicketFullInfoDTO
+from src.application.dto.ticket import TicketFullInfoDTO, TicketSegmentFullInfoDTO
 from src.application.dto.user_ticket import AdapterPdfField, UserTicketFullInfoDTO
 from src.application.services.currency_converter import CurrencyConverter
 from src.application.usecases.tickets.pdf.strategies.base import PdfTicketAdapter
 from src.application.usecases.tickets.pdf.strategies.default.config import (
     DefaultPdfTicketAdapterConfig,
 )
-from src.entities.city.city import City
-from src.entities.country.country import Country
+from src.entities.location.city.city import City
+from src.entities.location.country.country import Country
 from src.entities.user_ticket.user_ticket import Passenger
 
 
@@ -27,7 +27,7 @@ class DefaultPdfTicketAdapter(PdfTicketAdapter):
         self.config = config
         self.currency_converter = currency_converter
 
-    def get_flight_number(self, ticket: TicketFullInfoDTO) -> str:
+    def get_flight_number(self, ticket: TicketSegmentFullInfoDTO) -> str:
         return f"{ticket.airline.iata}-{ticket.flight_number}"
 
     def get_place(self, city: City, country: Country) -> str:

@@ -12,7 +12,7 @@ from src.web.depends.annotations.annotations import UserRepositoryAnnotation
 from src.web.depends.depends import get_jwt_processor
 
 
-def admin_required(func: Callable = None) -> Callable:
+def admin_required(func: Callable) -> Callable:
     def wrapper(func: Callable):
         @wraps(func)
         async def wrapped_func(*args, user: User, **kwargs):
@@ -22,12 +22,10 @@ def admin_required(func: Callable = None) -> Callable:
 
         return wrapped_func
 
-    if func:
-        return wrapper(func)
-    return wrapper
+    return wrapper(func)
 
 
-def user_required(func: Callable = None) -> Callable:
+def user_required(func: Callable) -> Callable:
     def wrapper(func: Callable):
         @wraps(func)
         async def wrapped_func(*args, user: User, **kwargs):
@@ -37,9 +35,7 @@ def user_required(func: Callable = None) -> Callable:
 
         return wrapped_func
 
-    if func:
-        return wrapper(func)
-    return wrapper
+    return wrapper(func)
 
 
 async def get_user(

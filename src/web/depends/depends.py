@@ -1,13 +1,12 @@
 from functools import lru_cache
 from typing import Annotated
 
-import httpx
 from fastapi import Depends
-from redis import Redis
+from redis import Redis  # type: ignore
 
 from src.application.builders.user_ticket import UserTicketFullInfoAssembler
 from src.application.services.currency_converter import CurrencyConverter
-from src.application.usecases.create_regions.adapter import RegionCsvToCreateDTOAdapter
+from src.application.usecases.create_regions.adapter import RegionCsvToEntitiesAdapter
 from src.application.usecases.tickets.pdf.strategies.default.adapter import (
     DefaultPdfTicketAdapter,
     DefaultPdfTicketAdapterConfig,
@@ -19,8 +18,14 @@ from src.infrastructure.clients.exchange_rates.exchange_rates_service import (
     ExchangeRateService,
     ExchangeRateServiceConfig,
 )
+from src.infrastructure.clients.ticket_parsers.amadeus.adapter import (
+    AmadeusTicketAdapter,
+)
 from src.infrastructure.clients.ticket_parsers.amadeus.config import AmadeusAPIConfig
 from src.infrastructure.clients.ticket_parsers.amadeus.parser import AmadeusTicketParser
+from src.infrastructure.clients.ticket_parsers.aviasales.adapter import (
+    AviasalesTicketAdapter,
+)
 from src.infrastructure.clients.ticket_parsers.aviasales.config import (
     AviasalesAPIConfig,
 )
@@ -46,7 +51,7 @@ from src.web.depends.annotations.annotations import (
     AirlineRepositoryAnnotation,
     AirportRepositoryAnnotation,
     LocationRepositoryAnnotation,
-    TicketReadRepositoryAnnotation,
+    TicketDAOAnnotation,
     UserRepositoryAnnotation,
     UserTicketRepositoryAnnotation,
 )
@@ -57,31 +62,45 @@ def get_jwt_processor(config: Annotated[JwtConfig, Depends(get_jwt_config)]) -> 
     return JwtProcessor(config)
 
 
-def get_regions_csv_to_create_adapter(repository: LocationRepositoryAnnotation) -> RegionCsvToCreateDTOAdapter:
-    return RegionCsvToCreateDTOAdapter(repository)
+def get_regions_csv_to_create_adapter(repository: LocationRepositoryAnnotation) -> RegionCsvToEntitiesAdapter:
+    return RegionCsvToEntitiesAdapter(repository)
+
+
+def get_aviasales_ticket_adapter(
+    repository: AirportRepositoryAnnotation,
+    airline_repository: AirlineRepositoryAnnotation,
+) -> AviasalesTicketAdapter:
+    return AviasalesTicketAdapter(repository, airline_repository)
 
 
 def get_aviasales_ticket_parser(
     session: HttpxSessionAnnotation,
     config: Annotated[AviasalesAPIConfig, Depends(get_aviasales_ticket_parser_config)],
     repository: AirportRepositoryAnnotation,
-    airline_repository: AirlineRepositoryAnnotation,
+    adapter: Annotated[AviasalesTicketAdapter, Depends(get_aviasales_ticket_adapter)],
 ) -> AviasalesTicketParser:
-    return AviasalesTicketParser(session, config, repository, airline_repository)
+    return AviasalesTicketParser(session, config, repository, adapter)
+
+
+def get_amadeus_ticket_adapter(
+    repository: AirportRepositoryAnnotation,
+    airline_repository: AirlineRepositoryAnnotation,
+) -> AmadeusTicketAdapter:
+    return AmadeusTicketAdapter(repository, airline_repository)
 
 
 def get_amadeus_ticket_parser(
     session: HttpxSessionAnnotation,
-    config: Annotated[AmadeusAPIConfig, Depends(get_amadeus_ticket_parser_config)],
     repository: AirportRepositoryAnnotation,
-    airline_repository: AirlineRepositoryAnnotation,
+    config: Annotated[AmadeusAPIConfig, Depends(get_amadeus_ticket_parser_config)],
+    adapter: Annotated[AmadeusTicketAdapter, Depends(get_amadeus_ticket_adapter)],
 ) -> AmadeusTicketParser:
-    return AmadeusTicketParser(session, config, repository, airline_repository)
+    return AmadeusTicketParser(session, config, repository, adapter)
 
 
 def get_user_ticket_assembler(
     user_repository: UserRepositoryAnnotation,
-    ticket_repository: TicketReadRepositoryAnnotation,
+    ticket_repository: TicketDAOAnnotation,
     user_ticket_repository: UserTicketRepositoryAnnotation,
 ) -> UserTicketFullInfoAssembler:
     return UserTicketFullInfoAssembler(

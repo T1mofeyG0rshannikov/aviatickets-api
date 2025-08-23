@@ -4,11 +4,12 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+from src.application.usecases.tickets.email import EmailSenderInterface
 from src.infrastructure.email_sender.config import EmailSenderConfig
 from src.interface_adapters.file import File
 
 
-class EmailSender:
+class EmailSender(EmailSenderInterface):
     def __init__(self, config: EmailSenderConfig) -> None:
         self._config = config
 

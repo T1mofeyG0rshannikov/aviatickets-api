@@ -1,8 +1,10 @@
 from dependency_injector import containers, providers
 
-from src.infrastructure.db.database import db_generator
-from src.infrastructure.repositories.airport_repository import AirportRepository
-from src.infrastructure.repositories.user_repository import UserRepository
+from src.infrastructure.persistence.db.database import db_generator
+from src.infrastructure.persistence.repositories.airport_repository import (
+    AirportRepository,
+)
+from src.infrastructure.persistence.repositories.user_repository import UserRepository
 
 
 class ReposContainer(containers.Container):

@@ -1,10 +1,8 @@
-from src.entities.airline.dto import CreateAirlineDTO
-from src.entities.airline.iata_code import IATACode
-from src.entities.airline.icao_code import ICAOCode
+from src.entities.airline.airline import Airline
 
 
 class AirlinesTXTParser:
-    def execute(self, input_data: list[str]) -> list[CreateAirlineDTO]:
+    def execute(self, input_data: list[str]) -> list[Airline]:
         output_data = []
 
         for line in input_data:
@@ -17,7 +15,7 @@ class AirlinesTXTParser:
 
             try:
                 output_data.append(
-                    CreateAirlineDTO(
+                    Airline.create(
                         iata=iata,
                         icao=icao,
                         name=name,
@@ -25,6 +23,6 @@ class AirlinesTXTParser:
                     )
                 )
             except ValueError as e:
-                print(f"Error while building CreateAirlineDTO: {e}")
+                print(f"Error while building Airline: {e}")
 
         return output_data

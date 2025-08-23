@@ -1,9 +1,12 @@
+from src.entities.user_ticket.exceptions import InvalidInternationalPassportError
+
+
 class InternationalPassport(str):
     """Value Object для номера загран паспорта пассажира"""
 
     def __new__(cls, value):
         if not cls.is_valid(value):
-            raise ValueError(f"'{value}' is not a valid international passport number.")
+            raise InvalidInternationalPassportError(f"'{value}' is not a valid international passport number.")
         return super().__new__(cls, value)
 
     @staticmethod

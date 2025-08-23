@@ -1,4 +1,5 @@
 from datetime import datetime
+from uuid import UUID
 
 from pydantic import BaseModel
 
@@ -14,7 +15,7 @@ class CreatePassengerRequest(BaseModel):
 
 
 class CreateUserTicketRequest(BaseModel):
-    ticket_id: int
+    ticket_id: UUID
     passangers: list[CreatePassengerRequest]
 
 

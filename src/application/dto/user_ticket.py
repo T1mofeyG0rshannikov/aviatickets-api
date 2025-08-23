@@ -1,19 +1,39 @@
 from dataclasses import dataclass
+from datetime import datetime
+from uuid import UUID
 
 from src.application.dto.ticket import TicketFullInfoDTO
-from src.entities.user.user import User
-from src.entities.user_ticket.user_ticket import Passenger
+from src.application.dto.user import UserDTO
+
+
+@dataclass
+class PassengerDTO:
+    id: UUID
+    gender: str
+    first_name: str
+    second_name: str
 
 
 @dataclass
 class UserTicketFullInfoDTO:
-    id: int
-    user: User
+    id: UUID
+    user: UserDTO
     ticket: TicketFullInfoDTO
-    passengers: list[Passenger]
+    passengers: list[PassengerDTO]
 
 
 @dataclass
 class AdapterPdfField:
     name: str
     value: str
+
+
+@dataclass
+class CreatePassengerDTO:
+    first_name: str
+    second_name: str
+
+    gender: str
+    birth_date: datetime
+    passport: str
+    expiration_date: datetime

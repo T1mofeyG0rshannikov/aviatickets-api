@@ -1,11 +1,16 @@
+from abc import ABC, abstractmethod
+
 from src.entities.exceptions import InvalidcredentialsError
-from src.infrastructure.clients.exchange_rates.exchange_rates_service import (
-    ExchangeRateService,
-)
+
+
+class ExchangeRateServiceInterface(ABC):
+    @abstractmethod
+    async def get(self) -> dict[str, float]:
+        ...
 
 
 class CurrencyConverter:
-    def __init__(self, exchange_rate_service: ExchangeRateService) -> None:
+    def __init__(self, exchange_rate_service: ExchangeRateServiceInterface) -> None:
         self.exchange_rate_service = exchange_rate_service
 
     async def to_rub(self, currency: str, value: str) -> float:

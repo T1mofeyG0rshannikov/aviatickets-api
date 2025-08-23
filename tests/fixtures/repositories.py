@@ -1,16 +1,24 @@
 import pytest
 
-from src.infrastructure.repositories.airport_repository import AirportRepository
-from src.infrastructure.repositories.location_repository import LocationRepository
-from src.infrastructure.repositories.tickets_read_repository import TicketReadRepository
-from src.infrastructure.repositories.tickets_repository import TicketRepository
-from src.infrastructure.repositories.user_repository import UserRepository
-from src.infrastructure.repositories.user_ticket_repository import UserTicketRepository
+from src.infrastructure.persistence.dao.tickets_dao import TicketDAO
+from src.infrastructure.persistence.repositories.airport_repository import (
+    AirportRepository,
+)
+from src.infrastructure.persistence.repositories.location_repository import (
+    LocationRepository,
+)
+from src.infrastructure.persistence.repositories.tickets_repository import (
+    TicketRepository,
+)
+from src.infrastructure.persistence.repositories.user_repository import UserRepository
+from src.infrastructure.persistence.repositories.user_ticket_repository import (
+    UserTicketRepository,
+)
 
 
 @pytest.fixture
-async def ticket_read_repository(db):
-    return TicketReadRepository(db)
+async def ticket_dao(db):
+    return TicketDAO(db)
 
 
 @pytest.fixture

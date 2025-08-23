@@ -3,13 +3,14 @@ import json
 import httpx
 from redis import Redis
 
-from src.entities.exceptions import FetchAPIError
+from src.application.services.currency_converter import ExchangeRateServiceInterface
 from src.infrastructure.clients.base_http_client import BaseHttpClient
 from src.infrastructure.clients.exchange_rates.config import ExchangeRateServiceConfig
 from src.infrastructure.clients.retry_decorator import retry
+from src.infrastructure.exceptions import FetchAPIError
 
 
-class ExchangeRateService(BaseHttpClient):
+class ExchangeRateService(ExchangeRateServiceInterface, BaseHttpClient):
     def __init__(
         self,
         session: httpx.AsyncClient,

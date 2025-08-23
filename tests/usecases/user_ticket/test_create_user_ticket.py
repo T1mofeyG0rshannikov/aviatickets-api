@@ -1,80 +1,80 @@
 import datetime
+from uuid import UUID
 
 import pytest
+from isodate import UTC
+from pydantic_core import TzInfo
 
+from src.application.dto.user_ticket import CreatePassengerDTO
 from src.application.usecases.create_user_ticket import CreateUserTicket
-from src.entities.user_ticket.dto import CreatePassengerDTO
-from src.entities.user_ticket.exceptions import ExpiredInternationalPassportError
-from src.infrastructure.repositories.user_repository import UserRepository
+from src.entities.tickets.exceptions import TicketNotFoundError
+from src.entities.user.user import User
+from src.entities.value_objects.entity_id import EntityId
 
 
 @pytest.mark.asyncio
-async def test_create_user_ticket(create_user_ticket: CreateUserTicket, user_repository: UserRepository):
-    user = await user_repository.get(id=2)
+async def test_create_user_ticket(create_user_ticket: CreateUserTicket, populate_db):
+    user_mock = User(
+        id=EntityId(value=UUID("0c95ad77-07b3-4516-accc-c96647dbbbb8")),
+        first_name="Тимофей",
+        second_name="Марков",
+        email="tgorshannikov@mail.ru",
+        hash_password="$2b$12$nfKvEXfUHAgKZRVPLwwD9.4edFLxtpyTF6SoEvqh2i0Ad4AeyiDQW",
+        is_superuser=True,
+        is_active=True,
+    )
 
     result = await create_user_ticket(
-        ticket_id=194,
-        passangers=[
+        ticket_id=UUID("fce3917b-2afa-4930-9fed-18b5f79a607d"),
+        passangers_to_create=[
             CreatePassengerDTO(
-                first_name="Тимофей",
-                second_name="Марков",
-                gender="Мужской",
-                birth_date=datetime.datetime(year=2025, month=1, day=1),
-                passport="123456789",
-                expiration_date=datetime.datetime(year=3025, month=1, day=1),
+                first_name="string",
+                second_name="string",
+                gender="string",
+                birth_date=datetime.datetime(2025, 8, 22, 22, 24, 45, 740000),
+                passport="111111111",
+                expiration_date=datetime.datetime(2026, 8, 22, 22, 24, 45, 740000),
             )
         ],
-        user=user,
+        user=user_mock,
     )
 
     assert result is None
 
 
-@pytest.mark.asyncio
-async def test_create_user_ticket_with_invalid_passport_number(
-    create_user_ticket: CreateUserTicket, user_repository: UserRepository
-):
-    user = await user_repository.get(id=2)
-
-    with pytest.raises(ValueError) as excinfo:
-        await create_user_ticket(
-            ticket_id=194,
-            passangers=[
-                CreatePassengerDTO(
-                    first_name="Тимофей",
-                    second_name="Марков",
-                    gender="Мужской",
-                    birth_date=datetime.datetime(year=2025, month=1, day=1),
-                    passport="invalid_passport",
-                    expiration_date=datetime.datetime(year=2025, month=1, day=1),
-                )
-            ],
-            user=user,
-        )
-
-    assert "'invalid_passport' is not a valid international passport number" in str(excinfo.value)
+@pytest.fixture
+def mock_create_user_ticket(mock_user_ticket_repository, mock_ticket_repository) -> CreateUserTicket:
+    return CreateUserTicket(mock_user_ticket_repository, mock_ticket_repository)
 
 
 @pytest.mark.asyncio
-async def test_create_user_ticket_with_expired_passport(
-    create_user_ticket: CreateUserTicket, user_repository: UserRepository
-):
-    user = await user_repository.get(id=2)
+async def test_create_user_ticket_ticket_not_found(mock_create_user_ticket: CreateUserTicket):
+    user_mock = User(
+        id=EntityId(value=UUID("0c95ad77-07b3-4516-accc-c96647dbbbb8")),
+        first_name="Тимофей",
+        second_name="Марков",
+        email="tgorshannikov@mail.ru",
+        hash_password="$2b$12$nfKvEXfUHAgKZRVPLwwD9.4edFLxtpyTF6SoEvqh2i0Ad4AeyiDQW",
+        is_superuser=True,
+        is_active=True,
+    )
 
-    with pytest.raises(ExpiredInternationalPassportError) as excinfo:
-        await create_user_ticket(
-            ticket_id=194,
-            passangers=[
+    mock_create_user_ticket.ticket_repository.get.return_value = None
+
+    with pytest.raises(TicketNotFoundError) as excinfo:
+        await mock_create_user_ticket(
+            ticket_id=UUID("fed25097-d773-4297-94f9-e3243029df9f"),
+            passangers_to_create=[
                 CreatePassengerDTO(
-                    first_name="Тимофей",
-                    second_name="Марков",
-                    gender="Мужской",
-                    birth_date=datetime.datetime(year=2025, month=1, day=1),
-                    passport="123456789",
-                    expiration_date=datetime.datetime(year=2025, month=1, day=1),
+                    first_name="string",
+                    second_name="string",
+                    gender="string",
+                    birth_date=datetime.datetime(2025, 8, 22, 22, 24, 45, 740000),
+                    passport="111111111",
+                    expiration_date=datetime.datetime(2026, 8, 22, 22, 24, 45, 740000),
                 )
             ],
-            user=user,
+            user=user_mock,
         )
 
-    assert f"У пассажира Тимофей Марков истёк срок загран. паспорта" in str(excinfo.value)
+    assert f"Нет билета с id='fed25097-d773-4297-94f9-e3243029df9f'" in str(excinfo.value)

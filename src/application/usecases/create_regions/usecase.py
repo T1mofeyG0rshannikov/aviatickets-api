@@ -1,12 +1,12 @@
-from src.application.usecases.create_regions.adapter import RegionCsvToCreateDTOAdapter
+from src.application.usecases.create_regions.adapter import RegionCsvToEntitiesAdapter
 from src.application.usecases.create_regions.csv_parser import RegionsCsvParser
-from src.entities.region.iso import ISOCode
-from src.infrastructure.repositories.location_repository import LocationRepository
+from src.entities.location.country.iso import ISOCode
+from src.entities.location.location_repository import LocationRepositoryInterface
 
 
 class CreateRegions:
     def __init__(
-        self, csv_parser: RegionsCsvParser, adapter: RegionCsvToCreateDTOAdapter, repository: LocationRepository
+        self, csv_parser: RegionsCsvParser, adapter: RegionCsvToEntitiesAdapter, repository: LocationRepositoryInterface
     ) -> None:
         self.csv_parser = csv_parser
         self.adapter = adapter
@@ -25,4 +25,4 @@ class CreateRegions:
 
         create_data = [data for data in parsed_data if data.iso not in exist_codes]
 
-        return await self.repository.create_regions(create_data)
+        return await self.repository.save_regions(create_data)

@@ -1,16 +1,20 @@
 from io import BytesIO
 from typing import Annotated
+from uuid import UUID
 
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import StreamingResponse
 
+from src.application.dto.user_ticket import CreatePassengerDTO
+from src.application.factories.user_ticket_factory import UserTicketFactory
 from src.application.usecases.create_user_ticket import CreateUserTicket
 from src.application.usecases.tickets.email import SendPdfTicketToEmail
 from src.application.usecases.tickets.pdf.usecase import CreatePdfTicket
-from src.application.usecases.user.login import Login
-from src.application.usecases.user.register import Register
+from src.application.usecases.user.auth.login import Login
+from src.application.usecases.user.auth.register import Register
 from src.entities.exceptions import InvalidcredentialsError
-from src.entities.user_ticket.dto import CreatePassengerDTO
+from src.entities.user_ticket.user_ticket import Passenger, UserTicket
+from src.entities.value_objects.entity_id import EntityId
 from src.web.depends.annotations.user_annotation import UserAnnotation
 from src.web.depends.usecases import (
     get_create_pdf_ticket_interactor,
@@ -32,14 +36,10 @@ async def add_user_ticket(
     data: CreateUserTicketRequest,
     usecase: Annotated[CreateUserTicket, Depends(get_create_user_ticket_interactor)],
 ):
-    passengers_dto = []
-    for passenger in data.passangers:
-        try:
-            passengers_dto.append(CreatePassengerDTO(**passenger.model_dump()))
-        except ValueError as e:
-            raise InvalidcredentialsError(
-                f"{passenger.first_name} {passenger.second_name}: Неправильный номер загран паспорта - {passenger.passport}"
-            )
+    passengers_dto = [CreatePassengerDTO(**passenger.model_dump()) for passenger in data.passangers]
+
+    # print(data.ticket_id)
+    # print(passengers_dto)
 
     return await usecase(data.ticket_id, passengers_dto, user)
 
@@ -48,7 +48,7 @@ async def add_user_ticket(
 @user_required
 async def generate_pdf_ticket(
     user: UserAnnotation,
-    user_ticket_id: int,
+    user_ticket_id: UUID,
     usecase: Annotated[CreatePdfTicket, Depends(get_create_pdf_ticket_interactor)],
 ):
     file = await usecase(user_ticket_id, user)
@@ -60,7 +60,7 @@ async def generate_pdf_ticket(
 @user_required
 async def send_pdf_ticket_on_email(
     user: UserAnnotation,
-    user_ticket_id: int,
+    user_ticket_id: UUID,
     usecase: Annotated[SendPdfTicketToEmail, Depends(get_send_pdf_ticket_to_email_interactor)],
 ):
     return await usecase(user_ticket_id, user)

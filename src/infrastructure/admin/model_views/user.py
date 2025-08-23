@@ -1,7 +1,7 @@
 from sqladmin import ModelView
 
 from src.infrastructure.admin.forms import UserCreateForm
-from src.infrastructure.db.models.models import UserOrm
+from src.infrastructure.persistence.db.models.models import UserOrm
 
 
 class UserAdmin(ModelView, model=UserOrm):

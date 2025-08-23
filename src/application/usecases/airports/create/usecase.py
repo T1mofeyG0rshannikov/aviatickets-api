@@ -1,32 +1,39 @@
-from src.application.usecases.airports.create.adapter import (
-    AirportsCsvToCreateDTOAdapter,
-)
+from src.application.dto.bulk_result import BulkResult
+from src.application.usecases.airports.airport_importer import AirportImporterInterface
+from src.application.usecases.airports.create.adapter import CsvToAirportAdapter
 from src.application.usecases.airports.create.csv_parser import AirportsCsvParser
+from src.entities.airport.airport import Airport
+from src.entities.airport.airport_repository import AirportRepositoryInterface
 from src.entities.airport.iata_code import IATACode
 from src.entities.airport.icao_code import ICAOCode
-from src.infrastructure.repositories.airport_repository import AirportRepository
-from src.infrastructure.repositories.location_repository import LocationRepository
+from src.entities.location.location_repository import LocationRepositoryInterface
 
 
 class CreateAirports:
     def __init__(
         self,
-        repository: AirportRepository,
+        repository: AirportRepositoryInterface,
+        importer: AirportImporterInterface,
         csv_parser: AirportsCsvParser,
-        adapter: AirportsCsvToCreateDTOAdapter,
-        location_repository: LocationRepository,
+        adapter: CsvToAirportAdapter,
+        location_repository: LocationRepositoryInterface,
     ) -> None:
         self.repository = repository
+        self.location_repository = location_repository
+        self.importer = importer
         self.csv_parser = csv_parser
         self.adapter = adapter
-        self.location_repository = location_repository
 
     async def get_exist_codes(self) -> set[tuple[IATACode, ICAOCode]]:
         airports = await self.repository.all()
-        return {airport.get_unique_code() for airport in airports}
+        return {airport.iata for airport in airports}
 
-    async def __call__(self, airports: list[list[str]]) -> None:
+    async def __call__(self, airports: list[list[str]]) -> BulkResult:
         csv_data = self.csv_parser.execute(airports)
+
+        skipped = 0
+
+        airports: list[Airport] = []
 
         countries = await self.location_repository.all_countries()
 
@@ -40,11 +47,23 @@ class CreateAirports:
 
         cities_dict = {city.name_english: city for city in cities}
 
-        parsed_data = self.adapter.execute(
-            csv_data, countries_dict=countries_dict, cities_dict=cities_dict, regions_dict=regions_dict
+        adapter_response = await self.adapter.execute(
+            csv_data, countries_dict=countries_dict, regions_dict=regions_dict, cities_dict=cities_dict
         )
 
-        exist_codes = await self.get_exist_codes()
-        create_data = [data for data in parsed_data if data.get_unique_code() not in exist_codes]
+        airports = adapter_response.airports
+        invalid = adapter_response.invalid
 
-        return await self.repository.create_many(airports=create_data)
+        create_data: list[Airport] = []
+
+        exist_codes = await self.get_exist_codes()
+
+        for airport in airports:
+            if airport.iata in exist_codes:
+                skipped += 1
+            else:
+                create_data.append(airport)
+
+        inserted = await self.importer.create_many(airports=create_data)
+
+        return BulkResult(skipped=skipped, inserted=inserted, invalid=invalid)

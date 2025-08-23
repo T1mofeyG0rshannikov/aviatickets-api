@@ -1,9 +1,9 @@
 from src.application.usecases.create_cities.csv_parser import CitiesCsvParser
-from src.infrastructure.repositories.location_repository import LocationRepository
+from src.entities.location.location_repository import LocationRepositoryInterface
 
 
 class CreateCities:
-    def __init__(self, csv_parser: CitiesCsvParser, repository: LocationRepository) -> None:
+    def __init__(self, csv_parser: CitiesCsvParser, repository: LocationRepositoryInterface) -> None:
         self.csv_parser = csv_parser
         self.repository = repository
 
@@ -18,4 +18,4 @@ class CreateCities:
 
         create_data = [data for data in parsed_data if data.name not in exist_names]
 
-        return await self.repository.create_cities(cities=create_data)
+        return await self.repository.save_cities(cities=create_data)

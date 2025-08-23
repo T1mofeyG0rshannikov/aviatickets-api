@@ -1,8 +1,8 @@
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
-from src.infrastructure.db.database import Model
-from src.infrastructure.db.models.models import (
+from src.infrastructure.persistence.db.database import Model
+from src.infrastructure.persistence.db.models.models import (
     AirlineOrm,
     AirportOrm,
     CityOrm,
@@ -34,6 +34,8 @@ async def delete_tables(engine) -> None:
 
 @pytest.fixture
 async def db(engine):
+    await delete_tables(engine)
+    await create_tables(engine)
     new_session = async_sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
     async with new_session() as session:
         yield session

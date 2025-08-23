@@ -1,11 +1,14 @@
 import json
 from datetime import datetime
 from typing import Type, TypeVar
+from uuid import UUID
 
-from sqlalchemy import TIMESTAMP, Boolean, Float, Integer, Numeric
+from sqlalchemy import TIMESTAMP
+from sqlalchemy import UUID as DbUUID
+from sqlalchemy import Boolean, Float, Integer
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.infrastructure.db.database import Model
+from src.infrastructure.persistence.db.database import Model
 
 T = TypeVar("T", bound=Model)
 
@@ -17,6 +20,8 @@ class OrmJsonLoader:
 
             if field_value == "None":
                 data[field_name] = None
+            if isinstance(column.type, DbUUID):
+                data[field_name] = UUID(field_value) if field_value != "None" else None
             if isinstance(column.type, Integer):
                 data[field_name] = int(field_value) if field_value != "None" else None
             if isinstance(column.type, Float):

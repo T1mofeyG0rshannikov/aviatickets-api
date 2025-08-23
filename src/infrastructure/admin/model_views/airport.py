@@ -1,5 +1,5 @@
 from src.infrastructure.admin.model_views.base import BaseModelView
-from src.infrastructure.db.models.models import AirportOrm
+from src.infrastructure.persistence.db.models.models import AirportOrm
 
 
 class AirportAdmin(BaseModelView, model=AirportOrm):
@@ -7,9 +7,9 @@ class AirportAdmin(BaseModelView, model=AirportOrm):
         AirportOrm.id,
         AirportOrm.name,
         AirportOrm.continent,
-        AirportOrm.country,
-        AirportOrm.region,
-        AirportOrm.city,
+        AirportOrm.country_id,
+        AirportOrm.region_id,
+        AirportOrm.city_id,
         AirportOrm.scheduled_service,
         AirportOrm.icao,
         AirportOrm.iata,
@@ -21,7 +21,7 @@ class AirportAdmin(BaseModelView, model=AirportOrm):
     page_size = 100
     list_template = "sqladmin/list-airports.html"
 
-    column_searchable_list = ["icao", "iata"]
+    column_searchable_list = ["id", "icao", "iata"]
 
     name = "Аэропорт"
     name_plural = "Аэропорты"

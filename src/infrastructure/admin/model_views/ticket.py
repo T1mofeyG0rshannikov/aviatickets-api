@@ -1,5 +1,5 @@
 from src.infrastructure.admin.model_views.base import BaseModelView
-from src.infrastructure.db.models.models import TicketOrm, TicketSegmentOrm
+from src.infrastructure.persistence.db.models.models import TicketOrm, TicketSegmentOrm
 
 
 class TicketAdmin(BaseModelView, model=TicketOrm):
@@ -16,6 +16,7 @@ class TicketAdmin(BaseModelView, model=TicketOrm):
 class TicketSegmentAdmin(BaseModelView, model=TicketSegmentOrm):
     column_list = [
         TicketSegmentOrm.id,
+        TicketSegmentOrm.segment_number,
         TicketSegmentOrm.duration,
         TicketSegmentOrm.origin_airport_id,
         TicketSegmentOrm.destination_airport_id,

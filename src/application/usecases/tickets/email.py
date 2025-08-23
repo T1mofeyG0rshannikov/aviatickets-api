@@ -1,23 +1,34 @@
+from abc import ABC, abstractmethod
+from uuid import UUID
+
 from src.application.usecases.tickets.pdf.usecase import CreatePdfTicket
 from src.entities.exceptions import AccessDeniedError
 from src.entities.user.user import User
 from src.entities.user_ticket.exceptions import UserTicketNotFoundError
-from src.infrastructure.email_sender.service import EmailSender
-from src.infrastructure.repositories.user_ticket_repository import UserTicketRepository
+from src.entities.user_ticket.user_ticket_repository import (
+    UserTicketRepositoryInterface,
+)
+from src.interface_adapters.file import File
+
+
+class EmailSenderInterface(ABC):
+    @abstractmethod
+    def send(self, recipient_email: str, subject: str, body: str, files: list[File]) -> None:
+        ...
 
 
 class SendPdfTicketToEmail:
     def __init__(
         self,
-        user_ticket_repository: UserTicketRepository,
+        user_ticket_repository: UserTicketRepositoryInterface,
         create_pdf_ticket: CreatePdfTicket,
-        email_sender: EmailSender,
+        email_sender: EmailSenderInterface,
     ) -> None:
         self.create_pdf_ticket = create_pdf_ticket
         self.email_sender = email_sender
         self.repository = user_ticket_repository
 
-    async def __call__(self, user_ticket_id: int, user: User) -> None:
+    async def __call__(self, user_ticket_id: UUID, user: User) -> None:
         user_ticket = await self.repository.get(id=user_ticket_id)
         if user_ticket is None:
             raise UserTicketNotFoundError(f"Нет пользовательского билета с id='{user_ticket_id}'")

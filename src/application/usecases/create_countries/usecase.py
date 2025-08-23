@@ -1,10 +1,10 @@
 from src.application.usecases.create_countries.csv_parser import CountriesCsvParser
-from src.entities.region.iso import ISOCode
-from src.infrastructure.repositories.location_repository import LocationRepository
+from src.entities.location.country.iso import ISOCode
+from src.entities.location.location_repository import LocationRepositoryInterface
 
 
 class CreateCountries:
-    def __init__(self, csv_parser: CountriesCsvParser, repository: LocationRepository) -> None:
+    def __init__(self, csv_parser: CountriesCsvParser, repository: LocationRepositoryInterface) -> None:
         self.csv_parser = csv_parser
         self.repository = repository
 
@@ -19,4 +19,4 @@ class CreateCountries:
 
         create_data = [data for data in parsed_data if data.iso not in exist_codes]
 
-        return await self.repository.create_countries(countries=create_data)
+        return await self.repository.save_countries(countries=create_data)

@@ -2,13 +2,9 @@ import asyncio
 from getpass import getpass
 from typing import Annotated
 
-from src.entities.user.dto import CreateUserDTO
-from src.entities.user.email import Email
-from src.infrastructure.depends.base import get_password_hasher
+from src.application.usecases.user.create import CreateUser
+from src.infrastructure.depends.base import get_create_user
 from src.infrastructure.depends.decorator import inject_dependencies
-from src.infrastructure.depends.repos_container import ReposContainer
-from src.infrastructure.repositories.user_repository import UserRepository
-from src.infrastructure.security.password_hasher import PasswordHasher
 
 
 @inject_dependencies
@@ -17,19 +13,16 @@ async def create_admin_user(
     password: str,
     first_name: str,
     second_name: str,
-    user_repository: Annotated[UserRepository, ReposContainer.user_repository],
-    password_hasher: Annotated[PasswordHasher, get_password_hasher],
+    create_user: Annotated[CreateUser, get_create_user],
 ) -> None:
-    hashed_password = password_hasher.hash_password(password)
-    create_dto = CreateUserDTO(
+    await create_user(
         email=email,
-        hashed_password=hashed_password,
+        password=password,
         first_name=first_name,
         second_name=second_name,
         is_superuser=True,
     )
 
-    await user_repository.create(create_dto)
     print(f"User '{email}' successfully created!")
 
 

@@ -3,7 +3,7 @@ from typing import Annotated, Self
 from sqladmin.authentication import AuthenticationBackend
 from starlette.requests import Request
 
-from src.application.usecases.user.login import Login
+from src.application.usecases.user.auth.login import Login
 from src.entities.exceptions import AccessDeniedError
 from src.entities.user.exceptions import InvalidPasswordError, UserNotFoundError
 from src.infrastructure.admin.config import AdminConfig

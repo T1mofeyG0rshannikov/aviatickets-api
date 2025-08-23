@@ -1,14 +1,13 @@
 from src.application.usecases.create_regions.dto import CsvRegionData
-from src.entities.region.dto import CreateRegionDTO
-from src.entities.region.iso import ISOCode
-from src.infrastructure.repositories.location_repository import LocationRepository
+from src.entities.location.location_repository import LocationRepositoryInterface
+from src.entities.location.region.region import Region
 
 
-class RegionCsvToCreateDTOAdapter:
-    def __init__(self, repository: LocationRepository) -> None:
+class RegionCsvToEntitiesAdapter:
+    def __init__(self, repository: LocationRepositoryInterface) -> None:
         self.repository = repository
 
-    async def execute(self, data: list[CsvRegionData]) -> list[CreateRegionDTO]:
+    async def execute(self, data: list[CsvRegionData]) -> list[Region]:
         output_data = []
 
         for csv_data in data:
@@ -16,13 +15,16 @@ class RegionCsvToCreateDTOAdapter:
 
             country = await self.repository.get_country(iso=country_iso)
 
-            output_data.append(
-                CreateRegionDTO(
+            try:
+                region = Region.create(
                     iso=csv_data.iso,
                     name=csv_data.name,
                     name_english=csv_data.name_english,
                     country_id=country.id if country else None,
                 )
-            )
+
+                output_data.append(region)
+            except ValueError:
+                pass
 
         return output_data

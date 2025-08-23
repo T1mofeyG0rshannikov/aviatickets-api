@@ -13,12 +13,12 @@ from src.infrastructure.admin.model_views.user_ticket import (
     PassangerAdmin,
     UserTicketAdmin,
 )
-from src.infrastructure.db.database import engine
 from src.infrastructure.depends.base import (
     get_admin_config,
     get_jwt_processor,
     get_password_hasher,
 )
+from src.infrastructure.persistence.db.database import engine
 
 
 def init_admin(app: FastAPI) -> None:

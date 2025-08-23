@@ -1,5 +1,5 @@
 from src.infrastructure.admin.model_views.base import BaseModelView
-from src.infrastructure.db.models.models import AirlineOrm
+from src.infrastructure.persistence.db.models.models import AirlineOrm
 
 
 class AirlineAdmin(BaseModelView, model=AirlineOrm):

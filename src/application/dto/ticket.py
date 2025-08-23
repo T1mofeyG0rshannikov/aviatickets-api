@@ -1,17 +1,19 @@
 from dataclasses import dataclass
 from datetime import datetime
+from uuid import UUID
 
+from src.application.dto.airline import AirlineDTO
 from src.application.dto.airports.full_info import AirportFullInfoDTO
-from src.entities.airline.airline import Airline
 
 
 @dataclass
 class TicketSegmentFullInfoDTO:
-    id: int
-    flight_number: int
+    id: UUID
+    flight_number: str
+    segment_number: int
     destination_airport: AirportFullInfoDTO
     origin_airport: AirportFullInfoDTO
-    airline: Airline
+    airline: AirlineDTO
     departure_at: datetime
     return_at: datetime
     duration: int
@@ -21,9 +23,9 @@ class TicketSegmentFullInfoDTO:
 
 @dataclass
 class TicketFullInfoDTO:
-    id: int
+    id: UUID
     duration: int
-    price: int
+    price: float
     currency: str
     transfers: int
     segments: list[TicketSegmentFullInfoDTO]
