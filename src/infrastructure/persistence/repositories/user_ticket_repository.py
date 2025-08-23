@@ -23,7 +23,7 @@ class UserTicketRepository(UserTicketRepositoryInterface, BaseRepository):
         user_ticket = result.scalar()
         return from_orm_to_user_ticket(user_ticket) if user_ticket else None
 
-    async def get_passangers(self, user_ticket_id: EntityId) -> list[Passenger]:
+    async def get_passengers(self, user_ticket_id: EntityId) -> list[Passenger]:
         results = await self.db.execute(select(PassengerOrm).where(PassengerOrm.user_ticket_id == user_ticket_id.value))
 
         passengers = results.scalars().all()
@@ -35,7 +35,7 @@ class UserTicketRepository(UserTicketRepositoryInterface, BaseRepository):
                 id=user_ticket.id.value, user_id=user_ticket.user_id.value, ticket_id=user_ticket.ticket_id.value
             )
 
-            passangers_orm = [
+            passengers_orm = [
                 PassengerOrm(
                     user_ticket_id=user_ticket.id.value,
                     gender=passenger.gender,
@@ -49,7 +49,7 @@ class UserTicketRepository(UserTicketRepositoryInterface, BaseRepository):
             ]
 
             self.db.add(user_ticket_orm)
-            self.db.add_all(passangers_orm)
+            self.db.add_all(passengers_orm)
             await self.db.commit()
         except SQLAlchemyError as e:
             await self.db.rollback()

@@ -1,6 +1,6 @@
 from src.application.etl_importers.airline_importer import AirlineImporterInterface
 from src.application.usecases.create_airlines.txt_parser import AirlinesTXTParser
-from src.entities.airline.airlline_repository import AirlineRepositoryInterface
+from src.entities.airline.airline_repository import AirlineRepositoryInterface
 from src.entities.airline.iata_code import IATACode
 
 

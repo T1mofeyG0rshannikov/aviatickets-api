@@ -1,9 +1,7 @@
 from datetime import datetime
 
-from src.entities.tickets.ticket import Ticket, TicketSegment
-from src.infrastructure.clients.ticket_parsers.aviasales.config import (
-    AviasalesAPIConfig,
-)
+from src.application.factories.ticket_segment_factory import TicketSegmentFactory
+from src.entities.tickets.ticket import Ticket
 from src.infrastructure.persistence.repositories.airlline_repository import (
     AirlineRepository,
 )
@@ -33,19 +31,19 @@ class AviasalesTicketAdapter:
 
         airports = await self.repository.filter(iata_codes=airports_iata)
         airlines = await self.airline_repository.filter(iata_codes=airlines_iata)
-        airports_dict = {airport.iata: airport.id for airport in airports}
+        airports_dict = {airport.iata: airport.id.value for airport in airports}
 
-        airlines_dict = {airline.iata: airline.id for airline in airlines}
+        airlines_dict = {airline.iata: airline for airline in airlines}
 
         for t in response_data:
             if t["transfers"] == 0:
                 segments_dto = [
-                    TicketSegment.create(
-                        flight_number=t["flight_number"],
+                    TicketSegmentFactory.create(
+                        flight_number=f"""{airlines_dict[t["airline"]].iata}-{t["flight_number"]}""",
                         segment_number=1,
                         origin_airport_id=airports_dict[t["origin_airport"]],
                         destination_airport_id=airports_dict[t["destination_airport"]],
-                        airline_id=airlines_dict[t["airline"]],
+                        airline_id=airlines_dict[t["airline"]].id.value,
                         departure_at=datetime.fromisoformat(t["departure_at"]),
                         return_at=datetime.fromisoformat(t["return_at"]),
                         duration=t["duration"],

@@ -16,7 +16,7 @@ class CreatePassengerRequest(BaseModel):
 
 class CreateUserTicketRequest(BaseModel):
     ticket_id: UUID
-    passangers: list[CreatePassengerRequest]
+    passengers: list[CreatePassengerRequest]
 
 
 class RegisterRequest(BaseModel):

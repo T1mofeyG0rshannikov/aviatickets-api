@@ -22,7 +22,7 @@ class UserTicketFullInfoAssembler:
     async def execute(self, user_ticket: UserTicket) -> UserTicketFullInfoDTO:
         user = await self.user_repository.get(id=user_ticket.user_id)
         ticket = await self.ticket_dao.get(id=user_ticket.ticket_id)
-        passengers = await self.user_ticket_repository.get_passangers(user_ticket.id)
+        passengers = await self.user_ticket_repository.get_passengers(user_ticket.id)
 
         return UserTicketFullInfoDTO(
             id=user_ticket.id.value,

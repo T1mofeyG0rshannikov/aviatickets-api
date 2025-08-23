@@ -36,7 +36,7 @@ async def add_user_ticket(
     data: CreateUserTicketRequest,
     usecase: Annotated[CreateUserTicket, Depends(get_create_user_ticket_interactor)],
 ):
-    passengers_dto = [CreatePassengerDTO(**passenger.model_dump()) for passenger in data.passangers]
+    passengers_dto = [CreatePassengerDTO(**passenger.model_dump()) for passenger in data.passengers]
 
     # print(data.ticket_id)
     # print(passengers_dto)

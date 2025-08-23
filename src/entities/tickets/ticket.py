@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from datetime import datetime
 
+from src.entities.tickets.value_objects.departure_at import DepartureAt
+from src.entities.tickets.value_objects.flight_number import FlightNumber
 from src.entities.value_objects.entity_id import EntityId
 
 
@@ -8,11 +10,11 @@ from src.entities.value_objects.entity_id import EntityId
 class TicketSegment:
     id: EntityId
     segment_number: int
-    flight_number: int
+    flight_number: FlightNumber
     origin_airport_id: EntityId
     destination_airport_id: EntityId
     airline_id: EntityId
-    departure_at: datetime
+    departure_at: DepartureAt
     return_at: datetime
     duration: int
     seat_class: str
@@ -21,12 +23,12 @@ class TicketSegment:
     @classmethod
     def create(
         cls,
-        flight_number: int,
+        flight_number: FlightNumber,
         segment_number: int,
         origin_airport_id: EntityId,
         destination_airport_id: EntityId,
         airline_id: EntityId,
-        departure_at: datetime,
+        departure_at: DepartureAt,
         return_at: datetime,
         duration: int,
         seat_class: str,

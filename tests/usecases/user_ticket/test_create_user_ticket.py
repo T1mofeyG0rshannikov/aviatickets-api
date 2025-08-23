@@ -26,7 +26,7 @@ async def test_create_user_ticket(create_user_ticket: CreateUserTicket, populate
 
     result = await create_user_ticket(
         ticket_id=UUID("fce3917b-2afa-4930-9fed-18b5f79a607d"),
-        passangers_to_create=[
+        passengers_to_create=[
             CreatePassengerDTO(
                 first_name="string",
                 second_name="string",
@@ -64,7 +64,7 @@ async def test_create_user_ticket_ticket_not_found(mock_create_user_ticket: Crea
     with pytest.raises(TicketNotFoundError) as excinfo:
         await mock_create_user_ticket(
             ticket_id=UUID("fed25097-d773-4297-94f9-e3243029df9f"),
-            passangers_to_create=[
+            passengers_to_create=[
                 CreatePassengerDTO(
                     first_name="string",
                     second_name="string",

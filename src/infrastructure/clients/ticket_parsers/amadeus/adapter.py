@@ -2,6 +2,7 @@ from datetime import datetime
 
 import isodate
 
+from src.application.factories.ticket_segment_factory import TicketSegmentFactory
 from src.entities.tickets.ticket import Ticket, TicketSegment
 from src.infrastructure.persistence.repositories.airlline_repository import (
     AirlineRepository,
@@ -54,23 +55,23 @@ class AmadeusTicketAdapter:
 
         airports = await self.repository.filter(iata_codes=airports_iata)
         airlines = await self.airline_repository.filter(iata_codes=airlines_iata)
-        airports_dict = {airport.iata: airport.id for airport in airports}
+        airports_dict = {airport.iata: airport.id.value for airport in airports}
 
-        airlines_dict = {airline.iata: airline.id for airline in airlines}
+        airlines_dict = {airline.iata: airline for airline in airlines}
 
         for t in response_data:
             segments_dto = []
             for ind, segment in enumerate(t["itineraries"][0]["segments"]):
                 # print(t["travelerPricings"][ind])
                 segments_dto.append(
-                    TicketSegment.create(
-                        flight_number=segment["number"],
+                    TicketSegmentFactory.create(
+                        flight_number=f"""{airlines_dict[segment["carrierCode"]].iata}-{segment["number"]}""",
                         segment_number=ind + 1,
                         origin_airport_id=airports_dict[segment["departure"]["iataCode"]],
                         destination_airport_id=airports_dict[segment["arrival"]["iataCode"]],
-                        airline_id=airlines_dict[segment["carrierCode"]],
-                        departure_at=datetime.strptime(segment["departure"]["at"], "%Y-%m-%dT%H:%M:%S"),
-                        return_at=datetime.strptime(segment["arrival"]["at"], "%Y-%m-%dT%H:%M:%S"),
+                        airline_id=airlines_dict[segment["carrierCode"]].id.value,
+                        departure_at=datetime.fromisoformat(segment["departure"]["at"]),
+                        return_at=datetime.fromisoformat(segment["arrival"]["at"]),
                         duration=self.iso_time_to_minutes(segment["duration"]),
                         seat_class=self.get_seat_class(t["travelerPricings"][0]["fareDetailsBySegment"][ind]["class"]),
                         status="confirmed",

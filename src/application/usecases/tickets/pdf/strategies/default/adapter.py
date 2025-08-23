@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from transliterate import translit
 
 from src.application.dto.airports.full_info import AirportFullInfoDTO
-from src.application.dto.ticket import TicketFullInfoDTO, TicketSegmentFullInfoDTO
+from src.application.dto.ticket import TicketFullInfoDTO
 from src.application.dto.user_ticket import AdapterPdfField, UserTicketFullInfoDTO
 from src.application.services.currency_converter import CurrencyConverter
 from src.application.usecases.tickets.pdf.strategies.base import PdfTicketAdapter
@@ -26,9 +26,6 @@ class DefaultPdfTicketAdapter(PdfTicketAdapter):
     def __init__(self, config: DefaultPdfTicketAdapterConfig, currency_converter: CurrencyConverter) -> None:
         self.config = config
         self.currency_converter = currency_converter
-
-    def get_flight_number(self, ticket: TicketSegmentFullInfoDTO) -> str:
-        return f"{ticket.airline.iata}-{ticket.flight_number}"
 
     def get_place(self, city: City, country: Country) -> str:
         return f"{city.name_english.upper()}, {country.name_english.upper()}"
@@ -92,7 +89,7 @@ class DefaultPdfTicketAdapter(PdfTicketAdapter):
 
         for ticket in user_ticket.ticket.segments:
             ticket_fields = [
-                AdapterPdfField(name="originFlight", value=self.get_flight_number(ticket)),
+                AdapterPdfField(name="originFlight", value=ticket.flight_number),
                 AdapterPdfField(name="originDepartingTime", value=ticket.departure_at.strftime("%H:%M").upper()),
                 AdapterPdfField(name="originDepartingDate", value=ticket.departure_at.strftime("%d %B %Y").upper()),
                 AdapterPdfField(name="originArrivingDate", value=self.get_origin_arriving_date(ticket)),

@@ -10,7 +10,7 @@ from src.infrastructure.admin.model_views.region import RegionAdmin
 from src.infrastructure.admin.model_views.ticket import TicketAdmin, TicketSegmentAdmin
 from src.infrastructure.admin.model_views.user import UserAdmin
 from src.infrastructure.admin.model_views.user_ticket import (
-    PassangerAdmin,
+    PassengerAdmin,
     UserTicketAdmin,
 )
 from src.infrastructure.depends.base import (
@@ -41,4 +41,4 @@ def init_admin(app: FastAPI) -> None:
     admin.add_view(RegionAdmin)
     admin.add_view(CityAdmin)
     admin.add_view(CountryAdmin)
-    admin.add_view(PassangerAdmin)
+    admin.add_view(PassengerAdmin)

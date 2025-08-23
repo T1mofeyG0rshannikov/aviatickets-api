@@ -22,12 +22,12 @@ class CreateUserTicket:
         self.repository = repository
         self.ticket_repository = ticket_repository
 
-    async def __call__(self, ticket_id: UUID, passangers_to_create: list[CreatePassengerDTO], user: User) -> None:
+    async def __call__(self, ticket_id: UUID, passengers_to_create: list[CreatePassengerDTO], user: User) -> None:
         user_ticket = UserTicketFactory.create(user_id=user.id.value, ticket_id=ticket_id)
 
         passengers = []
 
-        for passenger in passangers_to_create:
+        for passenger in passengers_to_create:
             try:
                 passengers.append(Passenger.create(user_ticket_id=user_ticket.id, **passenger.__dict__))
             except InvalidInternationalPassportError:

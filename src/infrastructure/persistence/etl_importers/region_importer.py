@@ -20,7 +20,7 @@ class RegionImporter(RegionImporterInterface):
                         iso=region.iso,
                         name=region.name,
                         name_english=region.name_english,
-                        country_id=region.country_id.value,
+                        country_id=region.country_id.value if region.country_id else None,
                     )
                 )
 

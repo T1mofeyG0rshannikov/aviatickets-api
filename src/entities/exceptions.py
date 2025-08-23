@@ -12,3 +12,7 @@ class AccessDeniedError(Exception):
 
 class InvalidcredentialsError(Exception):
     pass
+
+
+class DomainError(Exception):
+    pass

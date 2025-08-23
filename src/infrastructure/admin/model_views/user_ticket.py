@@ -17,5 +17,5 @@ class UserTicketAdmin(BaseModelView, model=UserTicketOrm):
     column_default_sort = ("id", "desc")
 
 
-class PassangerAdmin(BaseModelView, model=PassengerOrm):
+class PassengerAdmin(BaseModelView, model=PassengerOrm):
     column_list = [PassengerOrm.id]

@@ -1,17 +1,12 @@
 import datetime
-from uuid import UUID
 
 import pytest
 
-from src.application.dto.user_ticket import CreatePassengerDTO
-from src.application.usecases.create_user_ticket import CreateUserTicket
-from src.entities.user.user import User
 from src.entities.user_ticket.exceptions import (
     ExpiredInternationalPassportError,
     InvalidInternationalPassportError,
 )
 from src.entities.user_ticket.user_ticket import Passenger
-from src.entities.value_objects.entity_id import EntityId
 from src.infrastructure.persistence.repositories.user_repository import UserRepository
 
 
