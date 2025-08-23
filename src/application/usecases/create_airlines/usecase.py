@@ -1,12 +1,16 @@
+from src.application.etl_importers.airline_importer import AirlineImporterInterface
 from src.application.usecases.create_airlines.txt_parser import AirlinesTXTParser
 from src.entities.airline.airlline_repository import AirlineRepositoryInterface
 from src.entities.airline.iata_code import IATACode
 
 
 class CreateAirlines:
-    def __init__(self, repository: AirlineRepositoryInterface, txt_parser: AirlinesTXTParser) -> None:
+    def __init__(
+        self, repository: AirlineRepositoryInterface, importer: AirlineImporterInterface, txt_parser: AirlinesTXTParser
+    ) -> None:
         self.repository = repository
         self.txt_parser = txt_parser
+        self.importer = importer
 
     async def get_exist_airlines_iatas(self) -> list[IATACode]:
         airlines = await self.repository.all()
@@ -20,4 +24,4 @@ class CreateAirlines:
 
         data_to_create = [data for data in parsed_data if data.iata not in exist_data]
 
-        return await self.repository.save_many(airlines=data_to_create)
+        return await self.importer.add_many(airlines=data_to_create)

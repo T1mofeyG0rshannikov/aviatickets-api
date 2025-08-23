@@ -1,3 +1,4 @@
+from src.application.etl_importers.region_importer import RegionImporterInterface
 from src.application.usecases.create_regions.adapter import RegionCsvToEntitiesAdapter
 from src.application.usecases.create_regions.csv_parser import RegionsCsvParser
 from src.entities.location.country.iso import ISOCode
@@ -6,11 +7,16 @@ from src.entities.location.location_repository import LocationRepositoryInterfac
 
 class CreateRegions:
     def __init__(
-        self, csv_parser: RegionsCsvParser, adapter: RegionCsvToEntitiesAdapter, repository: LocationRepositoryInterface
+        self,
+        csv_parser: RegionsCsvParser,
+        adapter: RegionCsvToEntitiesAdapter,
+        repository: LocationRepositoryInterface,
+        importer: RegionImporterInterface,
     ) -> None:
         self.csv_parser = csv_parser
         self.adapter = adapter
         self.repository = repository
+        self.importer = importer
 
     async def get_exist_codes(self) -> set[ISOCode]:
         regions = await self.repository.all_regions()
@@ -25,4 +31,4 @@ class CreateRegions:
 
         create_data = [data for data in parsed_data if data.iso not in exist_codes]
 
-        return await self.repository.save_regions(create_data)
+        return await self.importer.add_many(create_data)

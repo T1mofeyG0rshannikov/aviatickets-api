@@ -1,5 +1,5 @@
 from src.application.dto.bulk_result import BulkResult
-from src.application.usecases.airports.airport_importer import AirportImporterInterface
+from src.application.etl_importers.airport_importer import AirportImporterInterface
 from src.application.usecases.airports.create.adapter import CsvToAirportAdapter
 from src.application.usecases.airports.create.csv_parser import AirportsCsvParser
 from src.entities.airport.airport import Airport
@@ -64,6 +64,6 @@ class CreateAirports:
             else:
                 create_data.append(airport)
 
-        inserted = await self.importer.create_many(airports=create_data)
+        inserted = await self.importer.add_many(airports=create_data)
 
         return BulkResult(skipped=skipped, inserted=inserted, invalid=invalid)

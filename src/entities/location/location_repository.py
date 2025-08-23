@@ -12,9 +12,6 @@ class LocationRepositoryInterface(Protocol):
     async def get_city(self, name_english: str) -> City:
         raise NotImplementedError
 
-    async def save_cities(self, cities: list[City]) -> None:
-        raise NotImplementedError
-
     async def get_region(self, iso: str) -> Region:
         raise NotImplementedError
 
@@ -25,10 +22,4 @@ class LocationRepositoryInterface(Protocol):
         raise NotImplementedError
 
     async def all_regions(self) -> list[Region]:
-        raise NotImplementedError
-
-    async def create_countries(self, countries: list[Country]) -> None:
-        raise NotImplementedError
-
-    async def create_regions(self, regions: list[Region]) -> None:
         raise NotImplementedError

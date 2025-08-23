@@ -10,10 +10,10 @@ class AirportFullInfoDTO:
     name: str
     continent: str
     country: CountryDTO
-    region: RegionDTO | None = None
     city: CityDTO
     scheduled_service: str
     icao: str
     iata: str
     gps_code: str
+    region: RegionDTO | None = None
     name_russian: str | None = None

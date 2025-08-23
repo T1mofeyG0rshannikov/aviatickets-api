@@ -1,0 +1,15 @@
+fastapi[all]
+SQLAlchemy==2.0.43
+alembic==1.16.4
+passlib==1.7.4
+python-jose==3.5.0
+python-dotenv==1.1.1
+sqladmin==0.21.0
+httpx==0.28.1
+redis==6.4.0
+dependency-injector==4.48.1
+asyncpg==0.30.0
+psycopg2-binary==2.9.10
+PyMuPDF==1.26.3
+transliterate==1.10.2
+isodate==0.7.2

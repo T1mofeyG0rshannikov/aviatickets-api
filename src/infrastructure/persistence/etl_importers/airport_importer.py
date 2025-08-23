@@ -1,7 +1,7 @@
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.application.usecases.airports.airport_importer import AirportImporterInterface
+from src.application.etl_importers.airport_importer import AirportImporterInterface
 from src.entities.airport.airport import Airport
 from src.infrastructure.persistence.db.models.models import AirportOrm
 
@@ -10,7 +10,7 @@ class AirportImporter(AirportImporterInterface):
     def __init__(self, db: AsyncSession) -> None:
         self.db = db
 
-    async def create_many(self, airports: list[Airport]) -> int:
+    async def add_many(self, airports: list[Airport]) -> int:
         try:
             airport_orms = []
             for airport in airports:

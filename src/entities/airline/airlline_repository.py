@@ -14,6 +14,3 @@ class AirlineRepositoryInterface(Protocol):
 
     async def filter(self, iata_codes: Iterable[IATACode]) -> list[Airline]:
         raise NotImplementedError
-
-    async def save_many(self, airlines: list[Airline]) -> None:
-        raise NotImplementedError
