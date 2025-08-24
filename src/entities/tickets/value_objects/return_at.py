@@ -1,13 +1,13 @@
 from dataclasses import dataclass
 from datetime import datetime
 
-from src.entities.tickets.exceptions import DepartureAtInPastError
+from src.entities.tickets.exceptions import ReturnAtInPastError
 
 
 @dataclass(frozen=True)
-class DepartureAt:
+class ReturnAt:
     """
-    Value Object for ticket departure at in local timezone
+    Value Object for ticket return at in local timezone
     """
 
     value: datetime
@@ -15,7 +15,7 @@ class DepartureAt:
     def validation(self, value: datetime):
         print(value, datetime.now(), value.tzinfo)
         if value < datetime.now(value.tzinfo):
-            raise DepartureAtInPastError("departure at cant be in the past")
+            raise ReturnAtInPastError("return at cant be in the past")
 
     def __post_init__(self):
         self.validation(self.value)

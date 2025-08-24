@@ -4,7 +4,6 @@ from datetime import datetime
 
 from src.entities.airport.airport import Airport
 from src.entities.tickets.ticket import Ticket
-from src.infrastructure.clients.base_http_client import BaseHttpClient
 
 
 @dataclass

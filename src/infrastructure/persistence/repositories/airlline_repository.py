@@ -4,7 +4,7 @@ from sqlalchemy import select
 
 from src.entities.airline.airline import Airline
 from src.entities.airline.airline_repository import AirlineRepositoryInterface
-from src.entities.airline.iata_code import IATACode
+from src.entities.airline.value_objects.iata_code import IATACode
 from src.infrastructure.persistence.db.models.models import AirlineOrm
 from src.infrastructure.persistence.repositories.base_repository import BaseRepository
 from src.infrastructure.persistence.repositories.mappers.airline import orm_to_airline

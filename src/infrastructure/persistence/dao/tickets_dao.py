@@ -56,9 +56,9 @@ class TicketDAO(BaseDAO, TicketDAOInterface):
         print(ticket)
         return TicketFullInfoDTOBuilder.from_orm(ticket) if ticket else None
 
-    async def filter(self, filters: TicketsFilter) -> list[TicketFullInfoDTO]:
+    async def filter(self, filters: TicketsFilter, exchange_rates: dict[str, float]) -> list[TicketFullInfoDTO]:
         sqlalchemy_filters = SqlalchemyTicketsFilter(**filters.__dict__)
-        query = await sqlalchemy_filters.build_query()
+        query = await sqlalchemy_filters.build_query(exchange_rates)
         results = await self.db.execute(self._ticket_full_info_joins_query().where(query))
         tickets = results.scalars().unique()
 

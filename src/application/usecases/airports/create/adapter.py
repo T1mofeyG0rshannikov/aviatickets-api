@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 
 from src.application.dto.airports.csv_data import CsvAirportData
+from src.application.factories.airport_factory import AirportFactory
 from src.entities.airport.airport import Airport
-from src.entities.airport.iata_code import IATACode
-from src.entities.airport.icao_code import ICAOCode
+from src.entities.exceptions import DomainError
 from src.entities.location.city.city import City
 from src.entities.location.country.country import Country
 from src.entities.location.country.iso import ISOCode as ISOCountryCode
@@ -34,21 +34,21 @@ class CsvToAirportAdapter:
             city = cities_dict.get(csv_data.municipality)
 
             try:
-                airport = Airport.create(
+                airport = AirportFactory.create(
                     name=csv_data.name,
                     continent=csv_data.continent,
-                    country_id=country.id if country else None,
-                    region_id=region.id if region else None,
-                    city_id=city.id if city else None,
+                    country_id=country.id.value if country else None,
+                    region_id=region.id.value if region else None,
+                    city_id=city.id.value if city else None,
                     scheduled_service=csv_data.scheduled_service,
-                    icao=ICAOCode(csv_data.icao),
-                    iata=IATACode(csv_data.iata),
+                    icao=csv_data.icao,
+                    iata=csv_data.iata,
                     gps_code=csv_data.gps_code,
                     name_russian=csv_data.name_russian,
                 )
 
                 airports.append(airport)
-            except ValueError as e:
+            except DomainError as e:
                 invalid += 1
                 print(f"Error while building Airport: {e}")
 

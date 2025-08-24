@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import date, datetime
 from uuid import UUID
 
 from src.application.dto.ticket import TicketFullInfoDTO
@@ -36,4 +36,4 @@ class CreatePassengerDTO:
     gender: str
     birth_date: datetime
     passport: str
-    expiration_date: datetime
+    expiration_date: date

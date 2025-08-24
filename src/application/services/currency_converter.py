@@ -10,10 +10,17 @@ class ExchangeRateServiceInterface(ABC):
 
 
 class CurrencyConverter:
+    """
+    A currency converter that uses an external service to get up-to-date exchange rates.
+
+    Attributes:
+        exchange_rate_service (ExchangeRateServiceInterface): The service providing the exchange rates.
+    """
+
     def __init__(self, exchange_rate_service: ExchangeRateServiceInterface) -> None:
         self.exchange_rate_service = exchange_rate_service
 
-    async def to_rub(self, currency: str, value: str) -> float:
+    async def to_rub(self, currency: str, value: float) -> float:
         exchange_rates = await self.exchange_rate_service.get()
 
         try:

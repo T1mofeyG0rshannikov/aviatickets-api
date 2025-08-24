@@ -10,6 +10,7 @@ from src.entities.user_ticket.exceptions import UserTicketNotFoundError
 from src.entities.user_ticket.user_ticket_repository import (
     UserTicketRepositoryInterface,
 )
+from src.entities.value_objects.entity_id import EntityId
 from src.interface_adapters.file import File
 from src.interface_adapters.pdf_templates import PdfTemplatesEnum
 
@@ -28,7 +29,7 @@ class CreatePdfTicket:
     async def __call__(
         self, user_ticket_id: UUID, user: User, template: PdfTemplatesEnum = PdfTemplatesEnum.default
     ) -> File:
-        user_ticket = await self.user_ticket_repository.get(user_ticket_id)
+        user_ticket = await self.user_ticket_repository.get(EntityId(user_ticket_id))
         # print(user_ticket)
         if user_ticket is None:
             raise UserTicketNotFoundError(f"Нет пользовательского билета с id='{user_ticket_id}'")

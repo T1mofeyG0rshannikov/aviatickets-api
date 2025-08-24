@@ -1,9 +1,12 @@
+from src.entities.airport.exception import InvalidAirportICAOCodeError
+
+
 class ICAOCode(str):
     """Value Object для ICAO кода аэропорта"""
 
     def __new__(cls, value):
         if not cls.is_valid_iata(value):
-            raise ValueError(f"'{value}' is not a valid ICAO code.")
+            raise InvalidAirportICAOCodeError(f"'{value}' is not a valid ICAO code.")
         return super().__new__(cls, value)
 
     @staticmethod

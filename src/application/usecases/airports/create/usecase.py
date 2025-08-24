@@ -4,8 +4,8 @@ from src.application.usecases.airports.create.adapter import CsvToAirportAdapter
 from src.application.usecases.airports.create.csv_parser import AirportsCsvParser
 from src.entities.airport.airport import Airport
 from src.entities.airport.airport_repository import AirportRepositoryInterface
-from src.entities.airport.iata_code import IATACode
-from src.entities.airport.icao_code import ICAOCode
+from src.entities.airport.value_objects.iata_code import IATACode
+from src.entities.airport.value_objects.icao_code import ICAOCode
 from src.entities.location.location_repository import LocationRepositoryInterface
 
 

@@ -9,5 +9,5 @@ class TicketDAOInterface(Protocol):
     async def get(self, id: EntityId) -> TicketFullInfoDTO:
         raise NotImplementedError
 
-    async def filter(self, filters: TicketsFilter) -> list[TicketFullInfoDTO]:
+    async def filter(self, filters: TicketsFilter, exchange_rates: dict[str, float]) -> list[TicketFullInfoDTO]:
         raise NotImplementedError

@@ -4,6 +4,7 @@ from typing import Annotated
 from fastapi import Depends
 from redis import Redis  # type: ignore
 
+from infrastructure.timezone_resolver import TimezoneResolver
 from src.application.builders.user_ticket import UserTicketFullInfoAssembler
 from src.application.services.currency_converter import CurrencyConverter
 from src.application.usecases.create_regions.adapter import RegionCsvToEntitiesAdapter
@@ -37,7 +38,6 @@ from src.infrastructure.depends.base import (
     get_aviasales_ticket_parser_config,
     get_default_pdf_ticket_adapter_config,
     get_email_config,
-    get_jwt_config,
     get_pdf_service,
     get_redis_config,
 )
@@ -53,9 +53,13 @@ from src.web.depends.annotations.annotations import (
     LocationRepositoryAnnotation,
     TicketDAOAnnotation,
     UserRepositoryAnnotation,
-    UserTicketRepositoryAnnotation,
 )
 from src.web.depends.annotations.httpx_session import HttpxSessionAnnotation
+
+
+@lru_cache
+def get_jwt_config() -> JwtConfig:
+    return JwtConfig()
 
 
 def get_jwt_processor(config: Annotated[JwtConfig, Depends(get_jwt_config)]) -> JwtProcessor:
@@ -82,11 +86,16 @@ def get_aviasales_ticket_parser(
     return AviasalesTicketParser(session, config, repository, adapter)
 
 
+def get_timezone_resolver() -> TimezoneResolver:
+    return TimezoneResolver()
+
+
 def get_amadeus_ticket_adapter(
     repository: AirportRepositoryAnnotation,
     airline_repository: AirlineRepositoryAnnotation,
+    timezone_resolver: Annotated[TimezoneResolver, Depends(get_timezone_resolver)],
 ) -> AmadeusTicketAdapter:
-    return AmadeusTicketAdapter(repository, airline_repository)
+    return AmadeusTicketAdapter(repository, airline_repository, timezone_resolver)
 
 
 def get_amadeus_ticket_parser(
@@ -101,13 +110,8 @@ def get_amadeus_ticket_parser(
 def get_user_ticket_assembler(
     user_repository: UserRepositoryAnnotation,
     ticket_repository: TicketDAOAnnotation,
-    user_ticket_repository: UserTicketRepositoryAnnotation,
 ) -> UserTicketFullInfoAssembler:
-    return UserTicketFullInfoAssembler(
-        user_repository,
-        ticket_repository,
-        user_ticket_repository,
-    )
+    return UserTicketFullInfoAssembler(user_repository, ticket_repository)
 
 
 def get_email_sender(config: Annotated[EmailSenderConfig, Depends(get_email_config)]) -> EmailSender:

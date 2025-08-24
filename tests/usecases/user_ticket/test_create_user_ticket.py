@@ -33,7 +33,7 @@ async def test_create_user_ticket(create_user_ticket: CreateUserTicket, populate
                 gender="string",
                 birth_date=datetime.datetime(2025, 8, 22, 22, 24, 45, 740000),
                 passport="111111111",
-                expiration_date=datetime.datetime(2026, 8, 22, 22, 24, 45, 740000),
+                expiration_date=datetime.date(2026, 8, 22),
             )
         ],
         user=user_mock,
@@ -71,7 +71,7 @@ async def test_create_user_ticket_ticket_not_found(mock_create_user_ticket: Crea
                     gender="string",
                     birth_date=datetime.datetime(2025, 8, 22, 22, 24, 45, 740000),
                     passport="111111111",
-                    expiration_date=datetime.datetime(2026, 8, 22, 22, 24, 45, 740000),
+                    expiration_date=datetime.date(2026, 8, 22),
                 )
             ],
             user=user_mock,

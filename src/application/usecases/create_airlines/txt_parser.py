@@ -1,4 +1,6 @@
+from src.application.factories.airline_factory import AirlineFactory
 from src.entities.airline.airline import Airline
+from src.entities.exceptions import DomainError
 
 
 class AirlinesTXTParser:
@@ -15,14 +17,14 @@ class AirlinesTXTParser:
 
             try:
                 output_data.append(
-                    Airline.create(
+                    AirlineFactory.create(
                         iata=iata,
                         icao=icao,
                         name=name,
                         name_russian=name_russian,
                     )
                 )
-            except ValueError as e:
+            except DomainError as e:
                 print(f"Error while building Airline: {e}")
 
         return output_data

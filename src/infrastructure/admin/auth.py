@@ -1,28 +1,33 @@
-from typing import Annotated, Self
-
 from sqladmin.authentication import AuthenticationBackend
 from starlette.requests import Request
 
-from src.application.usecases.user.auth.login import Login
 from src.entities.exceptions import AccessDeniedError
 from src.entities.user.exceptions import InvalidPasswordError, UserNotFoundError
 from src.infrastructure.admin.config import AdminConfig
-from src.infrastructure.depends.base import get_login_interactor
-from src.infrastructure.depends.decorator import inject_dependencies
+from src.infrastructure.factories.login import LoginFactoryInterface
 from src.infrastructure.jwt.jwt_processor import JwtProcessor
 from src.infrastructure.security.password_hasher import PasswordHasher
 from src.web.schemas.login import LoginResponse
 
 
 class AdminAuth(AuthenticationBackend):
-    def __init__(self, password_hasher: PasswordHasher, config: AdminConfig, jwt_processor: JwtProcessor) -> None:
+    def __init__(
+        self,
+        password_hasher: PasswordHasher,
+        config: AdminConfig,
+        jwt_processor: JwtProcessor,
+        login_factory: LoginFactoryInterface,
+    ) -> None:
         super().__init__(config.secret_key)
         self.password_hasher = password_hasher
         self.jwt_processor = jwt_processor
         self.config = config
+        self.login_factory = login_factory
 
-    @inject_dependencies
-    async def login(self: Self, request: Request, login: Annotated[Login, get_login_interactor]) -> LoginResponse:
+    async def login(self, request: Request) -> LoginResponse:
+        login = await self.login_factory.get_login()
+
+        print(login, type(login))
         form = await request.form()
         email, password = form["email"], form["password"]
 

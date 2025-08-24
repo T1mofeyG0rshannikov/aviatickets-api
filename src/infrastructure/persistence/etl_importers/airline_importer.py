@@ -19,8 +19,8 @@ class AirlineImporter(AirlineImporterInterface):
                         id=airline.id.value,
                         icao=airline.icao,
                         iata=airline.iata,
-                        name=airline.name,
-                        name_russian=airline.name_russian,
+                        name=airline.name.value,
+                        name_russian=airline.name_russian.value,
                     )
                 )
 

@@ -1,4 +1,5 @@
 import datetime
+import uuid
 from unittest.mock import MagicMock
 from uuid import UUID
 
@@ -32,6 +33,7 @@ from src.entities.location.country.country import Country
 from src.entities.user.user import User
 from src.entities.user.value_objects.email import Email
 from src.entities.user_ticket.user_ticket import Passenger, UserTicket
+from src.entities.user_ticket.value_objects.passport import InternationalPassport
 from src.entities.value_objects.entity_id import EntityId
 from src.infrastructure.pdf_service.service import PdfService
 from src.infrastructure.persistence.dao.tickets_dao import TicketDAO
@@ -52,9 +54,8 @@ def pdf_service() -> PdfService:
 async def user_ticket_assembler(
     user_repository: UserRepository,
     ticket_dao: TicketDAO,
-    user_ticket_repository: UserTicketRepository,
 ) -> UserTicketFullInfoAssembler:
-    return UserTicketFullInfoAssembler(user_repository, ticket_dao, user_ticket_repository)
+    return UserTicketFullInfoAssembler(user_repository, ticket_dao)
 
 
 @pytest.fixture
@@ -98,7 +99,7 @@ def mock_assembler() -> UserTicketFullInfoAssembler:
 async def mock_create_pdf_ticket(
     default_pdf_generator: DefaultPdfTicketGenerator, mock_user_ticket_repository, mock_assembler
 ) -> CreatePdfTicket:
-    return CreatePdfTicket(mock_user_ticket_repository, mock_assembler, strategies={"default": default_pdf_generator})
+    return CreatePdfTicket(mock_user_ticket_repository, mock_assembler, strategies={PdfTemplatesEnum.default: default_pdf_generator})
 
 
 @pytest.mark.asyncio
@@ -130,7 +131,7 @@ async def test_create_pdf(mock_create_pdf_ticket: CreatePdfTicket):
             segments=[
                 TicketSegmentFullInfoDTO(
                     id=UUID("5e699700-d120-4179-9709-803675cbcbb1"),
-                    flight_number="248",
+                    flight_number="MU-248",
                     segment_number=1,
                     destination_airport=AirportFullInfoDTO(
                         id=UUID("52d5275f-ee8f-4ffa-a9f4-f01734198726"),
@@ -199,7 +200,7 @@ async def test_create_pdf(mock_create_pdf_ticket: CreatePdfTicket):
                 ),
                 TicketSegmentFullInfoDTO(
                     id=UUID("f546e999-45d2-48a7-9df6-fee8ab80f4b1"),
-                    flight_number="245",
+                    flight_number="MU-245",
                     segment_number=2,
                     destination_airport=AirportFullInfoDTO(
                         id=UUID("7540e008-40b7-4d3c-9ece-5ddeb159eb34"),
@@ -276,11 +277,21 @@ async def test_create_pdf(mock_create_pdf_ticket: CreatePdfTicket):
         id=EntityId(value=UUID("b9baccfa-2ddf-4564-808a-0f4eebd6ed6f")),
         user_id=EntityId(value=UUID("0c95ad77-07b3-4516-accc-c96647dbbbb8")),
         ticket_id=EntityId(value=UUID("fce3917b-2afa-4930-9fed-18b5f79a607d")),
+        passengers=[
+            Passenger(
+                id=EntityId(UUID("02cd3d62-ce21-45ed-8d6a-634417219bf8")),
+                gender="string",
+                first_name="string",
+                second_name="string",
+                birth_date=datetime.datetime(2025, 8, 22, 22, 24, 45, 740000),
+                passport=InternationalPassport(number="111111111", expiration_date=datetime.date(2026, 8, 22)),
+            )
+        ],
     )
-    mock_create_pdf_ticket.builder.execute.return_value = mock_user_ticket_dto
-    mock_create_pdf_ticket.user_ticket_repository.get.return_value = mock_user_ticket
+    mock_create_pdf_ticket.builder.execute.return_value = mock_user_ticket_dto # type: ignore
+    mock_create_pdf_ticket.user_ticket_repository.get.return_value = mock_user_ticket  # type: ignore
 
-    result = await mock_create_pdf_ticket(user_ticket_id=UUID(), user=mock_user)
+    result = await mock_create_pdf_ticket(user_ticket_id=uuid.uuid4(), user=mock_user)
 
     assert isinstance(result, File)
 
@@ -300,13 +311,23 @@ async def test_assecc_denied_create_pdf_ticket(create_pdf_ticket: CreatePdfTicke
         id=EntityId(value=UUID("b9baccfa-2ddf-4564-808a-0f4eebd6ed6f")),
         user_id=EntityId(value=UUID("0c95ad77-07b3-4516-accc-c96647dbbbb8")),
         ticket_id=EntityId(value=UUID("fce3917b-2afa-4930-9fed-18b5f79a607d")),
+        passengers=[
+            Passenger(
+                id=EntityId(value=UUID("02cd3d62-ce21-45ed-8d6a-634417219bf8")),
+                gender="string",
+                first_name="string",
+                second_name="string",
+                birth_date=datetime.datetime(2025, 8, 22, 22, 24, 45, 740000),
+                passport=InternationalPassport(number="111111111", expiration_date=datetime.date(2026, 8, 22)),
+            )
+        ],
     )
 
     create_pdf_ticket.user_ticket_repository = MagicMock(spec=UserTicketRepository)
     create_pdf_ticket.user_ticket_repository.get.return_value = mock_user_ticket
 
     with pytest.raises(AccessDeniedError) as excinfo:
-        await create_pdf_ticket(user_ticket_id=UUID(), user=mock_user)
+        await create_pdf_ticket(user_ticket_id=uuid.uuid4(), user=mock_user)
 
     assert "Вы можете генерировать только свои билеты в pdf" in str(excinfo.value)
 
@@ -389,7 +410,7 @@ async def test_default_pdf_template_adapter(
             segments=[
                 TicketSegmentFullInfoDTO(
                     id=UUID("5e699700-d120-4179-9709-803675cbcbb1"),
-                    flight_number="248",
+                    flight_number="MU-248",
                     segment_number=1,
                     destination_airport=AirportFullInfoDTO(
                         id=UUID("52d5275f-ee8f-4ffa-a9f4-f01734198726"),
@@ -458,7 +479,7 @@ async def test_default_pdf_template_adapter(
                 ),
                 TicketSegmentFullInfoDTO(
                     id=UUID("f546e999-45d2-48a7-9df6-fee8ab80f4b1"),
-                    flight_number="245",
+                    flight_number="MU-245",
                     segment_number=2,
                     destination_airport=AirportFullInfoDTO(
                         id=UUID("7540e008-40b7-4d3c-9ece-5ddeb159eb34"),

@@ -4,7 +4,8 @@ from sqlalchemy import select
 
 from src.entities.airport.airport import Airport
 from src.entities.airport.airport_repository import AirportRepositoryInterface
-from src.entities.airport.iata_code import IATACode
+from src.entities.airport.value_objects.iata_code import IATACode
+from src.entities.value_objects.entity_id import EntityId
 from src.infrastructure.persistence.db.models.models import AirportOrm
 from src.infrastructure.persistence.repositories.base_repository import BaseRepository
 from src.infrastructure.persistence.repositories.mappers.airport import orm_to_airport
@@ -21,7 +22,7 @@ class AirportRepository(AirportRepositoryInterface, BaseRepository):
 
         return [orm_to_airport(airport) for airport in airports]
 
-    async def get(self, iata: str = None, id: int = None) -> Airport:
+    async def get(self, iata: IATACode = None, id: EntityId = None) -> Airport:
         if iata is not None:
             results = await self.db.execute(select(AirportOrm).where(AirportOrm.iata == iata))
         elif id is not None:

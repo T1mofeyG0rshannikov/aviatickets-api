@@ -10,9 +10,10 @@ class FilterTickets:
         self.currency_converter = currency_converter
 
     async def __call__(self, filters: TicketsFilter) -> list[TicketFullInfoDTO]:
-        print(filters, "filters")
-        tickets = await self.dao.filter(filters=filters)
-        print(tickets, "TICKETS")
+        exchange_rates = await self.currency_converter.exchange_rate_service.get()
+
+        tickets = await self.dao.filter(filters=filters, exchange_rates=exchange_rates)
+
         for ticket in tickets:
             if ticket.currency != "RUB":
                 ticket.price = await self.currency_converter.to_rub(ticket.currency, ticket.price)

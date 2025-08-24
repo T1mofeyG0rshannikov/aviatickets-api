@@ -2,7 +2,7 @@ from collections.abc import Iterable
 from typing import Protocol
 
 from src.entities.airport.airport import Airport
-from src.entities.airport.iata_code import IATACode
+from src.entities.airport.value_objects.iata_code import IATACode
 
 
 class AirportRepositoryInterface(Protocol):

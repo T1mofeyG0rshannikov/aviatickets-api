@@ -1,8 +1,11 @@
 from dataclasses import dataclass
-from datetime import datetime
 
+import pytz
+
+from src.entities.tickets.exceptions import DepartureAtMustBeBeforeReturnAtError
 from src.entities.tickets.value_objects.departure_at import DepartureAt
 from src.entities.tickets.value_objects.flight_number import FlightNumber
+from src.entities.tickets.value_objects.return_at import ReturnAt
 from src.entities.value_objects.entity_id import EntityId
 
 
@@ -15,7 +18,7 @@ class TicketSegment:
     destination_airport_id: EntityId
     airline_id: EntityId
     departure_at: DepartureAt
-    return_at: datetime
+    return_at: ReturnAt
     duration: int
     seat_class: str
     status: str
@@ -29,11 +32,17 @@ class TicketSegment:
         destination_airport_id: EntityId,
         airline_id: EntityId,
         departure_at: DepartureAt,
-        return_at: datetime,
+        return_at: ReturnAt,
         duration: int,
         seat_class: str,
         status: str,
     ):
+        utc_departure_at = departure_at.value.astimezone(pytz.utc)
+        utc_return_at = return_at.value.astimezone(pytz.utc)
+
+        if utc_return_at < utc_departure_at:
+            raise DepartureAtMustBeBeforeReturnAtError(f"departure at must be before return at")
+
         return cls(
             id=EntityId.generate(),
             flight_number=flight_number,

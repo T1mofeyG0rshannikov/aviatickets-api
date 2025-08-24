@@ -1,7 +1,7 @@
 from wtforms import Form, PasswordField, StringField
 from wtforms.validators import InputRequired
 
-from src.infrastructure.depends.base import get_password_hasher
+from src.infrastructure.depends.base import InfraDIContainer
 
 
 class UserCreateForm(Form):
@@ -10,7 +10,7 @@ class UserCreateForm(Form):
     email = StringField("Email", validators=[InputRequired()])
     password = PasswordField("Password", validators=[InputRequired()])
 
-    password_hasher = get_password_hasher()
+    password_hasher = InfraDIContainer.password_hasher()
 
     def validate_password(form, field):
         if not field.data:

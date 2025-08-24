@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 from uuid import UUID
 
 from pydantic import BaseModel
@@ -11,7 +11,7 @@ class CreatePassengerRequest(BaseModel):
     gender: str
     birth_date: datetime
     passport: str
-    expiration_date: datetime
+    expiration_date: date
 
 
 class CreateUserTicketRequest(BaseModel):

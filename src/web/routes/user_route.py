@@ -6,15 +6,11 @@ from fastapi import APIRouter, Depends, Request
 from fastapi.responses import StreamingResponse
 
 from src.application.dto.user_ticket import CreatePassengerDTO
-from src.application.factories.user_ticket_factory import UserTicketFactory
 from src.application.usecases.create_user_ticket import CreateUserTicket
 from src.application.usecases.tickets.email import SendPdfTicketToEmail
 from src.application.usecases.tickets.pdf.usecase import CreatePdfTicket
 from src.application.usecases.user.auth.login import Login
 from src.application.usecases.user.auth.register import Register
-from src.entities.exceptions import InvalidcredentialsError
-from src.entities.user_ticket.user_ticket import Passenger, UserTicket
-from src.entities.value_objects.entity_id import EntityId
 from src.web.depends.annotations.user_annotation import UserAnnotation
 from src.web.depends.usecases import (
     get_create_pdf_ticket_interactor,
@@ -37,9 +33,6 @@ async def add_user_ticket(
     usecase: Annotated[CreateUserTicket, Depends(get_create_user_ticket_interactor)],
 ):
     passengers_dto = [CreatePassengerDTO(**passenger.model_dump()) for passenger in data.passengers]
-
-    # print(data.ticket_id)
-    # print(passengers_dto)
 
     return await usecase(data.ticket_id, passengers_dto, user)
 

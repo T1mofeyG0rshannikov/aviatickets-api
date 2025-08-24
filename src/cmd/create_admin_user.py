@@ -1,19 +1,16 @@
 import asyncio
 from getpass import getpass
-from typing import Annotated
 
 from src.application.usecases.user.create import CreateUser
-from src.infrastructure.depends.base import get_create_user
-from src.infrastructure.depends.decorator import inject_dependencies
+from src.infrastructure.depends.usecases import UsecasesDIContainer
 
 
-@inject_dependencies
 async def create_admin_user(
     email: str,
     password: str,
     first_name: str,
     second_name: str,
-    create_user: Annotated[CreateUser, get_create_user],
+    create_user: CreateUser,
 ) -> None:
     await create_user(
         email=email,
@@ -26,11 +23,20 @@ async def create_admin_user(
     print(f"User '{email}' successfully created!")
 
 
-if __name__ == "__main__":
+async def main():
     email = input("Enter email: ")
     first_name = input("Enter first_name: ")
     second_name = input("Enter second_name: ")
-
     password = getpass("Enter password: ")
 
-    asyncio.run(create_admin_user(email=email, password=password, first_name=first_name, second_name=second_name))
+    create_user = await UsecasesDIContainer.create_user()
+
+    asyncio.run(
+        create_admin_user(
+            email=email, password=password, first_name=first_name, second_name=second_name, create_user=create_user
+        )
+    )
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

@@ -1,14 +1,8 @@
-from typing import Annotated, Self
-
 from sqlalchemy import Select, and_, or_
 from sqlalchemy.orm import aliased
 
 from src.entities.tickets.filters import TicketsFilter
-from src.infrastructure.clients.exchange_rates.exchange_rates_service import (
-    ExchangeRateService,
-)
-from src.infrastructure.depends.base import get_exchange_rate_service
-from src.infrastructure.depends.decorator import inject_dependencies
+from src.infrastructure.depends.base import InfraDIContainer
 from src.infrastructure.persistence.db.models.models import TicketOrm, TicketSegmentOrm
 
 FirstSegment = aliased(TicketSegmentOrm)
@@ -28,12 +22,7 @@ class SqlalchemyTicketsFilter(TicketsFilter):
             for currency, amount in exchange_rates.items()
         ]
 
-    @inject_dependencies
-    async def build_price_query(
-        self: Self, exchange_rate_service: Annotated[ExchangeRateService, get_exchange_rate_service]
-    ) -> and_:
-        exchange_rates = await exchange_rate_service.get()
-
+    async def build_price_query(self, exchange_rates: dict[str, float]) -> and_:
         queries = []
 
         if self.price_min is not None:
@@ -44,7 +33,7 @@ class SqlalchemyTicketsFilter(TicketsFilter):
 
         return queries
 
-    async def build_query(self) -> Select:
+    async def build_query(self, exchange_rates: dict[str, float]) -> Select:
         query = and_()
 
         if self.origin_airport_ids:
@@ -68,7 +57,7 @@ class SqlalchemyTicketsFilter(TicketsFilter):
         if self.departure_at:
             query &= and_(TicketSegmentOrm.departure_at >= self.departure_at)
 
-        price_queries = await self.build_price_query()
+        price_queries = await self.build_price_query(exchange_rates)
         for price_query in price_queries:
             query &= price_query
 

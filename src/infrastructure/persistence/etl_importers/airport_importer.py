@@ -17,7 +17,7 @@ class AirportImporter(AirportImporterInterface):
                 airport_orms.append(
                     AirportOrm(
                         id=airport.id.value,
-                        name=airport.name,
+                        name=airport.name.value,
                         continent=airport.continent,
                         country_id=airport.country_id.value if airport.country_id else None,
                         region_id=airport.region_id.value if airport.region_id else None,
@@ -27,7 +27,7 @@ class AirportImporter(AirportImporterInterface):
                         iata=airport.iata,
                         gps_code=airport.gps_code,
                         local_code=airport.local_code,
-                        name_russian=airport.name_russian,
+                        name_russian=airport.name_russian.value if airport.name_russian else None,
                     )
                 )
 

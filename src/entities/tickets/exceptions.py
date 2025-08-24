@@ -9,6 +9,10 @@ class DepartureAtInPastError(DomainError):
     pass
 
 
+class ReturnAtInPastError(DomainError):
+    pass
+
+
 class DepartureAtMustBeBeforeReturnAtError(DomainError):
     pass
 

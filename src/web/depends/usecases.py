@@ -43,7 +43,6 @@ from src.infrastructure.depends.base import (
     get_countries_csv_parser,
     get_csv_airports_parser,
     get_csv_to_airport_adapter,
-    get_password_hasher,
     get_regions_csv_parser,
     get_txt_airlines_parser,
 )
@@ -168,6 +167,10 @@ def get_create_user_ticket_interactor(
     repository: UserTicketRepositoryAnnotation, ticket_repository: TicketRepositoryAnnotation
 ) -> CreateUserTicket:
     return CreateUserTicket(repository, ticket_repository)
+
+
+def get_password_hasher() -> PasswordHasher:
+    return PasswordHasher()
 
 
 def get_create_user(

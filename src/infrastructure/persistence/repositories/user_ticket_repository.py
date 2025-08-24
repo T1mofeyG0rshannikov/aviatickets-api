@@ -1,16 +1,14 @@
 from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import joinedload
 
-from src.entities.user_ticket.user_ticket import Passenger, UserTicket
+from src.entities.user_ticket.user_ticket import UserTicket
 from src.entities.user_ticket.user_ticket_repository import (
     UserTicketRepositoryInterface,
 )
 from src.entities.value_objects.entity_id import EntityId
 from src.infrastructure.persistence.db.models.models import PassengerOrm, UserTicketOrm
 from src.infrastructure.persistence.repositories.base_repository import BaseRepository
-from src.infrastructure.persistence.repositories.mappers.passengers import (
-    from_orm_to_passenger,
-)
 from src.infrastructure.persistence.repositories.mappers.user_ticket import (
     from_orm_to_user_ticket,
 )
@@ -18,22 +16,20 @@ from src.infrastructure.persistence.repositories.mappers.user_ticket import (
 
 class UserTicketRepository(UserTicketRepositoryInterface, BaseRepository):
     async def get(self, id: EntityId) -> UserTicket:
-        result = await self.db.execute(select(UserTicketOrm).where(UserTicketOrm.id == id))
+        result = await self.db.execute(
+            select(UserTicketOrm).options(joinedload(UserTicketOrm.passengers)).where(UserTicketOrm.id == id)
+        )
 
         user_ticket = result.scalar()
         return from_orm_to_user_ticket(user_ticket) if user_ticket else None
 
-    async def get_passengers(self, user_ticket_id: EntityId) -> list[Passenger]:
-        results = await self.db.execute(select(PassengerOrm).where(PassengerOrm.user_ticket_id == user_ticket_id.value))
-
-        passengers = results.scalars().all()
-        return [from_orm_to_passenger(passenger) for passenger in passengers]
-
-    async def save(self, user_ticket: UserTicket, passengers: list[Passenger]) -> UserTicket:
+    async def save(self, user_ticket: UserTicket) -> UserTicket:
         try:
             user_ticket_orm = UserTicketOrm(
                 id=user_ticket.id.value, user_id=user_ticket.user_id.value, ticket_id=user_ticket.ticket_id.value
             )
+
+            await self.db.flush()
 
             passengers_orm = [
                 PassengerOrm(
@@ -42,10 +38,10 @@ class UserTicketRepository(UserTicketRepositoryInterface, BaseRepository):
                     first_name=passenger.first_name,
                     second_name=passenger.second_name,
                     birth_date=passenger.birth_date,
-                    passport=passenger.passport,
-                    expiration_date=passenger.expiration_date,
+                    passport=passenger.passport.number,
+                    expiration_date=passenger.passport.expiration_date,
                 )
-                for passenger in passengers
+                for passenger in user_ticket.passengers
             ]
 
             self.db.add(user_ticket_orm)

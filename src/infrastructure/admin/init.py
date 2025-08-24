@@ -13,18 +13,13 @@ from src.infrastructure.admin.model_views.user_ticket import (
     PassengerAdmin,
     UserTicketAdmin,
 )
-from src.infrastructure.depends.base import (
-    get_admin_config,
-    get_jwt_processor,
-    get_password_hasher,
-)
+from src.infrastructure.depends.base import InfraDIContainer
+from src.infrastructure.factories.login import LoginFactory
 from src.infrastructure.persistence.db.database import engine
 
 
 def init_admin(app: FastAPI) -> None:
-    authentication_backend = AdminAuth(
-        jwt_processor=get_jwt_processor(), password_hasher=get_password_hasher(), config=get_admin_config()
-    )
+    authentication_backend = InfraDIContainer.admin_auth()
     admin = CustomAdmin(
         app=app,
         engine=engine,

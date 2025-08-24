@@ -13,16 +13,13 @@ class UserTicketFullInfoAssembler:
         self,
         user_repository: UserRepositoryInterface,
         ticket_dao: TicketDAOInterface,
-        user_ticket_repository: UserTicketRepositoryInterface,
     ) -> None:
         self.user_repository = user_repository
         self.ticket_dao = ticket_dao
-        self.user_ticket_repository = user_ticket_repository
 
     async def execute(self, user_ticket: UserTicket) -> UserTicketFullInfoDTO:
         user = await self.user_repository.get(id=user_ticket.user_id)
         ticket = await self.ticket_dao.get(id=user_ticket.ticket_id)
-        passengers = await self.user_ticket_repository.get_passengers(user_ticket.id)
 
         return UserTicketFullInfoDTO(
             id=user_ticket.id.value,
@@ -40,6 +37,6 @@ class UserTicketFullInfoAssembler:
                     first_name=passenger.first_name,
                     second_name=passenger.second_name,
                 )
-                for passenger in passengers
+                for passenger in user_ticket.passengers
             ],
         )

@@ -1,9 +1,12 @@
+from src.entities.airline.exceptions import InvalidAirlineIATACodeError
+
+
 class IATACode(str):
-    """Value Object для IATA кода Авиакомпании"""
+    """Value Object for airline IATA code"""
 
     def __new__(cls, value):
         if not cls.is_valid_iata(value):
-            raise ValueError(f"'{value}' is not a valid IATA code for airline.")
+            raise InvalidAirlineIATACodeError(f"'{value}' is not a valid IATA code for airline.")
         return super().__new__(cls, value)
 
     @staticmethod
