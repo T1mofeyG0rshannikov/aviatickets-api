@@ -45,7 +45,9 @@ async def get_user(
 ) -> User | None:
     token = request.session.get("token")
     if token is None:
-        token = request.headers.get("Authorization")
+        token_header = request.headers.get("Authorization")
+        if token_header.startswith("Bearer "):
+            token = token_header.split(" ")[1]
 
     if token:
         payload = jwt_processor.validate_token(token)

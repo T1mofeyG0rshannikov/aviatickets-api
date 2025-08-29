@@ -1,13 +1,13 @@
-from src.entities.exceptions import InvalidcredentialsError, RecordNotFoundError
+from src.entities.exceptions import InvalidCredentialsError, RecordNotFoundError
 
 
 class UserTicketNotFoundError(RecordNotFoundError):
     pass
 
 
-class ExpiredInternationalPassportError(InvalidcredentialsError):
+class ExpiredInternationalPassportError(InvalidCredentialsError):
     pass
 
 
-class InvalidInternationalPassportError(InvalidcredentialsError):
+class InvalidInternationalPassportError(InvalidCredentialsError):
     pass

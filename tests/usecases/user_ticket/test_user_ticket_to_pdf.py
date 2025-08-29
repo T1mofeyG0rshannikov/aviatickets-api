@@ -99,7 +99,9 @@ def mock_assembler() -> UserTicketFullInfoAssembler:
 async def mock_create_pdf_ticket(
     default_pdf_generator: DefaultPdfTicketGenerator, mock_user_ticket_repository, mock_assembler
 ) -> CreatePdfTicket:
-    return CreatePdfTicket(mock_user_ticket_repository, mock_assembler, strategies={PdfTemplatesEnum.default: default_pdf_generator})
+    return CreatePdfTicket(
+        mock_user_ticket_repository, mock_assembler, strategies={PdfTemplatesEnum.default: default_pdf_generator}
+    )
 
 
 @pytest.mark.asyncio
@@ -108,7 +110,7 @@ async def test_create_pdf(mock_create_pdf_ticket: CreatePdfTicket):
         id=EntityId(value=UUID("0c95ad77-07b3-4516-accc-c96647dbbbb8")),
         first_name="Тимофей",
         second_name="Марков",
-        email="tgorshannikov@mail.ru",
+        email=Email("tgorshannikov@mail.ru"),
         hash_password="$2b$12$nfKvEXfUHAgKZRVPLwwD9.4edFLxtpyTF6SoEvqh2i0Ad4AeyiDQW",
         is_superuser=True,
         is_active=True,
@@ -288,7 +290,7 @@ async def test_create_pdf(mock_create_pdf_ticket: CreatePdfTicket):
             )
         ],
     )
-    mock_create_pdf_ticket.builder.execute.return_value = mock_user_ticket_dto # type: ignore
+    mock_create_pdf_ticket.builder.execute.return_value = mock_user_ticket_dto  # type: ignore
     mock_create_pdf_ticket.user_ticket_repository.get.return_value = mock_user_ticket  # type: ignore
 
     result = await mock_create_pdf_ticket(user_ticket_id=uuid.uuid4(), user=mock_user)

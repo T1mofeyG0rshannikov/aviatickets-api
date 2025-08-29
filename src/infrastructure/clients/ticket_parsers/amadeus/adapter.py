@@ -1,11 +1,11 @@
 from datetime import datetime
-from zoneinfo import ZoneInfo
+from decimal import Decimal
 
 import isodate
 
-from src.application.factories.ticket_segment_factory import TicketSegmentFactory
-from src.entities.tickets.ticket import Ticket
-from src.infrastructure.persistence.repositories.airlline_repository import (
+from src.entities.tickets.value_objects.seat_class.enum import SeatClassEnum
+from src.application.dto.ticket import CreateTicketDTO, CreateTicketSegmentDTO
+from src.infrastructure.persistence.repositories.airline_repository import (
     AirlineRepository,
 )
 from src.infrastructure.persistence.repositories.airport_repository import (
@@ -33,17 +33,17 @@ class AmadeusTicketAdapter:
 
     def get_seat_class(self, raw_seat_class: str) -> str:
         class_codes = {
-            "first": ["F", "P", "A"],
-            "business": ["J", "C", "D", "I", "Z"],
-            "premium economy": ["W", "S"],
-            "economy": ["Y", "B", "H", "K", "L", "M", "Q", "V", "T", "X", "E", "N", "O", "R"],
+            SeatClassEnum.first: ["F", "P", "A"],
+            SeatClassEnum.business: ["J", "C", "D", "I", "Z"],
+            SeatClassEnum.premium_economy: ["W", "S"],
+            SeatClassEnum.economy: ["Y", "B", "H", "K", "L", "M", "Q", "V", "T", "X", "E", "N", "O", "R"],
         }
 
         for class_name, class_codes in class_codes.items():
             if raw_seat_class in class_codes:
                 return class_name
 
-    async def build(self, response_data: list[dict]) -> list[Ticket]:
+    async def build(self, response_data: list[dict]) -> list[CreateTicketDTO]:
         dto_list = []
         airports_iata = set()
         airlines_iata = set()
@@ -75,7 +75,7 @@ class AmadeusTicketAdapter:
 
                 departure_at = self.timezone_resolver(segment["departure"]["at"])
                 segments_dto.append(
-                    TicketSegmentFactory.create(
+                    CreateTicketSegmentDTO(
                         flight_number=f"""{airlines_dict[segment["carrierCode"]].iata}-{segment["number"]}""",
                         segment_number=ind + 1,
                         origin_airport_id=origin_airport.id.value,
@@ -90,9 +90,9 @@ class AmadeusTicketAdapter:
                 )
 
             dto_list.append(
-                Ticket.create(
+                CreateTicketDTO(
                     duration=self.iso_time_to_minutes(t["itineraries"][0]["duration"]),
-                    price=float(t["price"]["total"]),
+                    price=Decimal(t["price"]["total"]),
                     currency=t["price"]["currency"],
                     transfers=len(segments_dto) - 1,
                     segments=segments_dto,

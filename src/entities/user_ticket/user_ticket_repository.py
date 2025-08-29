@@ -14,5 +14,5 @@ class UserTicketRepositoryInterface(Protocol):
     async def get_passengers(self, user_ticket_id: EntityId) -> list[Passenger]:
         raise NotImplementedError
 
-    async def save(self, user_id: int, ticket_id: EntityId, passengers: list[Passenger]) -> UserTicket:
+    async def save(self, user_ticket: UserTicket) -> UserTicket:
         raise NotImplementedError

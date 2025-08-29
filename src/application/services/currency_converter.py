@@ -1,11 +1,12 @@
 from abc import ABC, abstractmethod
+from decimal import Decimal
 
-from src.entities.exceptions import InvalidcredentialsError
+from src.entities.exceptions import InvalidCredentialsError
 
 
 class ExchangeRateServiceInterface(ABC):
     @abstractmethod
-    async def get(self) -> dict[str, float]:
+    async def get(self) -> dict[str, Decimal]:
         ...
 
 
@@ -20,12 +21,12 @@ class CurrencyConverter:
     def __init__(self, exchange_rate_service: ExchangeRateServiceInterface) -> None:
         self.exchange_rate_service = exchange_rate_service
 
-    async def to_rub(self, currency: str, value: float) -> float:
+    async def to_rub(self, currency: str, value: Decimal) -> Decimal:
         exchange_rates = await self.exchange_rate_service.get()
 
         try:
             exchange_rate = exchange_rates[currency]
         except KeyError:
-            raise InvalidcredentialsError(f"нет курса валюты - {currency}")
+            raise InvalidCredentialsError(f"no currency rate - {currency}")
 
         return round(value * exchange_rate, 2)

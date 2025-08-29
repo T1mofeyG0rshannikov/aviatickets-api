@@ -1,8 +1,8 @@
+from decimal import Decimal
 from sqlalchemy import Select, and_, or_
 from sqlalchemy.orm import aliased
 
 from src.entities.tickets.filters import TicketsFilter
-from src.infrastructure.depends.base import InfraDIContainer
 from src.infrastructure.persistence.db.models.models import TicketOrm, TicketSegmentOrm
 
 FirstSegment = aliased(TicketSegmentOrm)
@@ -10,19 +10,19 @@ LastSegment = aliased(TicketSegmentOrm)
 
 
 class SqlalchemyTicketsFilter(TicketsFilter):
-    def build_max_price_query(self, exchange_rates: dict[str, float]) -> list[and_]:
+    def build_max_price_query(self, exchange_rates: dict[str, Decimal]) -> list[and_]:
         return [
             and_(TicketOrm.currency == currency, TicketOrm.price <= self.price_max / amount)
             for currency, amount in exchange_rates.items()
         ]
 
-    def build_min_price_query(self, exchange_rates: dict[str, float]) -> list[and_]:
+    def build_min_price_query(self, exchange_rates: dict[str, Decimal]) -> list[and_]:
         return [
             and_(TicketOrm.currency == currency, TicketOrm.price >= self.price_min / amount)
             for currency, amount in exchange_rates.items()
         ]
 
-    async def build_price_query(self, exchange_rates: dict[str, float]) -> and_:
+    async def build_price_query(self, exchange_rates: dict[str, Decimal]) -> and_:
         queries = []
 
         if self.price_min is not None:
@@ -33,7 +33,7 @@ class SqlalchemyTicketsFilter(TicketsFilter):
 
         return queries
 
-    async def build_query(self, exchange_rates: dict[str, float]) -> Select:
+    async def build_query(self, exchange_rates: dict[str, Decimal]) -> Select:
         query = and_()
 
         if self.origin_airport_ids:
@@ -52,10 +52,10 @@ class SqlalchemyTicketsFilter(TicketsFilter):
             query &= and_(TicketOrm.duration >= self.duration_min)
 
         if self.return_at:
-            query &= and_(TicketSegmentOrm.return_at <= self.return_at)
+            query &= and_(LastSegment.return_at <= self.return_at)
 
         if self.departure_at:
-            query &= and_(TicketSegmentOrm.departure_at >= self.departure_at)
+            query &= and_(FirstSegment.departure_at >= self.departure_at)
 
         price_queries = await self.build_price_query(exchange_rates)
         for price_query in price_queries:

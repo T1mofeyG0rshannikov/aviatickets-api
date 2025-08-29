@@ -1,3 +1,4 @@
+from decimal import Decimal
 import json
 
 import httpx
@@ -26,7 +27,7 @@ class ExchangeRateService(ExchangeRateServiceInterface, BaseHttpClient):
         self._ttl = ttl
 
     @retry()
-    async def fetch(self) -> dict[str, float]:
+    async def fetch(self) -> dict[str, Decimal]:
         response = await self.session.get(self._config.url)
         if response.is_error:
             raise FetchAPIError("cant parse currencies")
@@ -42,7 +43,7 @@ class ExchangeRateService(ExchangeRateServiceInterface, BaseHttpClient):
 
         return result
 
-    async def get(self) -> dict[str, float]:
+    async def get(self) -> dict[str, Decimal]:
         cache = self._redis.get(self._cache_key)
         if cache is None:
             data = await self.fetch()

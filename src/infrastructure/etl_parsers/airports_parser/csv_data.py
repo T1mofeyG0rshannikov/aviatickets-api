@@ -1,8 +1,8 @@
-from dataclasses import dataclass
+from typing import Optional
+from pydantic import BaseModel
 
 
-@dataclass
-class CsvAirportData:
+class AirportCSVData(BaseModel):
     name: str
     continent: str
     iso_country: str
@@ -12,4 +12,4 @@ class CsvAirportData:
     icao: str
     iata: str
     gps_code: str
-    name_russian: str = None
+    name_russian: Optional[str]

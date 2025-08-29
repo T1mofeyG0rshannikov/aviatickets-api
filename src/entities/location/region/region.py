@@ -13,7 +13,7 @@ class Region:
     name_english: str
 
     @classmethod
-    def create(cls, iso: str, name: str, name_english: str, country_id: EntityId):
+    def create(cls, iso: ISOCode, name: str, name_english: str, country_id: EntityId = None):
         return cls(
-            id=EntityId.generate(), iso=ISOCode(iso), name=name, name_english=name_english, country_id=country_id
+            id=EntityId.generate(), iso=iso, name=name, name_english=name_english, country_id=country_id
         )

@@ -1,8 +1,9 @@
 import pytest
 
+from src.application.usecases.airports.create.loader import AirportsLoader
 from src.application.dto.bulk_result import BulkResult
-from src.application.usecases.airports.create.adapter import CsvToAirportAdapter
-from src.application.usecases.airports.create.csv_parser import AirportsCsvParser
+from src.infrastructure.etl_parsers.airports_parser.adapter import CsvToAirportAdapter
+from src.infrastructure.etl_parsers.airports_parser.airports_parser import AirportsCsvParser
 from src.application.usecases.airports.create.usecase import CreateAirports
 from src.infrastructure.persistence.etl_importers.airport_importer import (
     AirportImporter,
@@ -16,12 +17,7 @@ from src.infrastructure.persistence.repositories.location_repository import (
 
 
 @pytest.fixture
-async def airports_csv_parser() -> AirportsCsvParser:
-    return AirportsCsvParser()
-
-
-@pytest.fixture
-async def airports_csv_adapter() -> CsvToAirportAdapter:
+async def adapter() -> CsvToAirportAdapter:
     return CsvToAirportAdapter()
 
 
@@ -34,15 +30,18 @@ async def importer(db) -> AirportImporter:
 async def create_airports(
     airport_repository: AirportRepository,
     importer: AirportImporter,
-    airports_csv_parser: AirportsCsvParser,
-    airports_csv_adapter: CsvToAirportAdapter,
     location_repository: LocationRepository,
+    loader: AirportsLoader = None,   
 ) -> CreateAirports:
-    return CreateAirports(airport_repository, importer, airports_csv_parser, airports_csv_adapter, location_repository)
+    return CreateAirports(airport_repository, importer, loader, location_repository)
 
 
 @pytest.mark.asyncio
-async def test_create_airports(create_airports: CreateAirports):
+async def test_create_airports(
+    create_airports: CreateAirports,
+    adapter: CsvToAirportAdapter,
+    location_repository: LocationRepository
+):
     csv_data = [
         [
             26396,
@@ -88,13 +87,19 @@ async def test_create_airports(create_airports: CreateAirports):
         ],
     ]
 
+    loader = AirportsCsvParser(
+        csv_data, adapter, location_repository
+    )
+
+    create_airports.loader = loader
+
     expected_result = BulkResult(inserted=2, invalid=0, skipped=0)
-    result = await create_airports(csv_data)
+    result = await create_airports()
     assert result == expected_result
 
 
 @pytest.mark.asyncio
-async def test_create_airports_with_skipped(create_airports: CreateAirports, populate_db):
+async def test_create_airports_with_skipped(create_airports: CreateAirports, populate_db, adapter, location_repository):
     csv_data = [
         [
             26396,
@@ -140,13 +145,19 @@ async def test_create_airports_with_skipped(create_airports: CreateAirports, pop
         ],
     ]
 
+    loader = AirportsCsvParser(
+        csv_data, adapter, location_repository
+    )
+
+    create_airports.loader = loader
+    
     expected_result = BulkResult(inserted=0, invalid=0, skipped=2)
-    result = await create_airports(csv_data)
+    result = await create_airports()
     assert result == expected_result
 
 
 @pytest.mark.asyncio
-async def test_create_airports_with_invalids(create_airports: CreateAirports):
+async def test_create_airports_with_invalids(create_airports: CreateAirports, adapter, location_repository):
     csv_data = [
         [
             26396,
@@ -192,7 +203,13 @@ async def test_create_airports_with_invalids(create_airports: CreateAirports):
         ],
     ]
 
+    loader = AirportsCsvParser(
+        csv_data, adapter, location_repository
+    )
+
+    create_airports.loader = loader
+
     expected_result = BulkResult(inserted=0, invalid=2, skipped=0)
-    result = await create_airports(csv_data)
+    result = await create_airports()
     print(result)
     assert result == expected_result

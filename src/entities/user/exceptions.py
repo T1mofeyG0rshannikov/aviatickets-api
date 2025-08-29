@@ -1,6 +1,7 @@
 from src.entities.exceptions import (
     AccessDeniedError,
-    InvalidcredentialsError,
+    DomainError,
+    InvalidCredentialsError,
     RecordNotFoundError,
 )
 
@@ -21,9 +22,9 @@ class InvalidPasswordError(AccessDeniedError):
     pass
 
 
-class UserWithEmailAlreadyExistError(InvalidcredentialsError):
+class UserWithEmailAlreadyExistError(InvalidCredentialsError):
     pass
 
 
-class InvalidEmailError(InvalidcredentialsError):
+class InvalidEmailError(DomainError):
     pass

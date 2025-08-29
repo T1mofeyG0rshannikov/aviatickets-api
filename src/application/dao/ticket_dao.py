@@ -1,3 +1,4 @@
+from decimal import Decimal
 from typing import Protocol
 
 from src.application.dto.ticket import TicketFullInfoDTO
@@ -9,5 +10,5 @@ class TicketDAOInterface(Protocol):
     async def get(self, id: EntityId) -> TicketFullInfoDTO:
         raise NotImplementedError
 
-    async def filter(self, filters: TicketsFilter, exchange_rates: dict[str, float]) -> list[TicketFullInfoDTO]:
+    async def filter(self, filters: TicketsFilter, exchange_rates: dict[str, Decimal]) -> list[TicketFullInfoDTO]:
         raise NotImplementedError

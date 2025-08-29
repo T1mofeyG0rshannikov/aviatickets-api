@@ -1,9 +1,13 @@
-from src.entities.exceptions import InvalidcredentialsError
+from src.entities.exceptions import InvalidCredentialsError
 
 
 class FetchAPIError(Exception):
     pass
 
 
-class InvalidParseParamsError(InvalidcredentialsError):
+class InvalidParseParamsError(InvalidCredentialsError):
+    pass
+
+
+class InvalidFileContentException(Exception):
     pass

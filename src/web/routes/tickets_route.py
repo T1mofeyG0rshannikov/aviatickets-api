@@ -13,7 +13,7 @@ from src.application.usecases.tickets.get import GetTicket
 from src.application.usecases.tickets.parse import ParseAviaTickets
 from src.entities.tickets.filters import TicketsFilter
 from src.web.depends.annotations.user_annotation import UserAnnotation
-from src.web.depends.files_from_request import get_csv_file, get_txt_file
+from src.web.depends.files_from_request import get_txt_file
 from src.web.depends.usecases import (
     get_airports_interactor,
     get_create_airlines_interactor,
@@ -36,19 +36,17 @@ router = APIRouter(prefix="", tags=["tickets"])
 async def add_airports(
     user: UserAnnotation,
     usecase: Annotated[CreateAirports, Depends(get_create_airports_interactor)],
-    csv_data=Depends(get_csv_file),
 ):
-    return await usecase(csv_data)
+    return await usecase()
 
 
 @router.post("/airlines/", status_code=201)
 @admin_required
 async def add_airlines(
     user: UserAnnotation,
-    usecase: Annotated[CreateAirlines, Depends(get_create_airlines_interactor)],
-    txt_data=Depends(get_txt_file),
+    usecase: Annotated[CreateAirlines, Depends(get_create_airlines_interactor)]
 ):
-    return await usecase(txt_data)
+    return await usecase()
 
 
 @router.post("/countries/", status_code=201)
@@ -56,9 +54,8 @@ async def add_airlines(
 async def add_countries(
     user: UserAnnotation,
     usecase: Annotated[CreateCountries, Depends(get_create_countries_interactor)],
-    csv_data=Depends(get_csv_file),
 ):
-    return await usecase(csv_data)
+    return await usecase()
 
 
 @router.post("/regions/", status_code=201)
@@ -66,9 +63,8 @@ async def add_countries(
 async def add_regions(
     user: UserAnnotation,
     usecase: Annotated[CreateRegions, Depends(get_create_regions_interactor)],
-    csv_data=Depends(get_csv_file),
 ):
-    return await usecase(csv_data)
+    return await usecase()
 
 
 @router.post("/cities/", status_code=201)
@@ -76,9 +72,8 @@ async def add_regions(
 async def add_cities(
     user: UserAnnotation,
     usecase: Annotated[CreateCities, Depends(get_create_cities_interactor)],
-    csv_data=Depends(get_csv_file),
 ):
-    return await usecase(csv_data)
+    return await usecase()
 
 
 @router.post("/tickets", status_code=201)

@@ -20,7 +20,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 app.mount("/static", StaticFiles(directory="src/web/static"), name="static")
 
-app.add_middleware(SessionMiddleware, secret_key=InfraDIContainer.admin_config().secret_key)
+app.add_middleware(SessionMiddleware, secret_key=InfraDIContainer.admin_config().secret_key, same_site="lax", https_only=True)
 
 app.include_router(router=user_router)
 app.include_router(router=tickets_router)

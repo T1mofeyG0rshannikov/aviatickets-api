@@ -6,7 +6,7 @@ from fastapi import File, UploadFile
 
 async def get_csv_file(
     csv_file: UploadFile = File(...),
-):
+) -> list[list[str]]:
     contents = await csv_file.read()
     decoded_contents = contents.decode("utf-8")
 
@@ -22,7 +22,7 @@ async def get_csv_file(
 
 async def get_txt_file(
     txt_file: UploadFile = File(...),
-):
+) -> list[str]:
     contents = await txt_file.read()
     decoded_contents = contents.decode("utf-8")
 

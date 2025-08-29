@@ -19,3 +19,7 @@ class DepartureAtMustBeBeforeReturnAtError(DomainError):
 
 class InvalidFlightNumberError(DomainError):
     pass
+
+
+class InvalidSeatClassError(DomainError):
+    pass

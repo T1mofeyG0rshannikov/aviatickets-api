@@ -1,12 +1,14 @@
 import re
 
+from src.entities.location.region.exceptions import InvalidRegionISOCode
+
 
 class ISOCode(str):
-    """Value Object для ISO кода региона"""
+    """Value Object for region ISO code"""
 
     def __new__(cls, value):
         if not cls.is_valid_iata(value):
-            raise ValueError(f"'{value}' is not a valid ISO code.")
+            raise InvalidRegionISOCode(f"'{value}' is not a valid ISO code.")
         return super().__new__(cls, value)
 
     @staticmethod

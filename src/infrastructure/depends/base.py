@@ -4,12 +4,10 @@ import httpx
 from dependency_injector import containers, providers
 from redis import Redis
 
-from src.application.usecases.airports.create.adapter import CsvToAirportAdapter
-from src.application.usecases.airports.create.csv_parser import AirportsCsvParser
-from src.application.usecases.create_airlines.txt_parser import AirlinesTXTParser
-from src.application.usecases.create_cities.csv_parser import CitiesCsvParser
-from src.application.usecases.create_countries.csv_parser import CountriesCsvParser
-from src.application.usecases.create_regions.csv_parser import RegionsCsvParser
+from src.infrastructure.etl_parsers.airports_parser.adapter import CsvToAirportAdapter
+from src.infrastructure.etl_parsers.airports_parser.airports_parser import AirportsCsvParser
+from src.infrastructure.etl_parsers.airlines_parser import AirlinesTXTParser
+from src.infrastructure.etl_parsers.regions_parser.parser import RegionsCsvParser
 from src.application.usecases.tickets.pdf.strategies.default.config import (
     DefaultPdfTicketAdapterConfig,
 )
@@ -77,28 +75,8 @@ def get_email_config() -> EmailSenderConfig:
     return EmailSenderConfig()
 
 
-def get_csv_airports_parser() -> AirportsCsvParser:
-    return AirportsCsvParser()
-
-
 def get_csv_to_airport_adapter() -> CsvToAirportAdapter:
     return CsvToAirportAdapter()
-
-
-def get_txt_airlines_parser() -> AirlinesTXTParser:
-    return AirlinesTXTParser()
-
-
-def get_countries_csv_parser() -> CountriesCsvParser:
-    return CountriesCsvParser()
-
-
-def get_regions_csv_parser() -> RegionsCsvParser:
-    return RegionsCsvParser()
-
-
-def get_cities_csv_parser() -> CitiesCsvParser:
-    return CitiesCsvParser()
 
 
 @lru_cache

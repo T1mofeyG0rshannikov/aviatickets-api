@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from src.application.factories.ticket_segment_factory import TicketSegmentFactory
+from src.entities.tickets.ticket import Ticket
 from src.entities.airport.airport_repository import AirportRepositoryInterface
 from src.entities.exceptions import AirportNotFoundError
 from src.entities.tickets.tickets_repository import TicketRepositoryInterface
@@ -17,7 +19,7 @@ class ParseAviaTickets:
         self.airports_repository = airports_repository
         self.ticket_repository = ticket_repository
 
-    async def get_exist_tickets_hashes(self) -> list[str]:
+    async def get_exist_tickets_hashes(self) -> set[str]:
         exist_tickets = await self.ticket_repository.all()
         return {hash(tuple(segment.flight_number for segment in ticket.segments)) for ticket in exist_tickets}
 
@@ -45,7 +47,7 @@ class ParseAviaTickets:
                     raise AirportNotFoundError(f"no airport with id = {destination_airport_id} found")
 
                 for parser in self._parsers:
-                    tickets = await parser.parse(
+                    tickets_dto = await parser.parse(
                         TicketsParseParams(
                             origin_airport=origin_airport,
                             destination_airport=destination_airport,
@@ -57,11 +59,34 @@ class ParseAviaTickets:
                         )
                     )
 
-                    for ticket in tickets:
+                    for ticket_dto in tickets_dto:
                         if (
-                            hash(tuple(segment.flight_number for segment in ticket.segments))
+                            hash(tuple(segment.flight_number for segment in ticket_dto.segments))
                             not in exist_tickets_hashes
                         ):
+                            segments = [
+                                TicketSegmentFactory.create(
+                                    flight_number=segment_dto.flight_number,
+                                    segment_number=segment_dto.segment_number,
+                                    origin_airport_id=segment_dto.origin_airport_id,
+                                    destination_airport_id=segment_dto.destination_airport_id,
+                                    airline_id=segment_dto.airline_id,
+                                    departure_at=segment_dto.departure_at,
+                                    return_at=segment_dto.return_at,
+                                    duration=segment_dto.duration,
+                                    seat_class=segment_dto.seat_class,
+                                    status=segment_dto.status
+                                ) for segment_dto in ticket_dto.segments
+                            ]
+
+                            ticket = Ticket.create(
+                                duration=ticket_dto.duration,
+                                price=ticket_dto.price,
+                                currency=ticket_dto.currency,
+                                transfers=ticket_dto.transfers,
+                                segments=segments
+                            )
+
                             parsed_tickets.append(ticket)
 
         return await self.ticket_repository.save_many(parsed_tickets)

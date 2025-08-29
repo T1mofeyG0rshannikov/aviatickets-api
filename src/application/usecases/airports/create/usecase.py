@@ -1,7 +1,8 @@
+from src.entities.exceptions import DomainError
+from src.application.factories.airport_factory import AirportFactory
+from src.application.usecases.airports.create.loader import AirportsLoader
 from src.application.dto.bulk_result import BulkResult
 from src.application.etl_importers.airport_importer import AirportImporterInterface
-from src.application.usecases.airports.create.adapter import CsvToAirportAdapter
-from src.application.usecases.airports.create.csv_parser import AirportsCsvParser
 from src.entities.airport.airport import Airport
 from src.entities.airport.airport_repository import AirportRepositoryInterface
 from src.entities.airport.value_objects.iata_code import IATACode
@@ -14,45 +15,27 @@ class CreateAirports:
         self,
         repository: AirportRepositoryInterface,
         importer: AirportImporterInterface,
-        csv_parser: AirportsCsvParser,
-        adapter: CsvToAirportAdapter,
+        loader: AirportsLoader,
         location_repository: LocationRepositoryInterface,
     ) -> None:
         self.repository = repository
         self.location_repository = location_repository
         self.importer = importer
-        self.csv_parser = csv_parser
-        self.adapter = adapter
+        self.loader = loader
 
     async def get_exist_codes(self) -> set[tuple[IATACode, ICAOCode]]:
         airports = await self.repository.all()
         return {airport.iata for airport in airports}
 
-    async def __call__(self, airports: list[list[str]]) -> BulkResult:
-        csv_data = self.csv_parser.execute(airports)
-
+    async def __call__(self) -> BulkResult:
         skipped = 0
 
         airports: list[Airport] = []
 
-        countries = await self.location_repository.all_countries()
+        loader_response = await self.loader.load()
 
-        countries_dict = {country.iso: country for country in countries}
-
-        regions = await self.location_repository.all_regions()
-
-        regions_dict = {region.iso: region for region in regions}
-
-        cities = await self.location_repository.all_cities()
-
-        cities_dict = {city.name_english: city for city in cities}
-
-        adapter_response = await self.adapter.execute(
-            csv_data, countries_dict=countries_dict, regions_dict=regions_dict, cities_dict=cities_dict
-        )
-
-        airports = adapter_response.airports
-        invalid = adapter_response.invalid
+        airports = loader_response.airports
+        invalid = loader_response.invalid
 
         create_data: list[Airport] = []
 
@@ -62,7 +45,24 @@ class CreateAirports:
             if airport.iata in exist_codes:
                 skipped += 1
             else:
-                create_data.append(airport)
+                try:
+                    create_data.append(
+                        AirportFactory.create(
+                            name=airport.name,
+                            continent=airport.continent,
+                            country_id=airport.country_id,
+                            region_id=airport.region_id,
+                            city_id=airport.city_id,
+                            scheduled_service=airport.scheduled_service,
+                            icao=airport.icao,
+                            iata=airport.iata,
+                            gps_code=airport.gps_code,
+                            name_russian=airport.name_russian
+                        )
+                    )
+                except DomainError as e:
+                    invalid += 1
+                    print(f"Error while building Airport: {e}")
 
         inserted = await self.importer.add_many(airports=create_data)
 

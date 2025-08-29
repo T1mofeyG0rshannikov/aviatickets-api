@@ -1,9 +1,6 @@
-from dataclasses import dataclass
-
-from src.application.dto.airports.csv_data import CsvAirportData
-from src.application.factories.airport_factory import AirportFactory
-from src.entities.airport.airport import Airport
-from src.entities.exceptions import DomainError
+from src.application.usecases.airports.create.loader import AirportsLoaderResponse
+from src.application.dto.airports.create_dto import CreateAirportDTO
+from src.infrastructure.etl_parsers.airports_parser.csv_data import AirportCSVData
 from src.entities.location.city.city import City
 from src.entities.location.country.country import Country
 from src.entities.location.country.iso import ISOCode as ISOCountryCode
@@ -11,20 +8,14 @@ from src.entities.location.region.iso import ISOCode as ISORegionCode
 from src.entities.location.region.region import Region
 
 
-@dataclass
-class AirportsCsvToAirportAdapterResponse:
-    invalid: int
-    airports: list[Airport]
-
-
 class CsvToAirportAdapter:
     async def execute(
         self,
-        data: list[CsvAirportData],
+        data: list[AirportCSVData],
         countries_dict: dict[ISOCountryCode, Country],
         regions_dict: dict[ISORegionCode, Region],
         cities_dict: dict[str, City],
-    ) -> AirportsCsvToAirportAdapterResponse:
+    ) -> AirportsLoaderResponse:
         airports = []
         invalid = 0
 
@@ -34,7 +25,7 @@ class CsvToAirportAdapter:
             city = cities_dict.get(csv_data.municipality)
 
             try:
-                airport = AirportFactory.create(
+                airport = CreateAirportDTO(
                     name=csv_data.name,
                     continent=csv_data.continent,
                     country_id=country.id.value if country else None,
@@ -48,8 +39,8 @@ class CsvToAirportAdapter:
                 )
 
                 airports.append(airport)
-            except DomainError as e:
+            except ValueError as e:
                 invalid += 1
-                print(f"Error while building Airport: {e}")
+                print(f"Error while building Create Airport DTO: {e}")
 
-        return AirportsCsvToAirportAdapterResponse(invalid=invalid, airports=airports)
+        return AirportsLoaderResponse(invalid=invalid, airports=airports)

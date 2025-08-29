@@ -3,9 +3,6 @@ from src.application.dto.user import UserDTO
 from src.application.dto.user_ticket import PassengerDTO, UserTicketFullInfoDTO
 from src.entities.user.user_repository import UserRepositoryInterface
 from src.entities.user_ticket.user_ticket import UserTicket
-from src.entities.user_ticket.user_ticket_repository import (
-    UserTicketRepositoryInterface,
-)
 
 
 class UserTicketFullInfoAssembler:

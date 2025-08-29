@@ -1,11 +1,12 @@
 from abc import ABC, abstractmethod
+from uuid import UUID
 
 from src.application.auth.access_token import AccessToken
 
 
 class JwtProcessorInterface(ABC):
     @abstractmethod
-    def create_access_token(self, email: str, user_id: int) -> AccessToken:
+    def create_access_token(self, email: str, user_id: UUID) -> AccessToken:
         ...
 
     @abstractmethod

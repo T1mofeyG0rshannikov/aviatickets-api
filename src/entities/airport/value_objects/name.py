@@ -18,4 +18,4 @@ class AirportName:
 
     def __post_init__(self):
         if not self.validation(self.value):
-            raise InvalidAirportNameError(f"{self.value} is not valid airline name")
+            raise InvalidAirportNameError(f"{self.value} is not valid airport name")

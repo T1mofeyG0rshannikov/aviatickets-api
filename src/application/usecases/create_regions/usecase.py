@@ -1,6 +1,7 @@
+from src.application.factories.region_factory import RegionFactory
+from src.entities.exceptions import DomainError
+from src.application.usecases.create_regions.loader import RegionsLoader
 from src.application.etl_importers.region_importer import RegionImporterInterface
-from src.application.usecases.create_regions.adapter import RegionCsvToEntitiesAdapter
-from src.application.usecases.create_regions.csv_parser import RegionsCsvParser
 from src.entities.location.country.iso import ISOCode
 from src.entities.location.location_repository import LocationRepositoryInterface
 
@@ -8,13 +9,11 @@ from src.entities.location.location_repository import LocationRepositoryInterfac
 class CreateRegions:
     def __init__(
         self,
-        csv_parser: RegionsCsvParser,
-        adapter: RegionCsvToEntitiesAdapter,
+        loader: RegionsLoader,
         repository: LocationRepositoryInterface,
         importer: RegionImporterInterface,
     ) -> None:
-        self.csv_parser = csv_parser
-        self.adapter = adapter
+        self.loader = loader
         self.repository = repository
         self.importer = importer
 
@@ -22,13 +21,22 @@ class CreateRegions:
         regions = await self.repository.all_regions()
         return {region.iso for region in regions}
 
-    async def __call__(self, regions: list[list[str]]) -> None:
-        csv_data = self.csv_parser.execute(regions)
-
-        parsed_data = await self.adapter.execute(csv_data)
-
+    async def __call__(self) -> None:
+        parsed_data = await self.loader.load()
         exist_codes = await self.get_exist_codes()
 
-        create_data = [data for data in parsed_data if data.iso not in exist_codes]
+        create_data = []
+
+        for data in parsed_data:
+            if data.iso not in exist_codes:
+                try:
+                    create_data.append(RegionFactory.create(
+                        iso=data.iso,
+                        country_id=data.country_id,
+                        name=data.name,
+                        name_english=data.name_english
+                    ))
+                except DomainError as e:
+                    print(F"Error while building Region: {e}")
 
         return await self.importer.add_many(create_data)

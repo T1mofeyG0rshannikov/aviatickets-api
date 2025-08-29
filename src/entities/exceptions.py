@@ -10,7 +10,7 @@ class AccessDeniedError(Exception):
     pass
 
 
-class InvalidcredentialsError(Exception):
+class InvalidCredentialsError(Exception):
     pass
 
 

@@ -1,4 +1,4 @@
-from src.infrastructure.persistence.repositories.airlline_repository import (
+from src.infrastructure.persistence.repositories.airline_repository import (
     AirlineRepository,
 )
 from src.infrastructure.persistence.repositories.airport_repository import (

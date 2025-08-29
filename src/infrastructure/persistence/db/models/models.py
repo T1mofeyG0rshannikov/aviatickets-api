@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import UUID, Boolean, Column, Date, Float, ForeignKey, Integer, String
+from sqlalchemy import UUID, Boolean, Column, Date, ForeignKey, Integer, Numeric, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.types import TIMESTAMP
 
@@ -74,7 +74,7 @@ class TicketOrm(Model):
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     duration = Column(Integer)
-    price = Column(Float, index=True)
+    price = Column(Numeric(10, 2), index=True)
     currency = Column(String)
     transfers = Column(Integer)
 

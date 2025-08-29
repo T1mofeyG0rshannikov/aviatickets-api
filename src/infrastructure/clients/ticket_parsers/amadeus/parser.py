@@ -2,7 +2,7 @@ from datetime import datetime
 
 import httpx
 
-from src.entities.tickets.ticket import Ticket
+from src.application.dto.ticket import CreateTicketDTO
 from src.infrastructure.clients.base_http_client import BaseHttpClient
 from src.infrastructure.clients.retry_decorator import retry
 from src.infrastructure.clients.ticket_parsers.amadeus.adapter import (
@@ -48,7 +48,7 @@ class AmadeusTicketParser(TicketsParser, BaseHttpClient):
             raise FetchAPIError("Error getting access token: " + response.text)
 
     @retry()
-    async def parse(self, params: TicketsParseParams) -> list[Ticket]:
+    async def parse(self, params: TicketsParseParams) -> list[CreateTicketDTO]:
         access_token = await self.get_access_token()
 
         params = {

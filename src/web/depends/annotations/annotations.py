@@ -4,7 +4,7 @@ from fastapi import Depends
 
 from src.infrastructure.persistence.dao.airport_dao import AirportDAO
 from src.infrastructure.persistence.dao.tickets_dao import TicketDAO
-from src.infrastructure.persistence.repositories.airlline_repository import (
+from src.infrastructure.persistence.repositories.airline_repository import (
     AirlineRepository,
 )
 from src.infrastructure.persistence.repositories.airport_repository import (

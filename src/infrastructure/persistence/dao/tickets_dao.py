@@ -1,3 +1,4 @@
+from decimal import Decimal
 from sqlalchemy import Select, select
 from sqlalchemy.orm import aliased, joinedload
 
@@ -49,14 +50,13 @@ class TicketDAO(BaseDAO, TicketDAOInterface):
         )
 
     async def get(self, id: EntityId) -> TicketFullInfoDTO:
-        print(id, "ID", type(id))
         result = await self.db.execute(self._ticket_full_info_joins_query().where(TicketOrm.id == id.value))
 
         ticket = result.scalar()
-        print(ticket)
+        
         return TicketFullInfoDTOBuilder.from_orm(ticket) if ticket else None
 
-    async def filter(self, filters: TicketsFilter, exchange_rates: dict[str, float]) -> list[TicketFullInfoDTO]:
+    async def filter(self, filters: TicketsFilter, exchange_rates: dict[str, Decimal]) -> list[TicketFullInfoDTO]:
         sqlalchemy_filters = SqlalchemyTicketsFilter(**filters.__dict__)
         query = await sqlalchemy_filters.build_query(exchange_rates)
         results = await self.db.execute(self._ticket_full_info_joins_query().where(query))

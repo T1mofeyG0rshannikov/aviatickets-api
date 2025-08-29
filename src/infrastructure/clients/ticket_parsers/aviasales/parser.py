@@ -2,6 +2,7 @@ from datetime import datetime
 
 import httpx
 
+from src.application.dto.ticket import CreateTicketDTO
 from src.entities.tickets.ticket import Ticket
 from src.infrastructure.clients.base_http_client import BaseHttpClient
 from src.infrastructure.clients.retry_decorator import retry
@@ -35,7 +36,7 @@ class AviasalesTicketParser(TicketsParser, BaseHttpClient):
         return date.strftime("%Y-%m")
 
     @retry()
-    async def parse(self, params: TicketsParseParams) -> list[Ticket]:
+    async def parse(self, params: TicketsParseParams) -> list[CreateTicketDTO]:
         params = {
             "origin": params.origin_airport.iata,
             "destination": params.destination_airport.iata,

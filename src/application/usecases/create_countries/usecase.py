@@ -1,5 +1,6 @@
+from src.entities.location.country.country import Country
+from src.application.usecases.create_countries.loader import CountriesLoader
 from src.application.etl_importers.country_importer import CountryImporterInterface
-from src.application.usecases.create_countries.csv_parser import CountriesCsvParser
 from src.entities.location.country.iso import ISOCode
 from src.entities.location.location_repository import LocationRepositoryInterface
 
@@ -7,11 +8,11 @@ from src.entities.location.location_repository import LocationRepositoryInterfac
 class CreateCountries:
     def __init__(
         self,
-        csv_parser: CountriesCsvParser,
+        loader: CountriesLoader,
         repository: LocationRepositoryInterface,
         importer: CountryImporterInterface,
     ) -> None:
-        self.csv_parser = csv_parser
+        self.loader = loader
         self.repository = repository
         self.importer = importer
 
@@ -19,11 +20,17 @@ class CreateCountries:
         countries = await self.repository.all_countries()
         return {country.iso for country in countries}
 
-    async def __call__(self, countries: list[list[str]]) -> None:
-        parsed_data = self.csv_parser.execute(countries)
+    async def __call__(self) -> None:
+        parsed_data = self.loader.load()
 
         exist_codes = await self.get_exist_codes()
 
-        create_data = [data for data in parsed_data if data.iso not in exist_codes]
+        create_data = [
+            Country.create(
+                iso=data.iso,
+                name=data.name,
+                name_english=data.name_english
+            ) for data in parsed_data if data.iso not in exist_codes
+        ]
 
         return await self.importer.add_many(countries=create_data)

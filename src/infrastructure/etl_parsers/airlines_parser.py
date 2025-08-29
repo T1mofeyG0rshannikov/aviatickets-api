@@ -1,13 +1,15 @@
-from src.application.factories.airline_factory import AirlineFactory
-from src.entities.airline.airline import Airline
-from src.entities.exceptions import DomainError
+from src.application.dto.airline import CreateAirlineDTO
+from src.application.usecases.create_airlines.loader import AirlinesLoader
 
 
-class AirlinesTXTParser:
-    def execute(self, input_data: list[str]) -> list[Airline]:
+class AirlinesTXTParser(AirlinesLoader):
+    def __init__(self, data: list[str]) -> None:
+        self._data = data
+
+    def load(self) -> list[CreateAirlineDTO]:
         output_data = []
 
-        for line in input_data:
+        for line in self._data:
             try:
                 iata, icao, name, name_russian = line.split("\t")
                 name_russian = name_russian.strip()
@@ -17,14 +19,14 @@ class AirlinesTXTParser:
 
             try:
                 output_data.append(
-                    AirlineFactory.create(
+                    CreateAirlineDTO(
                         iata=iata,
                         icao=icao,
                         name=name,
                         name_russian=name_russian,
                     )
                 )
-            except DomainError as e:
+            except ValueError as e:
                 print(f"Error while building Airline: {e}")
 
         return output_data

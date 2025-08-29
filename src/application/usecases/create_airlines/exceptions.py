@@ -1,2 +1,0 @@
-class InvalidFileContentException(Exception):
-    pass

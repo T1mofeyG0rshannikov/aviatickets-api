@@ -4,10 +4,10 @@ from typing import Annotated
 from fastapi import Depends
 from redis import Redis  # type: ignore
 
-from infrastructure.timezone_resolver import TimezoneResolver
+from src.infrastructure.etl_parsers.regions_parser.adapter import RegionsLoaderAdapter
+from src.infrastructure.timezone_resolver import TimezoneResolver
 from src.application.builders.user_ticket import UserTicketFullInfoAssembler
 from src.application.services.currency_converter import CurrencyConverter
-from src.application.usecases.create_regions.adapter import RegionCsvToEntitiesAdapter
 from src.application.usecases.tickets.pdf.strategies.default.adapter import (
     DefaultPdfTicketAdapter,
     DefaultPdfTicketAdapterConfig,
@@ -64,10 +64,6 @@ def get_jwt_config() -> JwtConfig:
 
 def get_jwt_processor(config: Annotated[JwtConfig, Depends(get_jwt_config)]) -> JwtProcessor:
     return JwtProcessor(config)
-
-
-def get_regions_csv_to_create_adapter(repository: LocationRepositoryAnnotation) -> RegionCsvToEntitiesAdapter:
-    return RegionCsvToEntitiesAdapter(repository)
 
 
 def get_aviasales_ticket_adapter(

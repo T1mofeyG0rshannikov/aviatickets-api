@@ -1,8 +1,8 @@
 from datetime import datetime
 
-from src.application.factories.ticket_segment_factory import TicketSegmentFactory
-from src.entities.tickets.ticket import Ticket
-from src.infrastructure.persistence.repositories.airlline_repository import (
+from src.entities.tickets.value_objects.seat_class.enum import SeatClassEnum
+from src.application.dto.ticket import CreateTicketDTO, CreateTicketSegmentDTO
+from src.infrastructure.persistence.repositories.airline_repository import (
     AirlineRepository,
 )
 from src.infrastructure.persistence.repositories.airport_repository import (
@@ -19,7 +19,7 @@ class AviasalesTicketAdapter:
         self.repository = repository
         self.airline_repository = airline_repository
 
-    async def build(self, response_data: list[dict]) -> list[Ticket]:
+    async def build(self, response_data: list[dict]) -> list[CreateTicketDTO]:
         dto_list = []
         airports_iata = set()
         airlines_iata = set()
@@ -38,7 +38,7 @@ class AviasalesTicketAdapter:
         for t in response_data:
             if t["transfers"] == 0:
                 segments_dto = [
-                    TicketSegmentFactory.create(
+                    CreateTicketSegmentDTO(
                         flight_number=f"""{airlines_dict[t["airline"]].iata}-{t["flight_number"]}""",
                         segment_number=1,
                         origin_airport_id=airports_dict[t["origin_airport"]],
@@ -47,13 +47,13 @@ class AviasalesTicketAdapter:
                         departure_at=datetime.fromisoformat(t["departure_at"]),
                         return_at=datetime.fromisoformat(t["return_at"]),
                         duration=t["duration"],
-                        seat_class="economy",
+                        seat_class=SeatClassEnum.economy,
                         status="confirmed",
                     )
                 ]
 
                 dto_list.append(
-                    Ticket.create(
+                    CreateTicketDTO(
                         currency="RUB",
                         segments=segments_dto,
                         duration=t["duration"],
