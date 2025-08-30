@@ -1,28 +1,30 @@
 from src.application.dto.airports.create_dto import CreateAirportDTO
-from src.infrastructure.persistence.repositories.location_repository import LocationRepository
+from src.application.usecases.airports.create.loader import (
+    AirportsLoader,
+    AirportsLoaderResponse,
+)
 from src.infrastructure.etl_parsers.airports_parser.adapter import CsvToAirportAdapter
 from src.infrastructure.etl_parsers.airports_parser.csv_data import AirportCSVData
-from src.application.usecases.airports.create.loader import AirportsLoader
+from src.infrastructure.persistence.repositories.location_repository import (
+    LocationRepository,
+)
 
 
 class AirportsCsvParser(AirportsLoader):
     def __init__(
-        self,
-        data: list[list[str]],
-        adapter: CsvToAirportAdapter,
-        location_repository: LocationRepository
+        self, data: list[list[str]], adapter: CsvToAirportAdapter, location_repository: LocationRepository
     ) -> None:
         self._data = data
         self.adapter = adapter
         self.location_repository = location_repository
 
-    def get_russian_name(self, keywords: str) -> str:
+    def get_russian_name(self, keywords: str) -> str | None:
         try:
             return keywords.split(", ")[1]
         except:
             return None
 
-    async def load(self) -> list[CreateAirportDTO]:
+    async def load(self) -> AirportsLoaderResponse:
         csv_data = [
             AirportCSVData(
                 name=row[3],

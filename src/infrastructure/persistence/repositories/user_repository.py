@@ -24,8 +24,8 @@ class UserRepository(UserRepositoryInterface, BaseRepository):
     async def save(self, user: User) -> None:
         user = UserOrm(
             id=user.id.value,
-            first_name=user.first_name,
-            second_name=user.second_name,
+            first_name=user.first_name.value,
+            second_name=user.second_name.value,
             email=user.email,
             hash_password=user.hash_password,
             is_superuser=user.is_superuser,

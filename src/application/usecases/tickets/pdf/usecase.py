@@ -1,5 +1,3 @@
-from uuid import UUID
-
 from src.application.builders.user_ticket import UserTicketFullInfoAssembler
 from src.application.usecases.tickets.pdf.strategies.base import (
     PdfTicketGeneratorStrategy,
@@ -27,10 +25,10 @@ class CreatePdfTicket:
         self._strategies = strategies
 
     async def __call__(
-        self, user_ticket_id: UUID, user: User, template: PdfTemplatesEnum = PdfTemplatesEnum.default
+        self, user_ticket_id: EntityId, user: User, template: PdfTemplatesEnum = PdfTemplatesEnum.default
     ) -> File:
-        user_ticket = await self.user_ticket_repository.get(EntityId(user_ticket_id))
-        # print(user_ticket)
+        user_ticket = await self.user_ticket_repository.get(user_ticket_id)
+
         if user_ticket is None:
             raise UserTicketNotFoundError(f"Нет пользовательского билета с id='{user_ticket_id}'")
 
@@ -38,5 +36,5 @@ class CreatePdfTicket:
             raise AccessDeniedError("Вы можете генерировать только свои билеты в pdf")
 
         user_ticket_dto = await self.builder.execute(user_ticket)
-        # print(user_ticket_dto)
+
         return await self._strategies[template].execute(user_ticket_dto)

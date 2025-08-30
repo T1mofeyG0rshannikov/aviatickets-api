@@ -47,7 +47,7 @@ class TicketRepository(TicketRepositoryInterface, BaseRepository):
                         destination_airport_id=segment.destination_airport_id.value,
                         airline_id=segment.airline_id.value,
                         departure_at=segment.departure_at.value,
-                        return_at=segment.return_at,
+                        return_at=segment.return_at.value,
                         duration=segment.duration,
                         flight_number=segment.flight_number.value,
                         ticket_id=ticket_orm.id,

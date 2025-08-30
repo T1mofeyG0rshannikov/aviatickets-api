@@ -1,8 +1,8 @@
 from src.application.auth.password_hasher import PasswordHasherInterface
+from src.application.factories.user_factory import UserFactory
 from src.entities.user.exceptions import UserWithEmailAlreadyExistError
 from src.entities.user.user import User
 from src.entities.user.user_repository import UserRepositoryInterface
-from src.entities.user.value_objects.email import Email
 from src.entities.user.value_objects.password import Password
 
 
@@ -18,13 +18,11 @@ class CreateUser:
 
         hashed_password = self.password_hasher.hash_password(password)
 
-        email = Email(email)
-
         user_by_email = await self.repository.get(email=email)
         if user_by_email is not None:
             raise UserWithEmailAlreadyExistError(f"User with email '{email}' already exist")
 
-        user = User.create(
+        user = UserFactory.create(
             email=email,
             first_name=first_name,
             second_name=second_name,

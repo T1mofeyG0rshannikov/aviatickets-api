@@ -13,7 +13,6 @@ from src.application.usecases.tickets.get import GetTicket
 from src.application.usecases.tickets.parse import ParseAviaTickets
 from src.entities.tickets.filters import TicketsFilter
 from src.web.depends.annotations.user_annotation import UserAnnotation
-from src.web.depends.files_from_request import get_txt_file
 from src.web.depends.usecases import (
     get_airports_interactor,
     get_create_airlines_interactor,
@@ -43,8 +42,7 @@ async def add_airports(
 @router.post("/airlines/", status_code=201)
 @admin_required
 async def add_airlines(
-    user: UserAnnotation,
-    usecase: Annotated[CreateAirlines, Depends(get_create_airlines_interactor)]
+    user: UserAnnotation, usecase: Annotated[CreateAirlines, Depends(get_create_airlines_interactor)]
 ):
     return await usecase()
 

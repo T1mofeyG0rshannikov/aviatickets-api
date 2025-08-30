@@ -1,19 +1,26 @@
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 from typing import Protocol
 
 from src.application.dto.user_ticket import AdapterPdfField, UserTicketFullInfoDTO
 from src.interface_adapters.file import File
 
 
+@dataclass
+class PdfFieldsAdapter:
+    template_name: str
+    data_fields_list: list[list[AdapterPdfField]]
+
+
 class PdfTicketAdapter(ABC):
     @abstractmethod
-    def execute(self, user_ticket: UserTicketFullInfoDTO) -> list[AdapterPdfField]:
+    async def execute(self, user_ticket: UserTicketFullInfoDTO) -> list[PdfFieldsAdapter]:
         ...
 
 
 class PdfTicketGeneratorStrategy(ABC):
     @abstractmethod
-    def execute(self, user_ticket: UserTicketFullInfoDTO) -> File:
+    async def execute(self, user_ticket: UserTicketFullInfoDTO) -> File:
         ...
 
 
@@ -27,5 +34,5 @@ class PdfServiceInterface(Protocol):
     def save_file(self) -> bytes:
         raise NotImplementedError
 
-    def merge_byte_files(self) -> bytes:
+    def merge_byte_files(self, files: list[bytes]) -> bytes:
         raise NotImplementedError

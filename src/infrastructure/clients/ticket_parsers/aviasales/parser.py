@@ -37,27 +37,23 @@ class AviasalesTicketParser(TicketsParser, BaseHttpClient):
 
     @retry()
     async def parse(self, params: TicketsParseParams) -> list[CreateTicketDTO]:
-        params = {
+        url_params = {
             "origin": params.origin_airport.iata,
             "destination": params.destination_airport.iata,
             "departure_at": self.format_date(params.departure_at),
             "return_at": self.format_date(params.return_at),
-            "one_way": "true",
             "token": self._config.api_token,
             "adults": params.adults,
             "children": params.childrens,
             "infants": params.infants,
+            "one_way": False,
             "transfers": 0,
         }
 
-        response = await self.session.get(self._config.url, params=params)
-        print(response)
-        print(response.json())
+        response = await self.session.get(self._config.url, params=url_params)
         if response.is_error:
             raise FetchAPIError("error while fetching aviasales api")
 
         json = response.json()
-
-        print(json)
 
         return await self.adapter.build(json["data"])

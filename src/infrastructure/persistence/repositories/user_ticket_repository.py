@@ -17,13 +17,13 @@ from src.infrastructure.persistence.repositories.mappers.user_ticket import (
 class UserTicketRepository(UserTicketRepositoryInterface, BaseRepository):
     async def get(self, id: EntityId) -> UserTicket:
         result = await self.db.execute(
-            select(UserTicketOrm).options(joinedload(UserTicketOrm.passengers)).where(UserTicketOrm.id == id)
+            select(UserTicketOrm).options(joinedload(UserTicketOrm.passengers)).where(UserTicketOrm.id == id.value)
         )
 
         user_ticket = result.scalar()
         return from_orm_to_user_ticket(user_ticket) if user_ticket else None
 
-    async def save(self, user_ticket: UserTicket) -> UserTicket:
+    async def save(self, user_ticket: UserTicket) -> None:
         try:
             user_ticket_orm = UserTicketOrm(
                 id=user_ticket.id.value, user_id=user_ticket.user_id.value, ticket_id=user_ticket.ticket_id.value

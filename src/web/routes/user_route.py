@@ -11,6 +11,7 @@ from src.application.usecases.tickets.email import SendPdfTicketToEmail
 from src.application.usecases.tickets.pdf.usecase import CreatePdfTicket
 from src.application.usecases.user.auth.login import Login
 from src.application.usecases.user.auth.register import Register
+from src.entities.value_objects.entity_id import EntityId
 from src.web.depends.annotations.user_annotation import UserAnnotation
 from src.web.depends.usecases import (
     get_create_pdf_ticket_interactor,
@@ -44,7 +45,7 @@ async def generate_pdf_ticket(
     user_ticket_id: UUID,
     usecase: Annotated[CreatePdfTicket, Depends(get_create_pdf_ticket_interactor)],
 ):
-    file = await usecase(user_ticket_id, user)
+    file = await usecase(EntityId(user_ticket_id), user)
     headers = {"Content-Disposition": f"attachment; filename={file.name}.pdf"}
     return StreamingResponse(BytesIO(file.content), media_type="application/pdf", headers=headers)
 
@@ -56,7 +57,7 @@ async def send_pdf_ticket_on_email(
     user_ticket_id: UUID,
     usecase: Annotated[SendPdfTicketToEmail, Depends(get_send_pdf_ticket_to_email_interactor)],
 ):
-    return await usecase(user_ticket_id, user)
+    return await usecase(EntityId(user_ticket_id), user)
 
 
 @router.post("/register", status_code=201)

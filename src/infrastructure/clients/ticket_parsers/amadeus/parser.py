@@ -51,7 +51,7 @@ class AmadeusTicketParser(TicketsParser, BaseHttpClient):
     async def parse(self, params: TicketsParseParams) -> list[CreateTicketDTO]:
         access_token = await self.get_access_token()
 
-        params = {
+        url_params = {
             "originLocationCode": params.origin_airport.iata,
             "destinationLocationCode": params.destination_airport.iata,
             "departureDate": self.format_date(params.departure_at),
@@ -63,9 +63,7 @@ class AmadeusTicketParser(TicketsParser, BaseHttpClient):
 
         headers = {"Authorization": f"Bearer {access_token}"}
 
-        response = await self.session.get(self._config.url, headers=headers, params=params)
-        print(response)
-        print(response.json())
+        response = await self.session.get(self._config.url, headers=headers, params=url_params)
 
         if response.is_error:
             raise InvalidParseParamsError(response.json()["errors"][0]["detail"])

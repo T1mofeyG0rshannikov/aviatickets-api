@@ -28,3 +28,11 @@ class UserWithEmailAlreadyExistError(InvalidCredentialsError):
 
 class InvalidEmailError(DomainError):
     pass
+
+
+class InvalidFirstNameError(DomainError):
+    pass
+
+
+class InvalidSecondNameError(DomainError):
+    pass

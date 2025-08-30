@@ -3,8 +3,8 @@ from decimal import Decimal
 
 import isodate
 
-from src.entities.tickets.value_objects.seat_class.enum import SeatClassEnum
 from src.application.dto.ticket import CreateTicketDTO, CreateTicketSegmentDTO
+from src.entities.tickets.value_objects.seat_class.enum import SeatClassEnum
 from src.infrastructure.persistence.repositories.airline_repository import (
     AirlineRepository,
 )
@@ -23,13 +23,10 @@ class AmadeusTicketAdapter:
         self.timezone_resolver = timezone_resolver
 
     def iso_time_to_minutes(self, iso_time_string: str) -> int:
-        try:
-            duration = isodate.parse_duration(iso_time_string)
-            total_seconds = duration.total_seconds()
-            minutes = total_seconds / 60
-            return minutes
-        except isodate.ISO8601Error:
-            return None
+        duration = isodate.parse_duration(iso_time_string)
+        total_seconds = duration.total_seconds()
+        minutes = total_seconds / 60
+        return minutes
 
     def get_seat_class(self, raw_seat_class: str) -> str:
         class_codes = {
@@ -39,9 +36,11 @@ class AmadeusTicketAdapter:
             SeatClassEnum.economy: ["Y", "B", "H", "K", "L", "M", "Q", "V", "T", "X", "E", "N", "O", "R"],
         }
 
-        for class_name, class_codes in class_codes.items():
+        for class_name, class_codes in class_codes.items():  # type: ignore
             if raw_seat_class in class_codes:
                 return class_name
+
+        return SeatClassEnum.economy
 
     async def build(self, response_data: list[dict]) -> list[CreateTicketDTO]:
         dto_list = []
@@ -73,7 +72,6 @@ class AmadeusTicketAdapter:
                     tzinfo=self.timezone_resolver.get_timezone(destination_airport.iata)
                 )
 
-                departure_at = self.timezone_resolver(segment["departure"]["at"])
                 segments_dto.append(
                     CreateTicketSegmentDTO(
                         flight_number=f"""{airlines_dict[segment["carrierCode"]].iata}-{segment["number"]}""",

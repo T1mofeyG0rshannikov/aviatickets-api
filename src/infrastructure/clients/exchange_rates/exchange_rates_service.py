@@ -1,8 +1,8 @@
-from decimal import Decimal
 import json
+from decimal import Decimal
 
 import httpx
-from redis import Redis
+from redis import Redis  # type: ignore
 
 from src.application.services.currency_converter import ExchangeRateServiceInterface
 from src.infrastructure.clients.base_http_client import BaseHttpClient
@@ -36,10 +36,10 @@ class ExchangeRateService(ExchangeRateServiceInterface, BaseHttpClient):
 
         exchange_rate = data["Valute"]
 
-        result = {"RUB": 1}
+        result = {"RUB": Decimal(1)}
 
         for currency, currency_data in exchange_rate.items():
-            result[currency] = currency_data["Value"]
+            result[currency] = Decimal(currency_data["Value"])
 
         return result
 

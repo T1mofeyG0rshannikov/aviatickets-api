@@ -9,17 +9,11 @@ from src.application.etl_importers.city_importer import CityImporterInterface
 from src.application.etl_importers.country_importer import CountryImporterInterface
 from src.application.etl_importers.region_importer import RegionImporterInterface
 from src.application.services.currency_converter import CurrencyConverter
-from src.infrastructure.etl_parsers.airports_parser.adapter import CsvToAirportAdapter
-from src.infrastructure.etl_parsers.airports_parser.airports_parser import AirportsCsvParser
 from src.application.usecases.airports.create.usecase import CreateAirports
 from src.application.usecases.airports.get.usecase import GetAirports
-from src.infrastructure.etl_parsers.airlines_parser import AirlinesTXTParser
 from src.application.usecases.create_airlines.usecase import CreateAirlines
-from src.infrastructure.etl_parsers.cities_parser import CitiesCsvParser
 from src.application.usecases.create_cities.usecase import CreateCities
-from src.infrastructure.etl_parsers.countries_parser import CountriesCsvParser
 from src.application.usecases.create_countries.usecase import CreateCountries
-from src.infrastructure.etl_parsers.regions_parser.parser import RegionsCsvParser
 from src.application.usecases.create_regions.usecase import CreateRegions
 from src.application.usecases.create_user_ticket import CreateUserTicket
 from src.application.usecases.tickets.email import SendPdfTicketToEmail
@@ -38,6 +32,13 @@ from src.infrastructure.clients.ticket_parsers.aviasales.parser import (
     AviasalesTicketParser,
 )
 from src.infrastructure.email_sender.service import EmailSender
+from src.infrastructure.etl_parsers.airlines_parser import AirlinesTXTParser
+from src.infrastructure.etl_parsers.airports_parser.airports_parser import (
+    AirportsCsvParser,
+)
+from src.infrastructure.etl_parsers.cities_parser import CitiesCsvParser
+from src.infrastructure.etl_parsers.countries_parser import CountriesCsvParser
+from src.infrastructure.etl_parsers.regions_parser.parser import RegionsCsvParser
 from src.infrastructure.security.password_hasher import PasswordHasher
 from src.interface_adapters.pdf_templates import PdfTemplatesEnum
 from src.web.depends.annotations.annotations import (
@@ -59,6 +60,13 @@ from src.web.depends.depends import (
     get_email_sender,
     get_user_ticket_assembler,
 )
+from src.web.depends.etl_loaders import (
+    get_cities_csv_parser,
+    get_countries_csv_parser,
+    get_csv_airports_parser,
+    get_regions_csv_parser,
+    get_txt_airlines_parser,
+)
 from src.web.depends.importers import (
     get_airline_importer,
     get_airport_importer,
@@ -66,7 +74,6 @@ from src.web.depends.importers import (
     get_country_importer,
     get_region_importer,
 )
-from src.web.depends.etl_loaders import get_cities_csv_parser, get_countries_csv_parser, get_csv_airports_parser, get_regions_csv_parser, get_txt_airlines_parser
 
 
 def get_create_airports_interactor(
@@ -75,7 +82,9 @@ def get_create_airports_interactor(
     csv_parser: Annotated[AirportsCsvParser, Depends(get_csv_airports_parser)],
     location_repository: LocationRepositoryAnnotation,
 ) -> CreateAirports:
-    return CreateAirports(location_repository=location_repository, importer=importer, loader=csv_parser, repository=repository)
+    return CreateAirports(
+        location_repository=location_repository, importer=importer, loader=csv_parser, repository=repository
+    )
 
 
 def get_create_airlines_interactor(

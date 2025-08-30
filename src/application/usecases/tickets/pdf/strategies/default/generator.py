@@ -24,7 +24,7 @@ class DefaultPdfTicketGenerator(PdfTicketGeneratorStrategy):
 
     async def execute(self, user_ticket: UserTicketFullInfoDTO) -> File:
         adapter_fields = await self.adapter.execute(user_ticket)
-        print(adapter_fields)
+
         pdf_segments = []
         for pdf_adapter in adapter_fields:
             if pdf_adapter.data_fields_list:

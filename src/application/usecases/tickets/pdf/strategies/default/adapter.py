@@ -1,25 +1,24 @@
-from dataclasses import dataclass
 from datetime import datetime, timedelta
+from decimal import Decimal
 
 from transliterate import translit
 
 from src.application.dto.airports.full_info import AirportFullInfoDTO
-from src.application.dto.ticket import TicketFullInfoDTO
-from src.application.dto.user_ticket import AdapterPdfField, UserTicketFullInfoDTO
+from src.application.dto.location import CityDTO, CountryDTO
+from src.application.dto.ticket import TicketFullInfoDTO, TicketSegmentFullInfoDTO
+from src.application.dto.user_ticket import (
+    AdapterPdfField,
+    PassengerDTO,
+    UserTicketFullInfoDTO,
+)
 from src.application.services.currency_converter import CurrencyConverter
-from src.application.usecases.tickets.pdf.strategies.base import PdfTicketAdapter
+from src.application.usecases.tickets.pdf.strategies.base import (
+    PdfFieldsAdapter,
+    PdfTicketAdapter,
+)
 from src.application.usecases.tickets.pdf.strategies.default.config import (
     DefaultPdfTicketAdapterConfig,
 )
-from src.entities.location.city.city import City
-from src.entities.location.country.country import Country
-from src.entities.user_ticket.user_ticket import Passenger
-
-
-@dataclass
-class PdfFieldsAdapter:
-    template_name: str
-    data_fields_list: list[list[AdapterPdfField]]
 
 
 class DefaultPdfTicketAdapter(PdfTicketAdapter):
@@ -27,7 +26,7 @@ class DefaultPdfTicketAdapter(PdfTicketAdapter):
         self.config = config
         self.currency_converter = currency_converter
 
-    def get_place(self, city: City, country: Country) -> str:
+    def get_place(self, city: CityDTO, country: CountryDTO) -> str:
         return f"{city.name_english.upper()}, {country.name_english.upper()}"
 
     def get_airport_place(self, airport: AirportFullInfoDTO) -> str:
@@ -38,14 +37,14 @@ class DefaultPdfTicketAdapter(PdfTicketAdapter):
         to_value = self.get_airport_place(ticket.segments[-1].destination_airport)
         return f"{from_value} - {to_value}"
 
-    async def get_price(self, price: int, currency: str) -> str:
+    async def get_price(self, price: Decimal, currency: str) -> str:
         price_in_rub = await self.currency_converter.to_rub(currency, price)
         return f"{price_in_rub:,.2f}"
 
     def format_date(self, date) -> str:
         return date.strftime("%A %d %B %Y").upper()
 
-    def get_passengers(self, passengers: list[Passenger]) -> str:
+    def get_passengers(self, passengers: list[PassengerDTO]) -> str:
         result = ""
         for passenger in passengers:
             first_name = translit(passenger.first_name, "ru", reversed=True).upper()
@@ -55,13 +54,13 @@ class DefaultPdfTicketAdapter(PdfTicketAdapter):
 
         return result
 
-    def get_arriving_time(self, ticket: TicketFullInfoDTO) -> datetime:
+    def get_arriving_time(self, ticket: TicketSegmentFullInfoDTO) -> datetime:
         return ticket.departure_at + timedelta(minutes=ticket.duration)
 
-    def get_origin_arriving_date(self, ticket: TicketFullInfoDTO) -> str:
+    def get_origin_arriving_date(self, ticket: TicketSegmentFullInfoDTO) -> str:
         return self.get_arriving_time(ticket).strftime("%d %b %Y")
 
-    def get_origin_arriving_time(self, ticket: TicketFullInfoDTO) -> str:
+    def get_origin_arriving_time(self, ticket: TicketSegmentFullInfoDTO) -> str:
         return self.get_arriving_time(ticket).strftime("%H:%M")
 
     async def execute(self, user_ticket: UserTicketFullInfoDTO) -> list[PdfFieldsAdapter]:

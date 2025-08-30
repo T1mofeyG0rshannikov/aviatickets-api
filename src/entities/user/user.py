@@ -1,14 +1,16 @@
 from dataclasses import dataclass
 
 from src.entities.user.value_objects.email import Email
+from src.entities.user.value_objects.first_name import FirstName
+from src.entities.user.value_objects.second_name import SecondName
 from src.entities.value_objects.entity_id import EntityId
 
 
 @dataclass
 class User:
     id: EntityId
-    first_name: str
-    second_name: str
+    first_name: FirstName
+    second_name: SecondName
     email: Email
     hash_password: str
     is_superuser: bool
@@ -17,19 +19,13 @@ class User:
     @classmethod
     def create(
         cls,
-        first_name: str,
-        second_name: str,
+        first_name: FirstName,
+        second_name: SecondName,
         email: Email,
         hash_password: str,
         is_superuser: bool = False,
         is_active: bool = True,
     ):
-        if not first_name:
-            raise ValueError("first_name is required")
-
-        if not second_name:
-            raise ValueError("second_name is required")
-
         return cls(
             id=EntityId.generate(),
             first_name=first_name,

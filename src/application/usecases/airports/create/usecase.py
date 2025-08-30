@@ -1,12 +1,12 @@
-from src.entities.exceptions import DomainError
-from src.application.factories.airport_factory import AirportFactory
-from src.application.usecases.airports.create.loader import AirportsLoader
 from src.application.dto.bulk_result import BulkResult
 from src.application.etl_importers.airport_importer import AirportImporterInterface
+from src.application.factories.airport_factory import AirportFactory
+from src.application.usecases.airports.create.loader import AirportsLoader
 from src.entities.airport.airport import Airport
 from src.entities.airport.airport_repository import AirportRepositoryInterface
 from src.entities.airport.value_objects.iata_code import IATACode
 from src.entities.airport.value_objects.icao_code import ICAOCode
+from src.entities.exceptions import DomainError
 from src.entities.location.location_repository import LocationRepositoryInterface
 
 
@@ -23,14 +23,12 @@ class CreateAirports:
         self.importer = importer
         self.loader = loader
 
-    async def get_exist_codes(self) -> set[tuple[IATACode, ICAOCode]]:
+    async def get_exist_codes(self) -> set[IATACode]:
         airports = await self.repository.all()
         return {airport.iata for airport in airports}
 
     async def __call__(self) -> BulkResult:
         skipped = 0
-
-        airports: list[Airport] = []
 
         loader_response = await self.loader.load()
 
@@ -57,7 +55,7 @@ class CreateAirports:
                             icao=airport.icao,
                             iata=airport.iata,
                             gps_code=airport.gps_code,
-                            name_russian=airport.name_russian
+                            name_russian=airport.name_russian,
                         )
                     )
                 except DomainError as e:

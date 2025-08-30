@@ -4,7 +4,7 @@ from src.infrastructure.admin.forms import UserCreateForm
 from src.infrastructure.persistence.db.models.models import UserOrm
 
 
-class UserAdmin(ModelView, model=UserOrm):
+class UserAdmin(ModelView, model=UserOrm):  # type: ignore
     column_list = [
         UserOrm.id,
         UserOrm.first_name,

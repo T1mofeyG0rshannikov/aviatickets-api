@@ -2,16 +2,11 @@ from functools import lru_cache
 
 import httpx
 from dependency_injector import containers, providers
-from redis import Redis
+from redis import Redis  # type: ignore
 
-from src.infrastructure.etl_parsers.airports_parser.adapter import CsvToAirportAdapter
-from src.infrastructure.etl_parsers.airports_parser.airports_parser import AirportsCsvParser
-from src.infrastructure.etl_parsers.airlines_parser import AirlinesTXTParser
-from src.infrastructure.etl_parsers.regions_parser.parser import RegionsCsvParser
 from src.application.usecases.tickets.pdf.strategies.default.config import (
     DefaultPdfTicketAdapterConfig,
 )
-from src.application.usecases.user.auth.login import Login
 from src.infrastructure.admin.auth import AdminAuth
 from src.infrastructure.admin.config import AdminConfig
 from src.infrastructure.clients.exchange_rates.exchange_rates_service import (
@@ -22,8 +17,8 @@ from src.infrastructure.clients.ticket_parsers.amadeus.config import AmadeusAPIC
 from src.infrastructure.clients.ticket_parsers.aviasales.config import (
     AviasalesAPIConfig,
 )
-from src.infrastructure.depends.repos_container import ReposContainer
 from src.infrastructure.email_sender.config import EmailSenderConfig
+from src.infrastructure.etl_parsers.airports_parser.adapter import CsvToAirportAdapter
 from src.infrastructure.factories.login import LoginFactory
 from src.infrastructure.jwt.jwt_config import JwtConfig
 from src.infrastructure.jwt.jwt_processor import JwtProcessor
@@ -106,7 +101,3 @@ def get_exchange_rate_service_config() -> ExchangeRateServiceConfig:
 @lru_cache
 def get_redis_config() -> RedisConfig:
     return RedisConfig()
-
-
-# infra_di_container = InfraDIContainer()
-# infra_di_container.wire(modules=["src.infrastructure"])

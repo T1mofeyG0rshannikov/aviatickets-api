@@ -4,6 +4,7 @@ from uuid import UUID
 from src.entities.tickets.ticket import TicketSegment
 from src.entities.tickets.value_objects.departure_at import DepartureAt
 from src.entities.tickets.value_objects.flight_number import FlightNumber
+from src.entities.tickets.value_objects.return_at import ReturnAt
 from src.entities.value_objects.entity_id import EntityId
 
 
@@ -29,7 +30,7 @@ class TicketSegmentFactory:
             destination_airport_id=EntityId(destination_airport_id),
             airline_id=EntityId(airline_id),
             departure_at=DepartureAt(departure_at),
-            return_at=return_at,
+            return_at=ReturnAt(return_at),
             duration=duration,
             seat_class=seat_class,
             status=status,
