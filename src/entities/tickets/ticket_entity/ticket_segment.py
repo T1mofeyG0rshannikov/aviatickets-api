@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-import pytz
+import pytz  # type: ignore
 
 from src.entities.tickets.exceptions import DepartureAtMustBeBeforeReturnAtError
 from src.entities.tickets.value_objects.departure_at import DepartureAt
@@ -41,7 +41,7 @@ class TicketSegment:
         utc_return_at = return_at.value.astimezone(pytz.utc)
 
         if utc_return_at < utc_departure_at:
-            raise DepartureAtMustBeBeforeReturnAtError(f"departure at must be before return at")
+            raise DepartureAtMustBeBeforeReturnAtError("departure at must be before return at")
 
         return cls(
             id=EntityId.generate(),
@@ -55,25 +55,4 @@ class TicketSegment:
             duration=duration,
             seat_class=seat_class,
             status=status,
-        )
-
-
-@dataclass
-class Ticket:
-    id: EntityId
-    duration: int
-    price: int
-    currency: str
-    transfers: int
-    segments: list[TicketSegment]
-
-    @classmethod
-    def create(cls, duration: int, price: int, currency: str, transfers: int, segments: list[TicketSegment]):
-        return cls(
-            id=EntityId.generate(),
-            duration=duration,
-            price=price,
-            currency=currency,
-            transfers=transfers,
-            segments=segments,
         )

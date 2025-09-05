@@ -1,6 +1,5 @@
-from sqlalchemy import create_engine
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
-from sqlalchemy.orm import DeclarativeBase, sessionmaker
+from sqlalchemy.orm import DeclarativeBase
 
 from src.infrastructure.persistence.db.get_db_conf import get_db_config
 
@@ -9,11 +8,7 @@ SQLALCHEMY_SYNC_DATABASE_URL = get_db_config().SYNC_DATABASE_URL
 
 engine = create_async_engine(SQLALCHEMY_DATABASE_URL, pool_size=15, max_overflow=50, pool_timeout=30)
 
-sync_engine = create_engine(SQLALCHEMY_SYNC_DATABASE_URL)
-
 new_session = async_sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
-
-Session = sessionmaker(autocommit=False, autoflush=False, bind=sync_engine)
 
 
 class Model(DeclarativeBase):

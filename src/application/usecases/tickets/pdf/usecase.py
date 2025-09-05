@@ -1,7 +1,5 @@
 from src.application.builders.user_ticket import UserTicketFullInfoAssembler
-from src.application.usecases.tickets.pdf.strategies.base import (
-    PdfTicketGeneratorStrategy,
-)
+from src.application.services.pdf_service import PdfTicketGeneratorStrategy
 from src.entities.exceptions import AccessDeniedError
 from src.entities.user.user import User
 from src.entities.user_ticket.exceptions import UserTicketNotFoundError

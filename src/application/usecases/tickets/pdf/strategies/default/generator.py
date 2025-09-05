@@ -1,6 +1,6 @@
 from src.application.dto.ticket import TicketFullInfoDTO
 from src.application.dto.user_ticket import UserTicketFullInfoDTO
-from src.application.usecases.tickets.pdf.strategies.base import (
+from src.application.services.pdf_service import (
     PdfServiceInterface,
     PdfTicketGeneratorStrategy,
 )

@@ -1,4 +1,3 @@
-from typing import Optional
 from uuid import UUID
 
 from src.entities.airport.airport import Airport
@@ -15,9 +14,9 @@ class AirportFactory:
         cls,
         name: str,
         continent: str,
-        country_id: UUID | None,
-        region_id: UUID | None,
-        city_id: UUID | None,
+        country_id: UUID,
+        region_id: UUID,
+        city_id: UUID,
         scheduled_service: str,
         icao: str,
         iata: str,
@@ -27,9 +26,9 @@ class AirportFactory:
         return Airport.create(
             name=AirportName(name),
             continent=continent,
-            country_id=EntityId(country_id) if country_id else None,
-            region_id=EntityId(region_id) if region_id else None,
-            city_id=EntityId(city_id) if city_id else None,
+            country_id=EntityId(country_id),
+            region_id=EntityId(region_id),
+            city_id=EntityId(city_id),
             scheduled_service=scheduled_service,
             icao=ICAOCode(icao),
             iata=IATACode(iata),

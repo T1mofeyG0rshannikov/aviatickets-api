@@ -2,7 +2,7 @@ from src.infrastructure.admin.model_views.base import BaseModelView
 from src.infrastructure.persistence.db.models.models import RegionOrm
 
 
-class RegionAdmin(BaseModelView, model=RegionOrm):
+class RegionAdmin(BaseModelView, model=RegionOrm):  # type: ignore
     column_list = [
         RegionOrm.id,
         RegionOrm.iso,

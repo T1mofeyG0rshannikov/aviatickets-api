@@ -6,7 +6,7 @@ from src.entities.value_objects.entity_id import EntityId
 
 
 class UserRepositoryInterface(Protocol):
-    async def get(self, email: Email = None, id: EntityId = None) -> User:
+    async def get(self, email: Email | str | None = None, id: EntityId | None = None) -> User | None:
         raise NotImplementedError
 
     async def save(self, data: User) -> None:

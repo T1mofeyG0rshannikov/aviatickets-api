@@ -15,7 +15,7 @@ from src.infrastructure.persistence.repositories.mappers.user_ticket import (
 
 
 class UserTicketRepository(UserTicketRepositoryInterface, BaseRepository):
-    async def get(self, id: EntityId) -> UserTicket:
+    async def get(self, id: EntityId) -> UserTicket | None:
         result = await self.db.execute(
             select(UserTicketOrm).options(joinedload(UserTicketOrm.passengers)).where(UserTicketOrm.id == id.value)
         )

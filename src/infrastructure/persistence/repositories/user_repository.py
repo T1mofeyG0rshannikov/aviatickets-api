@@ -10,7 +10,7 @@ from src.infrastructure.persistence.repositories.mappers.user import from_orm_to
 
 
 class UserRepository(UserRepositoryInterface, BaseRepository):
-    async def get(self, email: Email = None, id: EntityId = None) -> User:
+    async def get(self, email: Email | str | None = None, id: EntityId | None = None) -> User | None:
         if email is not None:
             result = await self.db.execute(select(UserOrm).where(UserOrm.email == email))
         elif id is not None:

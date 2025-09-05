@@ -1,7 +1,7 @@
 from datetime import datetime
 from uuid import UUID
 
-from src.entities.tickets.ticket import TicketSegment
+from src.entities.tickets.ticket_entity.ticket_segment import TicketSegment
 from src.entities.tickets.value_objects.departure_at import DepartureAt
 from src.entities.tickets.value_objects.flight_number import FlightNumber
 from src.entities.tickets.value_objects.return_at import ReturnAt

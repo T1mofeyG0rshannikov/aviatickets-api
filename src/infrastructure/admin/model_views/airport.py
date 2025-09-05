@@ -2,7 +2,7 @@ from src.infrastructure.admin.model_views.base import BaseModelView
 from src.infrastructure.persistence.db.models.models import AirportOrm
 
 
-class AirportAdmin(BaseModelView, model=AirportOrm):
+class AirportAdmin(BaseModelView, model=AirportOrm):  # type: ignore
     column_list = [
         AirportOrm.id,
         AirportOrm.name,

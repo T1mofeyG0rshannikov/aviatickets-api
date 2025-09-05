@@ -1,4 +1,5 @@
 from decimal import Decimal
+
 from sqlalchemy import Select, and_, or_
 from sqlalchemy.orm import aliased
 
@@ -12,13 +13,13 @@ LastSegment = aliased(TicketSegmentOrm)
 class SqlalchemyTicketsFilter(TicketsFilter):
     def build_max_price_query(self, exchange_rates: dict[str, Decimal]) -> list[and_]:
         return [
-            and_(TicketOrm.currency == currency, TicketOrm.price <= self.price_max / amount)
+            and_(TicketOrm.currency == currency, TicketOrm.price <= self.price_max / amount)  # type: ignore
             for currency, amount in exchange_rates.items()
         ]
 
     def build_min_price_query(self, exchange_rates: dict[str, Decimal]) -> list[and_]:
         return [
-            and_(TicketOrm.currency == currency, TicketOrm.price >= self.price_min / amount)
+            and_(TicketOrm.currency == currency, TicketOrm.price >= self.price_min / amount)  # type: ignore
             for currency, amount in exchange_rates.items()
         ]
 

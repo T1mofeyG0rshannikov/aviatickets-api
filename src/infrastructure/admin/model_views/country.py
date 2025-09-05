@@ -2,7 +2,7 @@ from src.infrastructure.admin.model_views.base import BaseModelView
 from src.infrastructure.persistence.db.models.models import CountryOrm
 
 
-class CountryAdmin(BaseModelView, model=CountryOrm):
+class CountryAdmin(BaseModelView, model=CountryOrm):  # type: ignore
     column_list = [CountryOrm.id, CountryOrm.iso, CountryOrm.name, CountryOrm.name_english]
 
     page_size = 100

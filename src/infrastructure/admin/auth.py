@@ -27,7 +27,6 @@ class AdminAuth(AuthenticationBackend):
     async def login(self, request: Request) -> LoginResponse:
         login = await self.login_factory.get_login()
 
-        print(login, type(login))
         form = await request.form()
         email, password = form["email"], form["password"]
 

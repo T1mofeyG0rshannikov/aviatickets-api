@@ -17,7 +17,7 @@ class LocationRepositoryInterface(Protocol):
     async def get_region(self, iso: ISORegionCode) -> Region:
         raise NotImplementedError
 
-    async def get_country(self, iso: ISOCountryCode) -> Country:
+    async def get_country(self, iso: ISOCountryCode) -> Country | None:
         raise NotImplementedError
 
     async def all_countries(self) -> list[Country]:

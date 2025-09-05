@@ -1,4 +1,3 @@
-from src.application.dto.airports.create_dto import CreateAirportDTO
 from src.application.usecases.airports.create.loader import (
     AirportsLoader,
     AirportsLoaderResponse,

@@ -5,5 +5,5 @@ from src.application.dto.location import CreateCountryDTO
 
 class CountriesLoader(ABC):
     @abstractmethod
-    def load() -> list[CreateCountryDTO]:
+    def load(self) -> list[CreateCountryDTO]:
         ...

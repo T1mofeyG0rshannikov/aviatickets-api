@@ -1,7 +1,7 @@
 import fitz
 
-from src.application.dto.user_ticket import AdapterPdfField
-from src.application.usecases.tickets.pdf.strategies.base import PdfServiceInterface
+from src.application.dto.pdf_service import AdapterPdfField
+from src.application.services.pdf_service import PdfServiceInterface
 from src.infrastructure.pdf_service.exceptions import FileNotSetYetError
 
 

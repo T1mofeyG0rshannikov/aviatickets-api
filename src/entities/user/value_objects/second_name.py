@@ -16,7 +16,7 @@ class SecondName:
         pattern = re.compile(r"^[А-Яa-яЁё]+$")
         return bool(pattern.fullmatch(value))
 
-    def __post_init__(self):
+    def __pre_save__(self):
         if not self.validation(self.value):
             raise InvalidSecondNameError(f"{self.value} is not valid user second name")
         self.value = self.value.capitalize()

@@ -1,6 +1,8 @@
 from src.application.dao.ticket_dao import TicketDAOInterface
 from src.application.dto.user import UserDTO
 from src.application.dto.user_ticket import PassengerDTO, UserTicketFullInfoDTO
+from src.entities.tickets.exceptions import TicketNotFoundError
+from src.entities.user.exceptions import UserNotFoundError
 from src.entities.user.user_repository import UserRepositoryInterface
 from src.entities.user_ticket.user_ticket import UserTicket
 
@@ -16,16 +18,18 @@ class UserTicketFullInfoAssembler:
 
     async def execute(self, user_ticket: UserTicket) -> UserTicketFullInfoDTO:
         user = await self.user_repository.get(id=user_ticket.user_id)
+
+        if user is None:
+            raise UserNotFoundError(f"no user with id = '{user_ticket.user_id}'")
+
         ticket = await self.ticket_dao.get(id=user_ticket.ticket_id)
+
+        if ticket is None:
+            raise TicketNotFoundError(f"no ticket with id = '{user_ticket.ticket_id}'")
 
         return UserTicketFullInfoDTO(
             id=user_ticket.id.value,
-            user=UserDTO(
-                id=user.id.value,
-                first_name=user.first_name,
-                second_name=user.second_name,
-                email=user.email,
-            ),
+            user=UserDTO.from_entity(user),
             ticket=ticket,
             passengers=[
                 PassengerDTO(

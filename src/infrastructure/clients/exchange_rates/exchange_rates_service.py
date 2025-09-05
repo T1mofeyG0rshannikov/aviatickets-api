@@ -4,11 +4,11 @@ from decimal import Decimal
 import httpx
 from redis import Redis  # type: ignore
 
+from src.application.exceptions import FetchAPIError
 from src.application.services.currency_converter import ExchangeRateServiceInterface
 from src.infrastructure.clients.base_http_client import BaseHttpClient
 from src.infrastructure.clients.exchange_rates.config import ExchangeRateServiceConfig
 from src.infrastructure.clients.retry_decorator import retry
-from src.infrastructure.exceptions import FetchAPIError
 
 
 class ExchangeRateService(ExchangeRateServiceInterface, BaseHttpClient):
@@ -51,4 +51,9 @@ class ExchangeRateService(ExchangeRateServiceInterface, BaseHttpClient):
 
             return data
 
-        return json.loads(cache)
+        data = json.loads(cache)
+
+        for currency, value in data.items():
+            data[currency] = Decimal(value)
+
+        return data

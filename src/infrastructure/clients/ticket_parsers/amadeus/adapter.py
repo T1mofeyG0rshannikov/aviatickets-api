@@ -3,7 +3,11 @@ from decimal import Decimal
 
 import isodate
 
-from src.application.dto.ticket import CreateTicketDTO, CreateTicketSegmentDTO
+from src.application.dto.ticket import (
+    CreateTicketDTO,
+    CreateTicketItineraryDTO,
+    CreateTicketSegmentDTO,
+)
 from src.entities.tickets.value_objects.seat_class.enum import SeatClassEnum
 from src.infrastructure.persistence.repositories.airline_repository import (
     AirlineRepository,
@@ -48,10 +52,11 @@ class AmadeusTicketAdapter:
         airlines_iata = set()
 
         for t in response_data:
-            for segment in t["itineraries"][0]["segments"]:
-                airports_iata.add(segment["departure"]["iataCode"])
-                airports_iata.add(segment["arrival"]["iataCode"])
-                airlines_iata.add(segment["carrierCode"])
+            for itinerary in t["itineraries"]:
+                for segment in itinerary["segments"]:
+                    airports_iata.add(segment["departure"]["iataCode"])
+                    airports_iata.add(segment["arrival"]["iataCode"])
+                    airlines_iata.add(segment["carrierCode"])
 
         airports = await self.repository.filter(iata_codes=airports_iata)
         airlines = await self.airline_repository.filter(iata_codes=airlines_iata)
@@ -60,40 +65,58 @@ class AmadeusTicketAdapter:
         airlines_dict = {airline.iata: airline for airline in airlines}
 
         for t in response_data:
-            segments_dto = []
-            for ind, segment in enumerate(t["itineraries"][0]["segments"]):
-                origin_airport = airports_dict[segment["departure"]["iataCode"]]
-                destination_airport = airports_dict[segment["arrival"]["iataCode"]]
+            itineraries_dto = []
+            for itinerary in t["itineraries"]:
+                segments_dto = []
 
-                departure_at = datetime.fromisoformat(segment["departure"]["at"]).replace(
-                    tzinfo=self.timezone_resolver.get_timezone(origin_airport.iata)
-                )
-                arrival_at = datetime.fromisoformat(segment["arrival"]["at"]).replace(
-                    tzinfo=self.timezone_resolver.get_timezone(destination_airport.iata)
-                )
+                for ind, segment in enumerate(itinerary["segments"]):
+                    try:
+                        origin_airport = airports_dict[segment["departure"]["iataCode"]]
+                    except KeyError:
+                        print(f'''no airport with iata "{segment["departure"]["iataCode"]}"''')
+                        continue
 
-                segments_dto.append(
-                    CreateTicketSegmentDTO(
-                        flight_number=f"""{airlines_dict[segment["carrierCode"]].iata}-{segment["number"]}""",
-                        segment_number=ind + 1,
-                        origin_airport_id=origin_airport.id.value,
-                        destination_airport_id=destination_airport.id.value,
-                        airline_id=airlines_dict[segment["carrierCode"]].id.value,
-                        departure_at=departure_at,
-                        return_at=arrival_at,
-                        duration=self.iso_time_to_minutes(segment["duration"]),
-                        seat_class=self.get_seat_class(t["travelerPricings"][0]["fareDetailsBySegment"][ind]["class"]),
-                        status="confirmed",
+                    try:
+                        destination_airport = airports_dict[segment["arrival"]["iataCode"]]
+                    except KeyError:
+                        print(f'''no airport with iata "{segment["arrival"]["iataCode"]}"''')
+                        continue
+
+                    departure_at = datetime.fromisoformat(segment["departure"]["at"]).replace(
+                        tzinfo=self.timezone_resolver.get_timezone(origin_airport.iata)
+                    )
+                    arrival_at = datetime.fromisoformat(segment["arrival"]["at"]).replace(
+                        tzinfo=self.timezone_resolver.get_timezone(destination_airport.iata)
+                    )
+
+                    segments_dto.append(
+                        CreateTicketSegmentDTO(
+                            flight_number=f"""{airlines_dict[segment["carrierCode"]].iata}-{segment["number"]}""",
+                            segment_number=ind + 1,
+                            origin_airport_id=origin_airport.id.value,
+                            destination_airport_id=destination_airport.id.value,
+                            airline_id=airlines_dict[segment["carrierCode"]].id.value,
+                            departure_at=departure_at,
+                            return_at=arrival_at,
+                            duration=self.iso_time_to_minutes(segment["duration"]),
+                            seat_class=self.get_seat_class(
+                                t["travelerPricings"][0]["fareDetailsBySegment"][ind]["class"]
+                            ),
+                            status="confirmed",
+                        )
+                    )
+
+                itineraries_dto.append(
+                    CreateTicketItineraryDTO(
+                        duration=self.iso_time_to_minutes(itinerary["duration"]), segments=segments_dto
                     )
                 )
 
             dto_list.append(
                 CreateTicketDTO(
-                    duration=self.iso_time_to_minutes(t["itineraries"][0]["duration"]),
                     price=Decimal(t["price"]["total"]),
                     currency=t["price"]["currency"],
-                    transfers=len(segments_dto) - 1,
-                    segments=segments_dto,
+                    itineraries=itineraries_dto,
                 )
             )
 

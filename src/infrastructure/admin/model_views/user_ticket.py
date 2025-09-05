@@ -2,7 +2,7 @@ from src.infrastructure.admin.model_views.base import BaseModelView
 from src.infrastructure.persistence.db.models.models import PassengerOrm, UserTicketOrm
 
 
-class UserTicketAdmin(BaseModelView, model=UserTicketOrm):
+class UserTicketAdmin(BaseModelView, model=UserTicketOrm):  # type: ignore
     column_list = [
         UserTicketOrm.id,
         UserTicketOrm.user,
@@ -17,5 +17,5 @@ class UserTicketAdmin(BaseModelView, model=UserTicketOrm):
     column_default_sort = ("id", "desc")
 
 
-class PassengerAdmin(BaseModelView, model=PassengerOrm):
+class PassengerAdmin(BaseModelView, model=PassengerOrm):  # type: ignore
     column_list = [PassengerOrm.id]

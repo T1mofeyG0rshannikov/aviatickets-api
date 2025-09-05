@@ -6,7 +6,6 @@ from sqlalchemy import delete
 
 
 class BaseModelView(ModelView):
-    diapazon_filter_fields = []
     page_size = 100
 
     @action(name="delete_all", label="Удалить", confirmation_message="Вы уверены?")

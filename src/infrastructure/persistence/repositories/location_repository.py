@@ -38,7 +38,7 @@ class LocationRepository(LocationRepositoryInterface, BaseRepository):
         region = result.scalar()
         return orm_to_region(region)
 
-    async def get_country(self, iso: str) -> Country:
+    async def get_country(self, iso: str) -> Country | None:
         result = await self.db.execute(select(CountryOrm).where(CountryOrm.iso == iso))
         country = result.scalar()
         return orm_to_country(country) if country else None

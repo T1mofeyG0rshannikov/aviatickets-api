@@ -1,5 +1,5 @@
 import datetime
-import uuid
+from decimal import Decimal
 from unittest.mock import MagicMock
 from uuid import UUID
 
@@ -9,13 +9,10 @@ from src.application.builders.user_ticket import UserTicketFullInfoAssembler
 from src.application.dto.airline import AirlineDTO
 from src.application.dto.airports.full_info import AirportFullInfoDTO
 from src.application.dto.location import CityDTO, CountryDTO, RegionDTO
+from src.application.dto.pdf_service import AdapterPdfField
 from src.application.dto.ticket import TicketFullInfoDTO, TicketSegmentFullInfoDTO
 from src.application.dto.user import UserDTO
-from src.application.dto.user_ticket import (
-    AdapterPdfField,
-    PassengerDTO,
-    UserTicketFullInfoDTO,
-)
+from src.application.dto.user_ticket import PassengerDTO, UserTicketFullInfoDTO
 from src.application.services.currency_converter import CurrencyConverter
 from src.application.usecases.tickets.pdf.strategies.default.adapter import (
     DefaultPdfTicketAdapter,
@@ -29,12 +26,14 @@ from src.application.usecases.tickets.pdf.strategies.default.generator import (
 )
 from src.application.usecases.tickets.pdf.usecase import CreatePdfTicket
 from src.entities.exceptions import AccessDeniedError
-from src.entities.location.country.country import Country
 from src.entities.user.user import User
 from src.entities.user.value_objects.email import Email
+from src.entities.user.value_objects.first_name import FirstName
+from src.entities.user.value_objects.second_name import SecondName
 from src.entities.user_ticket.user_ticket import Passenger, UserTicket
 from src.entities.user_ticket.value_objects.passport import InternationalPassport
 from src.entities.value_objects.entity_id import EntityId
+from src.entities.value_objects.price.currency_enum import CurrencyEnum
 from src.infrastructure.pdf_service.service import PdfService
 from src.infrastructure.persistence.dao.tickets_dao import TicketDAO
 from src.infrastructure.persistence.repositories.user_repository import UserRepository
@@ -108,8 +107,8 @@ async def mock_create_pdf_ticket(
 async def test_create_pdf(mock_create_pdf_ticket: CreatePdfTicket):
     mock_user = User(
         id=EntityId(value=UUID("0c95ad77-07b3-4516-accc-c96647dbbbb8")),
-        first_name="Тимофей",
-        second_name="Марков",
+        first_name=FirstName("Тимофей"),
+        second_name=SecondName("Марков"),
         email=Email("tgorshannikov@mail.ru"),
         hash_password="$2b$12$nfKvEXfUHAgKZRVPLwwD9.4edFLxtpyTF6SoEvqh2i0Ad4AeyiDQW",
         is_superuser=True,
@@ -127,8 +126,8 @@ async def test_create_pdf(mock_create_pdf_ticket: CreatePdfTicket):
         ticket=TicketFullInfoDTO(
             id=UUID("fce3917b-2afa-4930-9fed-18b5f79a607d"),
             duration=1505,
-            price=4624.6,
-            currency="EUR",
+            price=Decimal(4624.6),
+            currency=CurrencyEnum.eur,
             transfers=1,
             segments=[
                 TicketSegmentFullInfoDTO(
@@ -293,7 +292,7 @@ async def test_create_pdf(mock_create_pdf_ticket: CreatePdfTicket):
     mock_create_pdf_ticket.builder.execute.return_value = mock_user_ticket_dto  # type: ignore
     mock_create_pdf_ticket.user_ticket_repository.get.return_value = mock_user_ticket  # type: ignore
 
-    result = await mock_create_pdf_ticket(user_ticket_id=uuid.uuid4(), user=mock_user)
+    result = await mock_create_pdf_ticket(user_ticket_id=EntityId.generate(), user=mock_user)
 
     assert isinstance(result, File)
 
@@ -302,8 +301,8 @@ async def test_create_pdf(mock_create_pdf_ticket: CreatePdfTicket):
 async def test_assecc_denied_create_pdf_ticket(create_pdf_ticket: CreatePdfTicket):
     mock_user = User(
         id=EntityId(value=UUID("0c95be77-07b3-4516-bebe-c96647bebeb8")),
-        first_name="Тимофей",
-        second_name="Марков",
+        first_name=FirstName("Тимофей"),
+        second_name=SecondName("Марков"),
         email=Email("tgorshannikov@mail.ru"),
         hash_password="$2b$12$nfKvEXfUHAgKZRVPLwwD9.4edFLxtpyTF6SoEvqh2i0Ad4AeyiDQW",
         is_superuser=True,
@@ -329,7 +328,7 @@ async def test_assecc_denied_create_pdf_ticket(create_pdf_ticket: CreatePdfTicke
     create_pdf_ticket.user_ticket_repository.get.return_value = mock_user_ticket
 
     with pytest.raises(AccessDeniedError) as excinfo:
-        await create_pdf_ticket(user_ticket_id=uuid.uuid4(), user=mock_user)
+        await create_pdf_ticket(user_ticket_id=EntityId.generate(), user=mock_user)
 
     assert "Вы можете генерировать только свои билеты в pdf" in str(excinfo.value)
 
@@ -406,8 +405,8 @@ async def test_default_pdf_template_adapter(
         ticket=TicketFullInfoDTO(
             id=UUID("fce3917b-2afa-4930-9fed-18b5f79a607d"),
             duration=1505,
-            price=4624.6,
-            currency="EUR",
+            price=Decimal(4624.6),
+            currency=CurrencyEnum.eur,
             transfers=1,
             segments=[
                 TicketSegmentFullInfoDTO(

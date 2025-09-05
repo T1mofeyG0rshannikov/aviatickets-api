@@ -16,11 +16,11 @@ class Airport:
     icao: ICAOCode
     iata: IATACode
     gps_code: str
-    country_id: EntityId = None
-    city_id: EntityId = None
-    region_id: EntityId = None
-    local_code: str = None
-    name_russian: AirportNameRussian = None
+    country_id: EntityId
+    city_id: EntityId
+    region_id: EntityId
+    local_code: str | None = None
+    name_russian: AirportNameRussian | None = None
 
     @classmethod
     def create(
@@ -34,7 +34,7 @@ class Airport:
         icao: ICAOCode,
         iata: IATACode,
         gps_code: str,
-        name_russian: AirportNameRussian = None,
+        name_russian: AirportNameRussian | None = None,
     ):
         return cls(
             id=EntityId.generate(),

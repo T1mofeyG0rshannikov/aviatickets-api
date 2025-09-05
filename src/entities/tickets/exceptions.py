@@ -23,3 +23,7 @@ class InvalidFlightNumberError(DomainError):
 
 class InvalidSeatClassError(DomainError):
     pass
+
+
+class EmptyTicketSegmentsError(DomainError):
+    pass

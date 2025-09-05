@@ -1,6 +1,7 @@
 from decimal import Decimal
+
 from sqlalchemy import Select, select
-from sqlalchemy.orm import aliased, joinedload
+from sqlalchemy.orm import joinedload
 
 from src.application.dao.ticket_dao import TicketDAOInterface
 from src.application.dto.ticket import TicketFullInfoDTO
@@ -8,11 +9,7 @@ from src.entities.tickets.filters import TicketsFilter
 from src.entities.value_objects.entity_id import EntityId
 from src.infrastructure.persistence.dao.base_dao import BaseDAO
 from src.infrastructure.persistence.dao.builders.ticket import TicketFullInfoDTOBuilder
-from src.infrastructure.persistence.dao.filters.filters import (
-    FirstSegment,
-    LastSegment,
-    SqlalchemyTicketsFilter,
-)
+from src.infrastructure.persistence.dao.filters.filters import SqlalchemyTicketsFilter
 from src.infrastructure.persistence.db.models.models import (
     AirportOrm,
     TicketOrm,
@@ -49,11 +46,11 @@ class TicketDAO(BaseDAO, TicketDAOInterface):
             .order_by(TicketOrm.price)
         )
 
-    async def get(self, id: EntityId) -> TicketFullInfoDTO:
+    async def get(self, id: EntityId) -> TicketFullInfoDTO | None:
         result = await self.db.execute(self._ticket_full_info_joins_query().where(TicketOrm.id == id.value))
 
         ticket = result.scalar()
-        
+
         return TicketFullInfoDTOBuilder.from_orm(ticket) if ticket else None
 
     async def filter(self, filters: TicketsFilter, exchange_rates: dict[str, Decimal]) -> list[TicketFullInfoDTO]:

@@ -5,20 +5,16 @@ from transliterate import translit
 
 from src.application.dto.airports.full_info import AirportFullInfoDTO
 from src.application.dto.location import CityDTO, CountryDTO
+from src.application.dto.pdf_service import AdapterPdfField
 from src.application.dto.ticket import TicketFullInfoDTO, TicketSegmentFullInfoDTO
-from src.application.dto.user_ticket import (
-    AdapterPdfField,
-    PassengerDTO,
-    UserTicketFullInfoDTO,
-)
+from src.application.dto.user_ticket import PassengerDTO, UserTicketFullInfoDTO
 from src.application.services.currency_converter import CurrencyConverter
-from src.application.usecases.tickets.pdf.strategies.base import (
-    PdfFieldsAdapter,
-    PdfTicketAdapter,
-)
+from src.application.services.pdf_service import PdfFieldsAdapter
+from src.application.usecases.tickets.pdf.strategies.base import PdfTicketAdapter
 from src.application.usecases.tickets.pdf.strategies.default.config import (
     DefaultPdfTicketAdapterConfig,
 )
+from src.entities.value_objects.price.currency_enum import CurrencyEnum
 
 
 class DefaultPdfTicketAdapter(PdfTicketAdapter):
@@ -37,11 +33,11 @@ class DefaultPdfTicketAdapter(PdfTicketAdapter):
         to_value = self.get_airport_place(ticket.segments[-1].destination_airport)
         return f"{from_value} - {to_value}"
 
-    async def get_price(self, price: Decimal, currency: str) -> str:
+    async def get_price(self, price: Decimal, currency: CurrencyEnum) -> str:
         price_in_rub = await self.currency_converter.to_rub(currency, price)
         return f"{price_in_rub:,.2f}"
 
-    def format_date(self, date) -> str:
+    def format_date(self, date: datetime) -> str:
         return date.strftime("%A %d %B %Y").upper()
 
     def get_passengers(self, passengers: list[PassengerDTO]) -> str:

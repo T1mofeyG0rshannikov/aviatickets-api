@@ -1,7 +1,11 @@
 from datetime import datetime
 
+from src.application.dto.ticket import (
+    CreateTicketDTO,
+    CreateTicketItineraryDTO,
+    CreateTicketSegmentDTO,
+)
 from src.entities.tickets.value_objects.seat_class.enum import SeatClassEnum
-from src.application.dto.ticket import CreateTicketDTO, CreateTicketSegmentDTO
 from src.infrastructure.persistence.repositories.airline_repository import (
     AirlineRepository,
 )
@@ -52,13 +56,13 @@ class AviasalesTicketAdapter:
                     )
                 ]
 
+                itineraries_dto = [CreateTicketItineraryDTO(segments=segments_dto, duration=t["duration"])]
+
                 dto_list.append(
                     CreateTicketDTO(
                         currency="RUB",
-                        segments=segments_dto,
-                        duration=t["duration"],
+                        itineraries=itineraries_dto,
                         price=t["price"],
-                        transfers=t["transfers"],
                     )
                 )
 

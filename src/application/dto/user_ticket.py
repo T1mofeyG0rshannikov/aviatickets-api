@@ -23,12 +23,6 @@ class UserTicketFullInfoDTO:
 
 
 @dataclass
-class AdapterPdfField:
-    name: str
-    value: str
-
-
-@dataclass
 class CreatePassengerDTO:
     first_name: str
     second_name: str

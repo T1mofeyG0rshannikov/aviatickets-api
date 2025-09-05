@@ -1,11 +1,11 @@
 import asyncio
 import functools
 from collections.abc import Callable
-from typing import Any, Type
+from typing import Any
 
 import httpx
 
-from src.infrastructure.exceptions import FetchAPIError
+from src.application.exceptions import FetchAPIError
 
 
 def retry(

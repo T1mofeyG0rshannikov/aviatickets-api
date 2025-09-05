@@ -3,13 +3,14 @@ from datetime import datetime
 import httpx
 
 from src.application.dto.ticket import CreateTicketDTO
+from src.application.exceptions import FetchAPIError
 from src.infrastructure.clients.base_http_client import BaseHttpClient
 from src.infrastructure.clients.retry_decorator import retry
 from src.infrastructure.clients.ticket_parsers.amadeus.adapter import (
     AmadeusTicketAdapter,
 )
 from src.infrastructure.clients.ticket_parsers.amadeus.config import AmadeusAPIConfig
-from src.infrastructure.exceptions import FetchAPIError, InvalidParseParamsError
+from src.infrastructure.exceptions import InvalidParseParamsError
 from src.infrastructure.persistence.repositories.airport_repository import (
     AirportRepository,
 )
@@ -69,5 +70,5 @@ class AmadeusTicketParser(TicketsParser, BaseHttpClient):
             raise InvalidParseParamsError(response.json()["errors"][0]["detail"])
 
         json = response.json()
-
+        print(json)
         return await self.builder.build(json["data"])

@@ -1,0 +1,2 @@
+class FetchAPIError(Exception):
+    pass

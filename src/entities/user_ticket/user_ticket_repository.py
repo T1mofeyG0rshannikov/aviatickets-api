@@ -5,7 +5,7 @@ from src.entities.value_objects.entity_id import EntityId
 
 
 class UserTicketRepositoryInterface(Protocol):
-    async def get(self, id: EntityId) -> UserTicket:
+    async def get(self, id: EntityId) -> UserTicket | None:
         raise NotImplementedError
 
     async def save(self, user_ticket: UserTicket) -> None:

@@ -7,6 +7,7 @@ from pydantic import BaseModel
 
 from src.application.dto.airline import AirlineDTO
 from src.application.dto.airports.full_info import AirportFullInfoDTO
+from src.entities.value_objects.price.currency_enum import CurrencyEnum
 
 
 @dataclass
@@ -29,7 +30,7 @@ class TicketFullInfoDTO:
     id: UUID
     duration: int
     price: Decimal
-    currency: str
+    currency: CurrencyEnum
     transfers: int
     segments: list[TicketSegmentFullInfoDTO]
 
@@ -47,9 +48,12 @@ class CreateTicketSegmentDTO(BaseModel):
     status: str
 
 
-class CreateTicketDTO(BaseModel):
-    currency: str
-    duration: int
-    price: Decimal
-    transfers: int
+class CreateTicketItineraryDTO(BaseModel):
     segments: list[CreateTicketSegmentDTO]
+    duration: int
+
+
+class CreateTicketDTO(BaseModel):
+    currency: CurrencyEnum
+    price: Decimal
+    itineraries: list[CreateTicketItineraryDTO]

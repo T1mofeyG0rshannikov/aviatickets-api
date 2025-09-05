@@ -1,5 +1,5 @@
-from typing import Optional
 from uuid import UUID
+
 from pydantic import BaseModel
 
 
@@ -10,8 +10,8 @@ class CreateAirportDTO(BaseModel):
     icao: str
     iata: str
     gps_code: str
-    country_id: Optional[UUID] = None
-    region_id: Optional[UUID] = None
-    city_id: Optional[UUID] = None
-    municipality: Optional[str] = None
-    name_russian: Optional[str] = None
+    city_id: UUID
+    country_id: UUID
+    region_id: UUID
+    municipality: str | None = None
+    name_russian: str | None = None

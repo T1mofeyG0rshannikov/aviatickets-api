@@ -2,6 +2,7 @@ import uuid
 
 from sqlalchemy import UUID, Boolean, Column, Date, ForeignKey, Integer, Numeric, String
 from sqlalchemy.orm import relationship
+from sqlalchemy.orm.exc import DetachedInstanceError
 from sqlalchemy.types import TIMESTAMP
 
 from src.infrastructure.persistence.db.database import Model
@@ -65,21 +66,46 @@ class TicketSegmentOrm(Model):
     status = Column(String)
     seat_class = Column(String)
 
+    ticket_itinerary_id = Column(UUID(as_uuid=True), ForeignKey("ticketitineraries.id"))
+    ticket_itinerary = relationship("TicketItineraryOrm", back_populates="segments")
+
+    def __str__(self) -> str:
+        try:
+            return f"{self.flight_number}: {self.origin_airport.iata} -> {self.destination_airport.iata} ({self.departure_at.strftime('%Y-%m-%d %H:%M')})"
+        except DetachedInstanceError:
+            return super().__str__()
+
+
+class TicketItineraryOrm(Model):
+    __tablename__ = "ticketitineraries"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    duration = Column(Integer)
+
     ticket_id = Column(UUID(as_uuid=True), ForeignKey("tickets.id"))
-    ticket = relationship("TicketOrm", back_populates="segments")
+    ticket = relationship("TicketOrm", back_populates="itineraries")
+
+    transfers = Column(Integer)
+
+    segments = relationship("TicketSegmentOrm", back_populates="ticket_itinerary")
+
+    def __str__(self) -> str:
+        try:
+            return f"""Itinerary: {", ".join([str(s) for s in self.segments])}"""
+        except DetachedInstanceError:
+            return super().__str__()
 
 
 class TicketOrm(Model):
     __tablename__ = "tickets"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    duration = Column(Integer)
+    unique_key = Column(String, nullable=True, unique=True)
     price = Column(Numeric(10, 2), index=True)
     currency = Column(String)
-    transfers = Column(Integer)
 
     user_tickets = relationship("UserTicketOrm", back_populates="ticket")
-    segments = relationship("TicketSegmentOrm", back_populates="ticket")
+    itineraries = relationship("TicketItineraryOrm", back_populates="ticket")
 
 
 class UserOrm(Model):

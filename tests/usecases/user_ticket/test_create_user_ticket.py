@@ -2,13 +2,14 @@ import datetime
 from uuid import UUID
 
 import pytest
-from isodate import UTC
-from pydantic_core import TzInfo
 
 from src.application.dto.user_ticket import CreatePassengerDTO
 from src.application.usecases.create_user_ticket import CreateUserTicket
 from src.entities.tickets.exceptions import TicketNotFoundError
 from src.entities.user.user import User
+from src.entities.user.value_objects.email import Email
+from src.entities.user.value_objects.first_name import FirstName
+from src.entities.user.value_objects.second_name import SecondName
 from src.entities.value_objects.entity_id import EntityId
 
 
@@ -16,16 +17,16 @@ from src.entities.value_objects.entity_id import EntityId
 async def test_create_user_ticket(create_user_ticket: CreateUserTicket, populate_db):
     user_mock = User(
         id=EntityId(value=UUID("0c95ad77-07b3-4516-accc-c96647dbbbb8")),
-        first_name="Тимофей",
-        second_name="Марков",
-        email="tgorshannikov@mail.ru",
+        first_name=FirstName("Тимофей"),
+        second_name=SecondName("Марков"),
+        email=Email("tgorshannikov@mail.ru"),
         hash_password="$2b$12$nfKvEXfUHAgKZRVPLwwD9.4edFLxtpyTF6SoEvqh2i0Ad4AeyiDQW",
         is_superuser=True,
         is_active=True,
     )
 
-    result = await create_user_ticket(
-        ticket_id=UUID("fce3917b-2afa-4930-9fed-18b5f79a607d"),
+    result = await create_user_ticket(  # type: ignore
+        ticket_id=EntityId(value=UUID("7d7d949f-f907-4c66-a72e-84f9bb84efba")),
         passengers_to_create=[
             CreatePassengerDTO(
                 first_name="string",
@@ -51,19 +52,20 @@ def mock_create_user_ticket(mock_user_ticket_repository, mock_ticket_repository)
 async def test_create_user_ticket_ticket_not_found(mock_create_user_ticket: CreateUserTicket):
     user_mock = User(
         id=EntityId(value=UUID("0c95ad77-07b3-4516-accc-c96647dbbbb8")),
-        first_name="Тимофей",
-        second_name="Марков",
-        email="tgorshannikov@mail.ru",
+        first_name=FirstName("Тимофей"),
+        second_name=SecondName("Марков"),
+        email=Email("tgorshannikov@mail.ru"),
         hash_password="$2b$12$nfKvEXfUHAgKZRVPLwwD9.4edFLxtpyTF6SoEvqh2i0Ad4AeyiDQW",
         is_superuser=True,
         is_active=True,
     )
 
-    mock_create_user_ticket.ticket_repository.get.return_value = None
+    mock_create_user_ticket.ticket_repository.get.return_value = None  # type: ignore
 
+    ticket_id = "fed25097-d773-4297-94f9-e3243029df9f"
     with pytest.raises(TicketNotFoundError) as excinfo:
         await mock_create_user_ticket(
-            ticket_id=UUID("fed25097-d773-4297-94f9-e3243029df9f"),
+            ticket_id=EntityId(value=UUID(ticket_id)),
             passengers_to_create=[
                 CreatePassengerDTO(
                     first_name="string",
@@ -77,4 +79,4 @@ async def test_create_user_ticket_ticket_not_found(mock_create_user_ticket: Crea
             user=user_mock,
         )
 
-    assert f"Нет билета с id='fed25097-d773-4297-94f9-e3243029df9f'" in str(excinfo.value)
+    assert f"Нет билета с id='{ticket_id}'" in str(excinfo.value)

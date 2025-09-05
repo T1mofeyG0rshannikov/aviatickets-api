@@ -15,9 +15,7 @@ class AirportFullInfoDTOBuilder:
                 iso=airport.country.iso,
                 name=airport.country.name,
                 name_english=airport.country.name_english,
-            )
-            if airport.country
-            else None,
+            ),
             region=RegionDTO(
                 id=airport.region.id,
                 iso=airport.region.iso,
@@ -26,9 +24,7 @@ class AirportFullInfoDTOBuilder:
             )
             if airport.region
             else None,
-            city=CityDTO(id=airport.city.id, name=airport.city.name, name_english=airport.city.name_english)
-            if airport.city
-            else None,
+            city=CityDTO(id=airport.city.id, name=airport.city.name, name_english=airport.city.name_english),
             scheduled_service=airport.scheduled_service,
             icao=airport.icao,
             iata=airport.iata,

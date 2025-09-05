@@ -1,11 +1,11 @@
-from src.application.usecases.airports.create.loader import AirportsLoaderResponse
 from src.application.dto.airports.create_dto import CreateAirportDTO
-from src.infrastructure.etl_parsers.airports_parser.csv_data import AirportCSVData
+from src.application.usecases.airports.create.loader import AirportsLoaderResponse
 from src.entities.location.city.city import City
 from src.entities.location.country.country import Country
 from src.entities.location.country.iso import ISOCode as ISOCountryCode
 from src.entities.location.region.iso import ISOCode as ISORegionCode
 from src.entities.location.region.region import Region
+from src.infrastructure.etl_parsers.airports_parser.csv_data import AirportCSVData
 
 
 class CsvToAirportAdapter:
@@ -20,9 +20,9 @@ class CsvToAirportAdapter:
         invalid = 0
 
         for csv_data in data:
-            country = countries_dict.get(csv_data.iso_country)
-            region = regions_dict.get(csv_data.iso_region)
-            city = cities_dict.get(csv_data.municipality)
+            country = countries_dict.get(csv_data.iso_country)  # type: ignore
+            region = regions_dict.get(csv_data.iso_region)  # type: ignore
+            city = cities_dict.get(csv_data.municipality)  # type: ignore
 
             try:
                 airport = CreateAirportDTO(

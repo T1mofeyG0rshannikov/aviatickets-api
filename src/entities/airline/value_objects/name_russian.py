@@ -13,7 +13,7 @@ class AirlineNameRussian:
     value: str
 
     def validation(self, value: str):
-        pattern = re.compile(r"^[А-Яа-я\s.,:;() -/\d“”’]+$")
+        pattern = re.compile(r"^[А-Яа-я\s.,:;()ёЁЙй -/\d“”’]+$")
         return bool(pattern.fullmatch(value))
 
     def __post_init__(self):

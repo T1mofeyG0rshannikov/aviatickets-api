@@ -1,12 +1,21 @@
-from src.entities.tickets.ticket import Ticket, TicketSegment
+from src.entities.tickets.ticket_entity.ticket import Ticket
+from src.entities.tickets.ticket_entity.ticket_itinerary import TicketItinerary
+from src.entities.tickets.ticket_entity.ticket_segment import TicketSegment
+from src.entities.tickets.value_objects.flight_number import FlightNumber
+from src.entities.tickets.value_objects.unique_key import TicketUniqueKey
 from src.entities.value_objects.entity_id import EntityId
-from src.infrastructure.persistence.db.models.models import TicketOrm, TicketSegmentOrm
+from src.entities.value_objects.price.price import Price
+from src.infrastructure.persistence.db.models.models import (
+    TicketItineraryOrm,
+    TicketOrm,
+    TicketSegmentOrm,
+)
 
 
 def orm_to_ticket_segment(segment: TicketSegmentOrm) -> TicketSegment:
     return TicketSegment(
         id=EntityId(segment.id),
-        flight_number=segment.flight_number,
+        flight_number=FlightNumber(segment.flight_number),
         segment_number=segment.segment_number,
         origin_airport_id=EntityId(segment.origin_airport_id),
         destination_airport_id=EntityId(segment.destination_airport_id),
@@ -19,12 +28,19 @@ def orm_to_ticket_segment(segment: TicketSegmentOrm) -> TicketSegment:
     )
 
 
+def orm_to_itinerary(itinerary: TicketItineraryOrm) -> TicketItinerary:
+    return TicketItinerary(
+        id=EntityId(itinerary.id),
+        transfers=itinerary.transfers,
+        segments=[orm_to_ticket_segment(segment) for segment in itinerary.segments],
+        duration=itinerary.duration,
+    )
+
+
 def orm_to_ticket(ticket: TicketOrm) -> Ticket:
     return Ticket(
         id=EntityId(ticket.id),
-        duration=ticket.duration,
-        price=ticket.price,
-        transfers=ticket.transfers,
-        currency=ticket.currency,
-        segments=[orm_to_ticket_segment(segment) for segment in ticket.segments],
+        unique_key=TicketUniqueKey(ticket.unique_key),
+        price=Price(value=ticket.price, currency=ticket.currency),
+        itineraries=[orm_to_itinerary(itinerary) for itinerary in ticket.itineraries],
     )

@@ -28,9 +28,6 @@ from src.application.usecases.user.auth.login import Login
 from src.application.usecases.user.auth.register import Register
 from src.application.usecases.user.create import CreateUser
 from src.infrastructure.clients.ticket_parsers.amadeus.parser import AmadeusTicketParser
-from src.infrastructure.clients.ticket_parsers.aviasales.parser import (
-    AviasalesTicketParser,
-)
 from src.infrastructure.email_sender.service import EmailSender
 from src.infrastructure.etl_parsers.airlines_parser import AirlinesTXTParser
 from src.infrastructure.etl_parsers.airports_parser.airports_parser import (
@@ -52,9 +49,8 @@ from src.web.depends.annotations.annotations import (
     UserTicketRepositoryAnnotation,
 )
 from src.web.depends.annotations.jwt_processor import JwtProcessorAnnotation
-from src.web.depends.depends import (
+from src.web.depends.depends import (  # get_aviasales_ticket_parser,
     get_amadeus_ticket_parser,
-    get_aviasales_ticket_parser,
     get_currency_converter,
     get_default_pdf_generator,
     get_email_sender,
@@ -120,13 +116,13 @@ def get_create_cities_interactor(
 
 
 def get_parse_tickets_interactor(
-    aviasales_parser: Annotated[AviasalesTicketParser, Depends(get_aviasales_ticket_parser)],
+    # aviasales_parser: Annotated[AviasalesTicketParser, Depends(get_aviasales_ticket_parser)],
     amadeus_parser: Annotated[AmadeusTicketParser, Depends(get_amadeus_ticket_parser)],
     airports_repository: AirportRepositoryAnnotation,
     ticket_repository: TicketRepositoryAnnotation,
 ) -> ParseAviaTickets:
     return ParseAviaTickets(
-        parsers=[aviasales_parser, amadeus_parser],
+        parsers=[amadeus_parser],
         airports_repository=airports_repository,
         ticket_repository=ticket_repository,
     )

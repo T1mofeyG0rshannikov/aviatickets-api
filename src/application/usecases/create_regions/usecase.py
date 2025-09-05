@@ -1,9 +1,9 @@
-from src.application.factories.region_factory import RegionFactory
-from src.entities.exceptions import DomainError
-from src.application.usecases.create_regions.loader import RegionsLoader
 from src.application.etl_importers.region_importer import RegionImporterInterface
-from src.entities.location.country.iso import ISOCode
+from src.application.factories.region_factory import RegionFactory
+from src.application.usecases.create_regions.loader import RegionsLoader
+from src.entities.exceptions import DomainError
 from src.entities.location.location_repository import LocationRepositoryInterface
+from src.entities.location.region.iso import ISOCode
 
 
 class CreateRegions:
@@ -30,13 +30,12 @@ class CreateRegions:
         for data in parsed_data:
             if data.iso not in exist_codes:
                 try:
-                    create_data.append(RegionFactory.create(
-                        iso=data.iso,
-                        country_id=data.country_id,
-                        name=data.name,
-                        name_english=data.name_english
-                    ))
+                    create_data.append(
+                        RegionFactory.create(
+                            iso=data.iso, country_id=data.country_id, name=data.name, name_english=data.name_english
+                        )
+                    )
                 except DomainError as e:
-                    print(F"Error while building Region: {e}")
+                    print(f"Error while building Region: {e}")
 
-        return await self.importer.add_many(create_data)
+        return await self.importer.add_many(create_data)  # type: ignore

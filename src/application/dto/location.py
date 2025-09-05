@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Optional
 from uuid import UUID
 
 from pydantic import BaseModel
@@ -43,4 +42,4 @@ class CreateRegionDTO(BaseModel):
     name: str
     name_english: str
     iso: str
-    country_id: Optional[UUID]
+    country_id: UUID

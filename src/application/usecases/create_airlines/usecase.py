@@ -1,9 +1,9 @@
-from src.entities.exceptions import DomainError
+from src.application.etl_importers.airline_importer import AirlineImporterInterface
 from src.application.factories.airline_factory import AirlineFactory
 from src.application.usecases.create_airlines.loader import AirlinesLoader
-from src.application.etl_importers.airline_importer import AirlineImporterInterface
 from src.entities.airline.airline_repository import AirlineRepositoryInterface
 from src.entities.airline.value_objects.iata_code import IATACode
+from src.entities.exceptions import DomainError
 
 
 class CreateAirlines:
@@ -30,13 +30,10 @@ class CreateAirlines:
                 try:
                     data_to_create.append(
                         AirlineFactory.create(
-                            iata=data.iata,
-                            icao=data.icao,
-                            name=data.name,
-                            name_russian=data.name_russian
+                            iata=data.iata, icao=data.icao, name=data.name, name_russian=data.name_russian
                         )
                     )
                 except DomainError as e:
                     print(f"Error while building Airline: {e}")
-        
-        return await self.importer.add_many(airlines=data_to_create)
+
+        return await self.importer.add_many(airlines=data_to_create)  # type: ignore

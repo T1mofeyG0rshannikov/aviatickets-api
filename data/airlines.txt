@@ -19,7 +19,7 @@ AQ	JYH	9 Air	9 Аир
 AQ	AAH	Aloha Airlines (Ceased)	Алоха Аирлинес
 AR	ARG	Aerolineas Argentinas S.A.	Эролинеас Аргентинас Са
 AS	ASA	Alaska Airlines Inc.	Аласка Аирлинес Инк
-AT	RAM	Royal Air Maroc	Royal Air Maroc
+AT	RAM	Royal Air Maroc	Ройал Эйр Марок
 AU	AUT	Cielos del Sur S.A.	Киелос Дел Сур Са
 AV	AVA	Avianca	Aвианка
 AW*	AFW	Africa World Airlines	Africa World Airlines
@@ -67,7 +67,7 @@ B6	JBU	Jetblue Airways	JetBlue
 B7	UIA	Uni Air	Уни Аир
 B8	ERT	Eritrean Airlines	Еритреан Аирлинес
 B9	IRB	Iran Airtour Airline	Иран Аиртур Аирлине
-CA	CCA	Air China Ltd.	Air China
+CA	CCA	Air China Ltd.	Эйр Чайна
 CB	 	Trans Caribbean Air	Транс Кариббеан Аир
 CC	ABD	Air Atlanta Icelandic	Air Atlanta Icelandic
 CC*	OMT	CM Airlines	Км Аирлинес

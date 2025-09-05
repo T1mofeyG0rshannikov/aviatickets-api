@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from src.application.dto.airline import AirlineDTO
 from src.application.dto.ticket import TicketFullInfoDTO, TicketSegmentFullInfoDTO
 from src.infrastructure.persistence.dao.builders.airport import (
@@ -35,7 +37,7 @@ class TicketFullInfoDTOBuilder:
             id=ticket.id,
             segments=[cls.from_orm_to_segment(segment) for segment in ticket.segments],
             duration=ticket.duration,
-            price=ticket.price,
+            price=Decimal(ticket.price),
             currency=ticket.currency,
             transfers=ticket.transfers,
         )

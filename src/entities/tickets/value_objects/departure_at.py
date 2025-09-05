@@ -13,7 +13,6 @@ class DepartureAt:
     value: datetime
 
     def validation(self, value: datetime):
-        print(value, datetime.now(), value.tzinfo)
         if value < datetime.now(value.tzinfo):
             raise DepartureAtInPastError("departure at cant be in the past")
 

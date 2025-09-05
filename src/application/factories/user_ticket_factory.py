@@ -1,5 +1,4 @@
-from datetime import datetime
-from uuid import UUID
+from datetime import date, datetime
 
 from src.application.dto.user_ticket import CreatePassengerDTO
 from src.entities.user_ticket.exceptions import (
@@ -20,7 +19,7 @@ class PassengerFactory:
         second_name: str,
         birth_date: datetime,
         passport_number: str,
-        passport_expiration_date: datetime,
+        passport_expiration_date: date,
     ) -> Passenger:
         try:
             return Passenger.create(
@@ -43,7 +42,7 @@ class PassengerFactory:
 
 class UserTicketFactory:
     @classmethod
-    def create(cls, user_id: UUID, ticket_id: UUID, passengers_dto: list[CreatePassengerDTO]) -> UserTicket:
+    def create(cls, user_id: EntityId, ticket_id: EntityId, passengers_dto: list[CreatePassengerDTO]) -> UserTicket:
         passengers = []
 
         for passenger in passengers_dto:
@@ -58,4 +57,4 @@ class UserTicketFactory:
                 )
             )
 
-        return UserTicket.create(user_id=EntityId(user_id), ticket_id=EntityId(ticket_id), passengers=passengers)
+        return UserTicket.create(user_id=user_id, ticket_id=ticket_id, passengers=passengers)

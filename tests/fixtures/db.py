@@ -8,6 +8,7 @@ from src.infrastructure.persistence.db.models.models import (
     CityOrm,
     CountryOrm,
     RegionOrm,
+    TicketItineraryOrm,
     TicketOrm,
     TicketSegmentOrm,
     UserOrm,
@@ -56,5 +57,6 @@ async def populate_db(engine, db, orm_json_loader: OrmJsonLoader):
     await orm_json_loader.load_objects(AirlineOrm, db, "tests/data/airlines.json")
     await orm_json_loader.load_objects(AirportOrm, db, "tests/data/airports.json")
     await orm_json_loader.load_objects(TicketOrm, db, "tests/data/tickets.json")
+    await orm_json_loader.load_objects(TicketItineraryOrm, db, "tests/data/ticket_itineraries.json")
     await orm_json_loader.load_objects(TicketSegmentOrm, db, "tests/data/ticket_segments.json")
     await orm_json_loader.load_objects(UserOrm, db, "tests/data/users.json")

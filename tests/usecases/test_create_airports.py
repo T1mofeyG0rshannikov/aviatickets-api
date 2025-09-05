@@ -1,10 +1,12 @@
 import pytest
 
-from src.application.usecases.airports.create.loader import AirportsLoader
 from src.application.dto.bulk_result import BulkResult
-from src.infrastructure.etl_parsers.airports_parser.adapter import CsvToAirportAdapter
-from src.infrastructure.etl_parsers.airports_parser.airports_parser import AirportsCsvParser
+from src.application.usecases.airports.create.loader import AirportsLoader
 from src.application.usecases.airports.create.usecase import CreateAirports
+from src.infrastructure.etl_parsers.airports_parser.adapter import CsvToAirportAdapter
+from src.infrastructure.etl_parsers.airports_parser.airports_parser import (
+    AirportsCsvParser,
+)
 from src.infrastructure.persistence.etl_importers.airport_importer import (
     AirportImporter,
 )
@@ -27,30 +29,33 @@ async def importer(db) -> AirportImporter:
 
 
 @pytest.fixture
+async def loader(adapter, location_repository) -> AirportsLoader:
+    return AirportsCsvParser([], adapter, location_repository)
+
+
+@pytest.fixture
 async def create_airports(
     airport_repository: AirportRepository,
     importer: AirportImporter,
     location_repository: LocationRepository,
-    loader: AirportsLoader = None,   
+    loader: AirportsLoader,
 ) -> CreateAirports:
     return CreateAirports(airport_repository, importer, loader, location_repository)
 
 
 @pytest.mark.asyncio
 async def test_create_airports(
-    create_airports: CreateAirports,
-    adapter: CsvToAirportAdapter,
-    location_repository: LocationRepository
+    create_airports: CreateAirports, adapter: CsvToAirportAdapter, location_repository: LocationRepository
 ):
     csv_data = [
         [
-            26396,
+            "26396",
             "UUEE",
             "large_airport",
             "Sheremetyevo International Airport",
-            55.972599,
-            37.4146,
-            622,
+            "55.972599",
+            "37.4146",
+            "622",
             "EU",
             "RU",
             "RU-MOS",
@@ -65,13 +70,13 @@ async def test_create_airports(
             "MOW, Международный аэропорт Шереметьево, svo, sheremetyevo, moscow",
         ],
         [
-            27223,
+            "27223",
             "ZSPD",
             "large_airport",
             "Shanghai Pudong International Airport",
-            31.1434,
-            121.805,
-            13,
+            "31.1434",
+            "121.805",
+            "13",
             "AS",
             "CN",
             "CN-31",
@@ -87,9 +92,7 @@ async def test_create_airports(
         ],
     ]
 
-    loader = AirportsCsvParser(
-        csv_data, adapter, location_repository
-    )
+    loader = AirportsCsvParser(csv_data, adapter, location_repository)
 
     create_airports.loader = loader
 
@@ -102,13 +105,13 @@ async def test_create_airports(
 async def test_create_airports_with_skipped(create_airports: CreateAirports, populate_db, adapter, location_repository):
     csv_data = [
         [
-            26396,
+            "26396",
             "UUEE",
             "large_airport",
             "Sheremetyevo International Airport",
-            55.972599,
-            37.4146,
-            622,
+            "55.972599",
+            "37.4146",
+            "622",
             "EU",
             "RU",
             "RU-MOS",
@@ -123,13 +126,13 @@ async def test_create_airports_with_skipped(create_airports: CreateAirports, pop
             "MOW, Международный аэропорт Шереметьево, svo, sheremetyevo, moscow",
         ],
         [
-            26396,
+            "26396",
             "UUEE",
             "large_airport",
             "Sheremetyevo International Airport",
-            55.972599,
-            37.4146,
-            622,
+            "55.972599",
+            "37.4146",
+            "622",
             "EU",
             "RU",
             "RU-MOS",
@@ -145,12 +148,10 @@ async def test_create_airports_with_skipped(create_airports: CreateAirports, pop
         ],
     ]
 
-    loader = AirportsCsvParser(
-        csv_data, adapter, location_repository
-    )
+    loader = AirportsCsvParser(csv_data, adapter, location_repository)
 
     create_airports.loader = loader
-    
+
     expected_result = BulkResult(inserted=0, invalid=0, skipped=2)
     result = await create_airports()
     assert result == expected_result
@@ -160,13 +161,13 @@ async def test_create_airports_with_skipped(create_airports: CreateAirports, pop
 async def test_create_airports_with_invalids(create_airports: CreateAirports, adapter, location_repository):
     csv_data = [
         [
-            26396,
+            "26396",
             "UUEE1313",
             "large_airport",
             "Sheremetyevo International Airport",
-            55.972599,
-            37.4146,
-            622,
+            "55.972599",
+            "37.4146",
+            "622",
             "EU",
             "RU1",
             "RU13-MOS",
@@ -181,13 +182,13 @@ async def test_create_airports_with_invalids(create_airports: CreateAirports, ad
             "MOW, Международный аэропорт Шереметьево, svo, sheremetyevo, moscow",
         ],
         [
-            27223,
+            "27223",
             "ZSPD3131",
             "large_airport",
             "Shanghai Pudong International Airport",
-            31.1434,
-            121.805,
-            13,
+            "31.1434",
+            "121.805",
+            "13",
             "AS3131",
             "CN5353",
             "CN-31",
@@ -203,13 +204,10 @@ async def test_create_airports_with_invalids(create_airports: CreateAirports, ad
         ],
     ]
 
-    loader = AirportsCsvParser(
-        csv_data, adapter, location_repository
-    )
+    loader = AirportsCsvParser(csv_data, adapter, location_repository)
 
     create_airports.loader = loader
 
     expected_result = BulkResult(inserted=0, invalid=2, skipped=0)
     result = await create_airports()
-    print(result)
     assert result == expected_result

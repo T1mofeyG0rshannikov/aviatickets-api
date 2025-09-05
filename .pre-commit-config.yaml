@@ -52,4 +52,4 @@ repos:
     rev: v0.991
     hooks:
       - id: mypy
-        args: [--explicit-package-bases, --ignore-missing-imports]
+        args: [--explicit-package-bases, --ignore-missing-imports, --exclude=src/infrastructure/persistence/db/migrations]

@@ -22,7 +22,7 @@ class AirportRepository(AirportRepositoryInterface, BaseRepository):
 
         return [orm_to_airport(airport) for airport in airports]
 
-    async def get(self, iata: IATACode = None, id: EntityId = None) -> Airport:
+    async def get(self, iata: IATACode | None = None, id: EntityId | None = None) -> Airport | None:
         if iata is not None:
             results = await self.db.execute(select(AirportOrm).where(AirportOrm.iata == iata))
         elif id is not None:
