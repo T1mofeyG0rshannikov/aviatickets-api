@@ -1,5 +1,7 @@
-from src.application.etl_importers.airline_importer import AirlineImporterInterface
 from src.application.factories.airline_factory import AirlineFactory
+from src.application.persistence.etl_importers.airline_importer import (
+    AirlineImporterInterface,
+)
 from src.application.usecases.create_airlines.loader import AirlinesLoader
 from src.entities.airline.airline_repository import AirlineRepositoryInterface
 from src.entities.airline.value_objects.iata_code import IATACode

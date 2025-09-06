@@ -4,10 +4,10 @@ from starlette.requests import Request
 from src.entities.exceptions import AccessDeniedError
 from src.entities.user.exceptions import InvalidPasswordError, UserNotFoundError
 from src.infrastructure.admin.config import AdminConfig
+from src.infrastructure.admin.login_response import AdminLoginResponse
 from src.infrastructure.factories.login import LoginFactoryInterface
 from src.infrastructure.jwt.jwt_processor import JwtProcessor
 from src.infrastructure.security.password_hasher import PasswordHasher
-from src.web.schemas.login import LoginResponse
 
 
 class AdminAuth(AuthenticationBackend):
@@ -24,7 +24,7 @@ class AdminAuth(AuthenticationBackend):
         self.config = config
         self.login_factory = login_factory
 
-    async def login(self, request: Request) -> LoginResponse:
+    async def login(self, request: Request) -> AdminLoginResponse:
         login = await self.login_factory.get_login()
 
         form = await request.form()
@@ -33,11 +33,13 @@ class AdminAuth(AuthenticationBackend):
         try:
             access_token = await login(email, password)
             request.session.update({"token": access_token})
-            return LoginResponse(ok=True)
+            return AdminLoginResponse(ok=True)
         except (UserNotFoundError, InvalidPasswordError) as e:
-            return LoginResponse(ok=False, email_error_message=str(e))
+            return AdminLoginResponse(ok=False, email_error_message=str(e))
         except AccessDeniedError:
-            return LoginResponse(ok=False, email_error_message="Недостаточно прав для входа в панель администратора")
+            return AdminLoginResponse(
+                ok=False, email_error_message="Недостаточно прав для входа в панель администратора"
+            )
 
     async def logout(self, request: Request) -> bool:
         request.session.clear()

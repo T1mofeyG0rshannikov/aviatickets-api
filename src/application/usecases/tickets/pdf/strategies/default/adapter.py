@@ -29,8 +29,8 @@ class DefaultPdfTicketAdapter(PdfTicketAdapter):
         return self.get_place(airport.city, airport.country)
 
     def get_from_to(self, ticket: TicketFullInfoDTO) -> str:
-        from_value = self.get_airport_place(ticket.segments[0].origin_airport)
-        to_value = self.get_airport_place(ticket.segments[-1].destination_airport)
+        from_value = self.get_airport_place(ticket.itineraries[0].segments[0].origin_airport)
+        to_value = self.get_airport_place(ticket.itineraries[1].segments[-1].destination_airport)
         return f"{from_value} - {to_value}"
 
     async def get_price(self, price: Decimal, currency: CurrencyEnum) -> str:
@@ -65,10 +65,12 @@ class DefaultPdfTicketAdapter(PdfTicketAdapter):
         nav_fields = [
             AdapterPdfField(name="reservationCode", value="Not Available"),
             AdapterPdfField(
-                name="originDateShort", value=user_ticket.ticket.segments[0].departure_at.strftime("%d-%m-%Y")
+                name="originDateShort",
+                value=user_ticket.ticket.itineraries[0].segments[0].departure_at.strftime("%d-%m-%Y"),
             ),
             AdapterPdfField(
-                name="destinationDateShort", value=user_ticket.ticket.segments[-1].departure_at.strftime("%d-%m-%Y")
+                name="destinationDateShort",
+                value=user_ticket.ticket.itineraries[0].segments[-1].departure_at.strftime("%d-%m-%Y"),
             ),
             AdapterPdfField(name="fromTo", value=self.get_from_to(user_ticket.ticket)),
             AdapterPdfField(name="currency", value="RUB"),
@@ -82,31 +84,32 @@ class DefaultPdfTicketAdapter(PdfTicketAdapter):
 
         tickets_fields = []
 
-        for ticket in user_ticket.ticket.segments:
-            ticket_fields = [
-                AdapterPdfField(name="originFlight", value=ticket.flight_number),
-                AdapterPdfField(name="originDepartingTime", value=ticket.departure_at.strftime("%H:%M").upper()),
-                AdapterPdfField(name="originDepartingDate", value=ticket.departure_at.strftime("%d %B %Y").upper()),
-                AdapterPdfField(name="originArrivingDate", value=self.get_origin_arriving_date(ticket)),
-                AdapterPdfField(name="originArrivingTime", value=self.get_origin_arriving_time(ticket)),
-                AdapterPdfField(name="Text-AUYa372fuH", value=self.format_date(ticket.return_at)),
-                AdapterPdfField(name="originDate", value=self.format_date(ticket.departure_at)),
-                AdapterPdfField(name="originAirline", value=ticket.airline.name),
-                AdapterPdfField(name="originStatus", value=ticket.status),
-                AdapterPdfField(name="originClass", value=ticket.seat_class),
-                AdapterPdfField(name="originAirportAddress", value=self.get_airport_place(ticket.origin_airport)),
-                AdapterPdfField(name="originAirport", value=ticket.origin_airport.iata),
-                AdapterPdfField(name="destinationAirport", value=ticket.destination_airport.iata),
-                AdapterPdfField(
-                    name="destinationAirportAddress", value=self.get_airport_place(ticket.destination_airport)
-                ),
-                AdapterPdfField(name="passengers", value=self.get_passengers(user_ticket.passengers)),
-            ]
+        for itinerary in user_ticket.ticket.itineraries:
+            for ticket in itinerary.segments:
+                ticket_fields = [
+                    AdapterPdfField(name="originFlight", value=ticket.flight_number),
+                    AdapterPdfField(name="originDepartingTime", value=ticket.departure_at.strftime("%H:%M").upper()),
+                    AdapterPdfField(name="originDepartingDate", value=ticket.departure_at.strftime("%d %B %Y").upper()),
+                    AdapterPdfField(name="originArrivingDate", value=self.get_origin_arriving_date(ticket)),
+                    AdapterPdfField(name="originArrivingTime", value=self.get_origin_arriving_time(ticket)),
+                    AdapterPdfField(name="Text-AUYa372fuH", value=self.format_date(ticket.return_at)),
+                    AdapterPdfField(name="originDate", value=self.format_date(ticket.departure_at)),
+                    AdapterPdfField(name="originAirline", value=ticket.airline.name),
+                    AdapterPdfField(name="originStatus", value=ticket.status),
+                    AdapterPdfField(name="originClass", value=ticket.seat_class),
+                    AdapterPdfField(name="originAirportAddress", value=self.get_airport_place(ticket.origin_airport)),
+                    AdapterPdfField(name="originAirport", value=ticket.origin_airport.iata),
+                    AdapterPdfField(name="destinationAirport", value=ticket.destination_airport.iata),
+                    AdapterPdfField(
+                        name="destinationAirportAddress", value=self.get_airport_place(ticket.destination_airport)
+                    ),
+                    AdapterPdfField(name="passengers", value=self.get_passengers(user_ticket.passengers)),
+                ]
 
-            tickets_fields.append(ticket_fields)
+                tickets_fields.append(ticket_fields)
 
         fields.append(PdfFieldsAdapter(template_name=self.config.single_ticket_path, data_fields_list=tickets_fields))
 
         fields.append(PdfFieldsAdapter(template_name=self.config.bottom_path, data_fields_list=[]))
-
+        print(fields)
         return fields

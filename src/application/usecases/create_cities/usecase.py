@@ -1,4 +1,6 @@
-from src.application.etl_importers.city_importer import CityImporterInterface
+from src.application.persistence.etl_importers.city_importer import (
+    CityImporterInterface,
+)
 from src.application.usecases.create_cities.loader import CitiesLoader
 from src.entities.location.city.city import City
 from src.entities.location.location_repository import LocationRepositoryInterface

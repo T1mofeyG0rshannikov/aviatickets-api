@@ -1,5 +1,5 @@
-from src.application.dao.airport_dao import AirportDAOInterface
 from src.application.dto.airports.full_info import AirportFullInfoDTO
+from src.application.persistence.dao.airport_dao import AirportDAOInterface
 
 
 class GetAirports:

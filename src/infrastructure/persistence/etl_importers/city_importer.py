@@ -1,7 +1,9 @@
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.application.etl_importers.city_importer import CityImporterInterface
+from src.application.persistence.etl_importers.city_importer import (
+    CityImporterInterface,
+)
 from src.entities.location.city.city import City
 from src.infrastructure.persistence.db.models.models import CityOrm
 

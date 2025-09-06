@@ -2,3 +2,4 @@
 __pycache__
 .pytest-cache
 .env-prod
+user_files

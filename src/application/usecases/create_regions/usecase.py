@@ -1,5 +1,7 @@
-from src.application.etl_importers.region_importer import RegionImporterInterface
 from src.application.factories.region_factory import RegionFactory
+from src.application.persistence.etl_importers.region_importer import (
+    RegionImporterInterface,
+)
 from src.application.usecases.create_regions.loader import RegionsLoader
 from src.entities.exceptions import DomainError
 from src.entities.location.location_repository import LocationRepositoryInterface

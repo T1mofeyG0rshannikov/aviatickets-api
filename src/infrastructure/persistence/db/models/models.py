@@ -197,6 +197,7 @@ class UserTicketOrm(Model):
     ticket = relationship(TicketOrm, back_populates="user_tickets")
 
     passengers = relationship("PassengerOrm", back_populates="user_ticket")
+    pdf = relationship("PdfTicketOrm", back_populates="user_ticket")
 
 
 class PassengerOrm(Model):
@@ -216,3 +217,15 @@ class PassengerOrm(Model):
 
     def __str__(self) -> str:
         return f"{self.first_name} {self.second_name}"
+
+
+class PdfTicketOrm(Model):
+    __tablename__ = "pdftickets"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+
+    user_ticket_id = Column(UUID(as_uuid=True), ForeignKey("usertickets.id"))
+    user_ticket = relationship(UserTicketOrm, back_populates="pdf")
+
+    name = Column(String)
+    content_path = Column(String)

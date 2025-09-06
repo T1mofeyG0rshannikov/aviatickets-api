@@ -26,13 +26,19 @@ class TicketSegmentFullInfoDTO:
 
 
 @dataclass
-class TicketFullInfoDTO:
+class TicketItineraryFullInfoDTO:
     id: UUID
-    duration: int
-    price: Decimal
-    currency: CurrencyEnum
     transfers: int
     segments: list[TicketSegmentFullInfoDTO]
+    duration: int
+
+
+@dataclass
+class TicketFullInfoDTO:
+    id: UUID
+    price: Decimal
+    currency: CurrencyEnum
+    itineraries: list[TicketItineraryFullInfoDTO]
 
 
 class CreateTicketSegmentDTO(BaseModel):

@@ -4,9 +4,9 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+from src.application.services.file_manager import File
 from src.application.usecases.tickets.email import EmailSenderInterface
 from src.infrastructure.email_sender.config import EmailSenderConfig
-from src.interface_adapters.file import File
 
 
 class EmailSender(EmailSenderInterface):
@@ -26,7 +26,7 @@ class EmailSender(EmailSenderInterface):
             part.set_payload(file.content)
             encoders.encode_base64(part)
 
-            part.add_header("Content-Disposition", f'attachment; filename="{file.name}.pdf"')
+            part.add_header("Content-Disposition", f'attachment; filename="{file.name}"')
             msg.attach(part)
 
         with smtplib.SMTP_SSL(self._config.sender_server, self._config.sender_port) as server:

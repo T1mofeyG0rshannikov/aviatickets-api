@@ -15,6 +15,7 @@ from src.infrastructure.admin.model_views.user import UserAdmin
 from src.infrastructure.admin.model_views.user_ticket import (
     PassengerAdmin,
     UserTicketAdmin,
+    UserTicketPdfAdmin,
 )
 from src.infrastructure.depends.base import InfraDIContainer
 from src.infrastructure.persistence.db.database import engine
@@ -40,3 +41,4 @@ def init_admin(app: FastAPI) -> None:
     admin.add_view(CityAdmin)
     admin.add_view(CountryAdmin)
     admin.add_view(PassengerAdmin)
+    admin.add_view(UserTicketPdfAdmin)

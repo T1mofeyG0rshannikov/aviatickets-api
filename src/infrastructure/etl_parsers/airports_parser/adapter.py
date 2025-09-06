@@ -20,27 +20,27 @@ class CsvToAirportAdapter:
         invalid = 0
 
         for csv_data in data:
-            country = countries_dict.get(csv_data.iso_country)  # type: ignore
-            region = regions_dict.get(csv_data.iso_region)  # type: ignore
-            city = cities_dict.get(csv_data.municipality)  # type: ignore
+            country = countries_dict[csv_data.iso_country]  # type: ignore
+            region = regions_dict[csv_data.iso_region]  # type: ignore
+            city = cities_dict[csv_data.municipality]  # type: ignore
 
-            try:
-                airport = CreateAirportDTO(
-                    name=csv_data.name,
-                    continent=csv_data.continent,
-                    country_id=country.id.value if country else None,
-                    region_id=region.id.value if region else None,
-                    city_id=city.id.value if city else None,
-                    scheduled_service=csv_data.scheduled_service,
-                    icao=csv_data.icao,
-                    iata=csv_data.iata,
-                    gps_code=csv_data.gps_code,
-                    name_russian=csv_data.name_russian,
-                )
+            # try:
+            airport = CreateAirportDTO(
+                name=csv_data.name,
+                continent=csv_data.continent,
+                country_id=country.id.value,
+                region_id=region.id.value,
+                city_id=city.id.value,
+                scheduled_service=csv_data.scheduled_service,
+                icao=csv_data.icao,
+                iata=csv_data.iata,
+                gps_code=csv_data.gps_code,
+                name_russian=csv_data.name_russian,
+            )
 
-                airports.append(airport)
-            except ValueError as e:
-                invalid += 1
-                print(f"Error while building Create Airport DTO: {e}")
+            airports.append(airport)
+            # except ValueError as e:
+            #    invalid += 1
+            #    print(f"Error while building Create Airport DTO: {e}")
 
         return AirportsLoaderResponse(invalid=invalid, airports=airports)

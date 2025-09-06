@@ -1,7 +1,15 @@
-from src.application.etl_importers.airline_importer import AirlineImporterInterface
-from src.application.etl_importers.city_importer import CityImporterInterface
-from src.application.etl_importers.country_importer import CountryImporterInterface
-from src.application.etl_importers.region_importer import RegionImporterInterface
+from src.application.persistence.etl_importers.airline_importer import (
+    AirlineImporterInterface,
+)
+from src.application.persistence.etl_importers.city_importer import (
+    CityImporterInterface,
+)
+from src.application.persistence.etl_importers.country_importer import (
+    CountryImporterInterface,
+)
+from src.application.persistence.etl_importers.region_importer import (
+    RegionImporterInterface,
+)
 from src.infrastructure.persistence.etl_importers.airline_importer import (
     AirlineImporter,
 )

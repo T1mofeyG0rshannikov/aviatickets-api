@@ -1,8 +1,8 @@
 from sqlalchemy import or_, select
 from sqlalchemy.orm import joinedload
 
-from src.application.dao.airport_dao import AirportDAOInterface
 from src.application.dto.airports.full_info import AirportFullInfoDTO
+from src.application.persistence.dao.airport_dao import AirportDAOInterface
 from src.infrastructure.persistence.dao.base_dao import BaseDAO
 from src.infrastructure.persistence.dao.builders.airport import (
     AirportFullInfoDTOBuilder,

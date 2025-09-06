@@ -4,7 +4,8 @@ from typing import Protocol
 
 from src.application.dto.pdf_service import AdapterPdfField
 from src.application.dto.user_ticket import UserTicketFullInfoDTO
-from src.interface_adapters.file import File
+from src.application.services.file_manager import File
+from src.application.usecases.tickets.pdf.pdf_ticket import PdfTicket
 
 
 @dataclass
@@ -15,7 +16,7 @@ class PdfFieldsAdapter:
 
 class PdfTicketGeneratorStrategy(ABC):
     @abstractmethod
-    async def execute(self, user_ticket: UserTicketFullInfoDTO) -> File:
+    async def execute(self, user_ticket: UserTicketFullInfoDTO) -> PdfTicket:
         ...
 
 

@@ -1,4 +1,6 @@
-from src.application.etl_importers.country_importer import CountryImporterInterface
+from src.application.persistence.etl_importers.country_importer import (
+    CountryImporterInterface,
+)
 from src.application.usecases.create_countries.loader import CountriesLoader
 from src.entities.location.country.country import Country
 from src.entities.location.country.iso import ISOCode

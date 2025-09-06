@@ -2,12 +2,12 @@ from datetime import datetime
 
 from src.application.exceptions import FetchAPIError
 from src.application.factories.ticket.ticket_factory import TicketFactory
+from src.application.tickets_parser import TicketsParseParams, TicketsParser
 from src.entities.airport.airport_repository import AirportRepositoryInterface
 from src.entities.exceptions import AirportNotFoundError
 from src.entities.tickets.tickets_repository import TicketRepositoryInterface
 from src.entities.tickets.value_objects.unique_key import TicketUniqueKey
 from src.entities.value_objects.entity_id import EntityId
-from src.interface_adapters.tickets_parser import TicketsParseParams, TicketsParser
 
 
 class ParseAviaTickets:

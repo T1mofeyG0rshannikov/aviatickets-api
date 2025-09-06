@@ -1,5 +1,5 @@
-from src.application.dao.ticket_dao import TicketDAOInterface
 from src.application.dto.ticket import TicketFullInfoDTO
+from src.application.persistence.dao.ticket_dao import TicketDAOInterface
 from src.entities.tickets.exceptions import TicketNotFoundError
 from src.entities.value_objects.entity_id import EntityId
 

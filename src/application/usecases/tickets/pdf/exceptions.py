@@ -1,0 +1,2 @@
+class TicketFileNotFoundError(Exception):
+    pass

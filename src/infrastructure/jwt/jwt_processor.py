@@ -6,7 +6,7 @@ from jose import JWTError, jwt
 from src.application.auth.access_token import AccessToken
 from src.application.auth.jwt_processor import JwtProcessorInterface
 from src.entities.user.value_objects.email import Email
-from src.entities.value_objects.entity_id import EntityId
+from src.entities.user.value_objects.user_id import UserId
 from src.infrastructure.jwt.jwt_config import JwtConfig
 
 
@@ -14,7 +14,7 @@ class JwtProcessor(JwtProcessorInterface):
     def __init__(self, jwt_settings: JwtConfig) -> None:
         self.jwt_settings = jwt_settings
 
-    def create_access_token(self, email: Email, user_id: EntityId) -> AccessToken:
+    def create_access_token(self, email: Email, user_id: UserId) -> AccessToken:
         encode: dict[str, Any] = {"sub": email, "id": str(user_id)}
         expires = datetime.utcnow() + timedelta(hours=self.jwt_settings.expires_in)
         encode.update({"exp": expires})

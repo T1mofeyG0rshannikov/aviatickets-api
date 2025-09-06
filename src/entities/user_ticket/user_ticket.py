@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from datetime import datetime
 
+from src.entities.user.value_objects.user_id import UserId
 from src.entities.user_ticket.value_objects.passport import InternationalPassport
 from src.entities.value_objects.entity_id import EntityId
 
@@ -36,10 +37,10 @@ class Passenger:
 @dataclass
 class UserTicket:
     id: EntityId
-    user_id: EntityId
+    user_id: UserId
     ticket_id: EntityId
     passengers: list[Passenger]
 
     @classmethod
-    def create(cls, user_id: EntityId, ticket_id: EntityId, passengers: list[Passenger]):
+    def create(cls, user_id: UserId, ticket_id: EntityId, passengers: list[Passenger]):
         return cls(id=EntityId.generate(), user_id=user_id, ticket_id=ticket_id, passengers=passengers)

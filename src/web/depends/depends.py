@@ -4,10 +4,9 @@ from typing import Annotated
 from fastapi import Depends
 from redis import Redis  # type: ignore
 
-from src.infrastructure.etl_parsers.regions_parser.adapter import RegionsLoaderAdapter
-from src.infrastructure.timezone_resolver import TimezoneResolver
 from src.application.builders.user_ticket import UserTicketFullInfoAssembler
 from src.application.services.currency_converter import CurrencyConverter
+from src.application.usecases.tickets.pdf.config import PdfGeneratorConfig
 from src.application.usecases.tickets.pdf.strategies.default.adapter import (
     DefaultPdfTicketAdapter,
     DefaultPdfTicketAdapterConfig,
@@ -46,14 +45,19 @@ from src.infrastructure.email_sender.service import EmailSender
 from src.infrastructure.jwt.jwt_config import JwtConfig
 from src.infrastructure.jwt.jwt_processor import JwtProcessor
 from src.infrastructure.pdf_service.service import PdfService
+from src.infrastructure.persistence.data_mappers.ticket_files_data_mapper import (
+    TicketFilesDataMapper,
+)
+from src.infrastructure.persistence.file_manager import FileManager
 from src.infrastructure.redis.config import RedisConfig
+from src.infrastructure.timezone_resolver import TimezoneResolver
 from src.web.depends.annotations.annotations import (
     AirlineRepositoryAnnotation,
     AirportRepositoryAnnotation,
-    LocationRepositoryAnnotation,
     TicketDAOAnnotation,
     UserRepositoryAnnotation,
 )
+from src.web.depends.annotations.db_annotation import DbAnnotation
 from src.web.depends.annotations.httpx_session import HttpxSessionAnnotation
 
 
@@ -64,6 +68,10 @@ def get_jwt_config() -> JwtConfig:
 
 def get_jwt_processor(config: Annotated[JwtConfig, Depends(get_jwt_config)]) -> JwtProcessor:
     return JwtProcessor(config)
+
+
+def get_file_manager() -> FileManager:
+    return FileManager()
 
 
 def get_aviasales_ticket_adapter(
@@ -149,3 +157,12 @@ def get_default_pdf_generator(
     pdf_service: Annotated[PdfService, Depends(get_pdf_service)],
 ) -> DefaultPdfTicketGenerator:
     return DefaultPdfTicketGenerator(adapter, pdf_service)
+
+
+@lru_cache
+def get_pdf_generator_config() -> PdfGeneratorConfig:
+    return PdfGeneratorConfig()
+
+
+def get_ticket_files_data_mapper(db: DbAnnotation) -> TicketFilesDataMapper:
+    return TicketFilesDataMapper(db)

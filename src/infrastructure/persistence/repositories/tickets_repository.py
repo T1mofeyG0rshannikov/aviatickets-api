@@ -20,7 +20,7 @@ class TicketRepository(TicketRepositoryInterface, BaseRepository):
         result = await self.db.execute(
             select(TicketOrm)
             .options(joinedload(TicketOrm.itineraries).joinedload(TicketItineraryOrm.segments))
-            .where(TicketOrm.id == id)
+            .where(TicketOrm.id == id.value)
         )
         ticket = result.scalar()
         return orm_to_ticket(ticket) if ticket else None

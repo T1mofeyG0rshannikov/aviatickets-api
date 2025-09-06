@@ -1,6 +1,6 @@
-from src.application.dao.ticket_dao import TicketDAOInterface
 from src.application.dto.user import UserDTO
 from src.application.dto.user_ticket import PassengerDTO, UserTicketFullInfoDTO
+from src.application.persistence.dao.ticket_dao import TicketDAOInterface
 from src.entities.tickets.exceptions import TicketNotFoundError
 from src.entities.user.exceptions import UserNotFoundError
 from src.entities.user.user_repository import UserRepositoryInterface

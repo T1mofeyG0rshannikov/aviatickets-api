@@ -1,6 +1,8 @@
 from src.application.dto.bulk_result import BulkResult
-from src.application.etl_importers.airport_importer import AirportImporterInterface
 from src.application.factories.airport_factory import AirportFactory
+from src.application.persistence.etl_importers.airport_importer import (
+    AirportImporterInterface,
+)
 from src.application.usecases.airports.create.loader import AirportsLoader
 from src.entities.airport.airport import Airport
 from src.entities.airport.airport_repository import AirportRepositoryInterface

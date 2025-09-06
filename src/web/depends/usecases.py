@@ -3,11 +3,22 @@ from typing import Annotated
 from fastapi import Depends
 
 from src.application.builders.user_ticket import UserTicketFullInfoAssembler
-from src.application.etl_importers.airline_importer import AirlineImporterInterface
-from src.application.etl_importers.airport_importer import AirportImporterInterface
-from src.application.etl_importers.city_importer import CityImporterInterface
-from src.application.etl_importers.country_importer import CountryImporterInterface
-from src.application.etl_importers.region_importer import RegionImporterInterface
+from src.application.pdf_templates import PdfTemplatesEnum
+from src.application.persistence.etl_importers.airline_importer import (
+    AirlineImporterInterface,
+)
+from src.application.persistence.etl_importers.airport_importer import (
+    AirportImporterInterface,
+)
+from src.application.persistence.etl_importers.city_importer import (
+    CityImporterInterface,
+)
+from src.application.persistence.etl_importers.country_importer import (
+    CountryImporterInterface,
+)
+from src.application.persistence.etl_importers.region_importer import (
+    RegionImporterInterface,
+)
 from src.application.services.currency_converter import CurrencyConverter
 from src.application.usecases.airports.create.usecase import CreateAirports
 from src.application.usecases.airports.get.usecase import GetAirports
@@ -20,10 +31,12 @@ from src.application.usecases.tickets.email import SendPdfTicketToEmail
 from src.application.usecases.tickets.filter import FilterTickets
 from src.application.usecases.tickets.get import GetTicket
 from src.application.usecases.tickets.parse import ParseAviaTickets
+from src.application.usecases.tickets.pdf.config import PdfGeneratorConfig
+from src.application.usecases.tickets.pdf.generate import GeneratePdfTicket
+from src.application.usecases.tickets.pdf.get import GetPdfTicket
 from src.application.usecases.tickets.pdf.strategies.default.generator import (
     DefaultPdfTicketGenerator,
 )
-from src.application.usecases.tickets.pdf.usecase import CreatePdfTicket
 from src.application.usecases.user.auth.login import Login
 from src.application.usecases.user.auth.register import Register
 from src.application.usecases.user.create import CreateUser
@@ -36,8 +49,11 @@ from src.infrastructure.etl_parsers.airports_parser.airports_parser import (
 from src.infrastructure.etl_parsers.cities_parser import CitiesCsvParser
 from src.infrastructure.etl_parsers.countries_parser import CountriesCsvParser
 from src.infrastructure.etl_parsers.regions_parser.parser import RegionsCsvParser
+from src.infrastructure.persistence.data_mappers.ticket_files_data_mapper import (
+    TicketFilesDataMapper,
+)
+from src.infrastructure.persistence.file_manager import FileManager
 from src.infrastructure.security.password_hasher import PasswordHasher
-from src.interface_adapters.pdf_templates import PdfTemplatesEnum
 from src.web.depends.annotations.annotations import (
     AirlineRepositoryAnnotation,
     AirportDAOAnnotation,
@@ -54,6 +70,9 @@ from src.web.depends.depends import (  # get_aviasales_ticket_parser,
     get_currency_converter,
     get_default_pdf_generator,
     get_email_sender,
+    get_file_manager,
+    get_pdf_generator_config,
+    get_ticket_files_data_mapper,
     get_user_ticket_assembler,
 )
 from src.web.depends.etl_loaders import (
@@ -139,22 +158,37 @@ def get_ticket_interactor(ticket_repository: TicketDAOAnnotation) -> GetTicket:
     return GetTicket(ticket_repository)
 
 
-def get_create_pdf_ticket_interactor(
-    user_ticket_repository: UserTicketRepositoryAnnotation,
+def get_generate_pdf_ticket_interactor(
     builder: Annotated[UserTicketFullInfoAssembler, Depends(get_user_ticket_assembler)],
     default_pdf_generator: Annotated[DefaultPdfTicketGenerator, Depends(get_default_pdf_generator)],
-) -> CreatePdfTicket:
-    return CreatePdfTicket(
-        user_ticket_repository, builder, strategies={PdfTemplatesEnum.default: default_pdf_generator}
+) -> GeneratePdfTicket:
+    return GeneratePdfTicket(builder, strategies={PdfTemplatesEnum.default: default_pdf_generator})
+
+
+def get_pdf_ticket_interactor(
+    generate_pdf: Annotated[GeneratePdfTicket, Depends(get_generate_pdf_ticket_interactor)],
+    file_manager: Annotated[FileManager, Depends(get_file_manager)],
+    ticket_files_data_mapper: Annotated[TicketFilesDataMapper, Depends(get_ticket_files_data_mapper)],
+    user_ticket_repository: UserTicketRepositoryAnnotation,
+    config: Annotated[PdfGeneratorConfig, Depends(get_pdf_generator_config)],
+) -> GetPdfTicket:
+    return GetPdfTicket(
+        file_manager=file_manager,
+        generate_pdf=generate_pdf,
+        user_ticket_repository=user_ticket_repository,
+        ticket_files_data_mapper=ticket_files_data_mapper,
+        config=config,
     )
 
 
 def get_send_pdf_ticket_to_email_interactor(
     user_ticket_repository: UserTicketRepositoryAnnotation,
-    create_pdf_ticket: Annotated[CreatePdfTicket, Depends(get_create_pdf_ticket_interactor)],
+    get_pdf_ticket: Annotated[GetPdfTicket, Depends(get_pdf_ticket_interactor)],
     email_sender: Annotated[EmailSender, Depends(get_email_sender)],
 ) -> SendPdfTicketToEmail:
-    return SendPdfTicketToEmail(user_ticket_repository, create_pdf_ticket, email_sender)
+    return SendPdfTicketToEmail(
+        user_ticket_repository=user_ticket_repository, get_pdf_ticket=get_pdf_ticket, email_sender=email_sender
+    )
 
 
 def get_create_user_ticket_interactor(

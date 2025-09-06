@@ -1,7 +1,9 @@
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.application.etl_importers.region_importer import RegionImporterInterface
+from src.application.persistence.etl_importers.region_importer import (
+    RegionImporterInterface,
+)
 from src.entities.location.region.region import Region
 from src.infrastructure.persistence.db.models.models import RegionOrm
 

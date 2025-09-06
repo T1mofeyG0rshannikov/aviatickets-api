@@ -4,6 +4,7 @@ import httpx
 
 from src.application.dto.ticket import CreateTicketDTO
 from src.application.exceptions import FetchAPIError
+from src.application.tickets_parser import TicketsParseParams, TicketsParser
 from src.infrastructure.clients.base_http_client import BaseHttpClient
 from src.infrastructure.clients.retry_decorator import retry
 from src.infrastructure.clients.ticket_parsers.aviasales.adapter import (
@@ -15,7 +16,6 @@ from src.infrastructure.clients.ticket_parsers.aviasales.config import (
 from src.infrastructure.persistence.repositories.airport_repository import (
     AirportRepository,
 )
-from src.interface_adapters.tickets_parser import TicketsParseParams, TicketsParser
 
 
 class AviasalesTicketParser(TicketsParser, BaseHttpClient):

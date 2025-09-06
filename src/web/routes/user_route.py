@@ -5,22 +5,27 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import StreamingResponse
 
+from src.application.auth.access_token import AccessToken
 from src.application.dto.user_ticket import CreatePassengerDTO
 from src.application.usecases.create_user_ticket import CreateUserTicket
 from src.application.usecases.tickets.email import SendPdfTicketToEmail
-from src.application.usecases.tickets.pdf.usecase import CreatePdfTicket
+from src.application.usecases.tickets.pdf.generate import GeneratePdfTicket
+from src.application.usecases.tickets.pdf.get import GetPdfTicket
 from src.application.usecases.user.auth.login import Login
 from src.application.usecases.user.auth.register import Register
+from src.entities.user.value_objects.email import Email
+from src.entities.user.value_objects.password import Password
 from src.entities.value_objects.entity_id import EntityId
 from src.web.depends.annotations.user_annotation import UserAnnotation
 from src.web.depends.usecases import (
-    get_create_pdf_ticket_interactor,
     get_create_user_ticket_interactor,
     get_login_interactor,
+    get_pdf_ticket_interactor,
     get_register_interactor,
     get_send_pdf_ticket_to_email_interactor,
 )
 from src.web.routes.base import user_required
+from src.web.schemas.login import LoginResponse
 from src.web.schemas.user import CreateUserTicketRequest, LoginRequest, RegisterRequest
 
 router = APIRouter(prefix="", tags=["user"])
@@ -35,18 +40,18 @@ async def add_user_ticket(
 ):
     passengers_dto = [CreatePassengerDTO(**passenger.model_dump()) for passenger in data.passengers]
 
-    return await usecase(data.ticket_id, passengers_dto, user)
+    return await usecase(EntityId(data.ticket_id), passengers_dto, user)
 
 
 @router.get("/pdf-ticket", status_code=200, response_class=StreamingResponse)
 @user_required
-async def generate_pdf_ticket(
+async def get_pdf_ticket(
     user: UserAnnotation,
     user_ticket_id: UUID,
-    usecase: Annotated[CreatePdfTicket, Depends(get_create_pdf_ticket_interactor)],
+    usecase: Annotated[GetPdfTicket, Depends(get_pdf_ticket_interactor)],
 ):
     file = await usecase(EntityId(user_ticket_id), user)
-    headers = {"Content-Disposition": f"attachment; filename={file.name}.pdf"}
+    headers = {"Content-Disposition": f"attachment; filename={file.name}"}
     return StreamingResponse(BytesIO(file.content), media_type="application/pdf", headers=headers)
 
 
@@ -69,8 +74,10 @@ async def register(
     return access_token
 
 
-@router.post("/login", status_code=200)
-async def login(request: Request, data: LoginRequest, usecase: Annotated[Login, Depends(get_login_interactor)]):
-    access_token = await usecase(data.email, data.password)
+@router.post("/login", status_code=200, response_model=LoginResponse)
+async def login(
+    request: Request, data: LoginRequest, usecase: Annotated[Login, Depends(get_login_interactor)]
+) -> LoginResponse:
+    access_token = await usecase(Email(data.email), Password(data.password))
     request.session.update({"token": access_token})
-    return access_token
+    return LoginResponse(access_token=access_token)

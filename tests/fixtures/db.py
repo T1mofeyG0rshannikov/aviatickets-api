@@ -60,3 +60,21 @@ async def populate_db(engine, db, orm_json_loader: OrmJsonLoader):
     await orm_json_loader.load_objects(TicketItineraryOrm, db, "tests/data/ticket_itineraries.json")
     await orm_json_loader.load_objects(TicketSegmentOrm, db, "tests/data/ticket_segments.json")
     await orm_json_loader.load_objects(UserOrm, db, "tests/data/users.json")
+
+
+@pytest.fixture
+async def populate_cities_db(engine, db, orm_json_loader: OrmJsonLoader):
+    await create_tables(engine)
+    await orm_json_loader.load_objects(CityOrm, db, "tests/data/cities.json")
+
+
+@pytest.fixture
+async def populate_countries_db(engine, db, orm_json_loader: OrmJsonLoader):
+    await create_tables(engine)
+    await orm_json_loader.load_objects(CountryOrm, db, "tests/data/countries.json")
+
+
+@pytest.fixture
+async def populate_regions_db(engine, db, orm_json_loader: OrmJsonLoader):
+    await create_tables(engine)
+    await orm_json_loader.load_objects(RegionOrm, db, "tests/data/regions.json")

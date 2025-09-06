@@ -1,7 +1,9 @@
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.application.etl_importers.airport_importer import AirportImporterInterface
+from src.application.persistence.etl_importers.airport_importer import (
+    AirportImporterInterface,
+)
 from src.entities.airport.airport import Airport
 from src.infrastructure.persistence.db.models.models import AirportOrm
 

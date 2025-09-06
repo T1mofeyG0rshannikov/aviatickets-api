@@ -1,11 +1,19 @@
 from decimal import Decimal
 
 from src.application.dto.airline import AirlineDTO
-from src.application.dto.ticket import TicketFullInfoDTO, TicketSegmentFullInfoDTO
+from src.application.dto.ticket import (
+    TicketFullInfoDTO,
+    TicketItineraryFullInfoDTO,
+    TicketSegmentFullInfoDTO,
+)
 from src.infrastructure.persistence.dao.builders.airport import (
     AirportFullInfoDTOBuilder,
 )
-from src.infrastructure.persistence.db.models.models import TicketOrm, TicketSegmentOrm
+from src.infrastructure.persistence.db.models.models import (
+    TicketItineraryOrm,
+    TicketOrm,
+    TicketSegmentOrm,
+)
 
 
 class TicketFullInfoDTOBuilder:
@@ -32,12 +40,19 @@ class TicketFullInfoDTOBuilder:
         )
 
     @classmethod
+    def from_orm_to_itinerary(cls, itinerary: TicketItineraryOrm) -> TicketItineraryFullInfoDTO:
+        return TicketItineraryFullInfoDTO(
+            id=itinerary.id,
+            transfers=itinerary.transfers,
+            segments=[cls.from_orm_to_segment(segment) for segment in itinerary.segments],
+            duration=itinerary.duration,
+        )
+
+    @classmethod
     def from_orm(cls, ticket: TicketOrm) -> TicketFullInfoDTO:
         return TicketFullInfoDTO(
             id=ticket.id,
-            segments=[cls.from_orm_to_segment(segment) for segment in ticket.segments],
-            duration=ticket.duration,
+            itineraries=[cls.from_orm_to_itinerary(segment) for segment in ticket.itineraries],
             price=Decimal(ticket.price),
             currency=ticket.currency,
-            transfers=ticket.transfers,
         )

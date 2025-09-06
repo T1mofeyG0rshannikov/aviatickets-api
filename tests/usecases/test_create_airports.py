@@ -45,7 +45,12 @@ async def create_airports(
 
 @pytest.mark.asyncio
 async def test_create_airports(
-    create_airports: CreateAirports, adapter: CsvToAirportAdapter, location_repository: LocationRepository
+    create_airports: CreateAirports,
+    adapter: CsvToAirportAdapter,
+    location_repository: LocationRepository,
+    populate_countries_db,
+    populate_cities_db,
+    populate_regions_db,
 ):
     csv_data = [
         [
@@ -158,7 +163,14 @@ async def test_create_airports_with_skipped(create_airports: CreateAirports, pop
 
 
 @pytest.mark.asyncio
-async def test_create_airports_with_invalids(create_airports: CreateAirports, adapter, location_repository):
+async def test_create_airports_with_invalids(
+    create_airports: CreateAirports,
+    adapter,
+    location_repository,
+    populate_countries_db,
+    populate_cities_db,
+    populate_regions_db,
+):
     csv_data = [
         [
             "26396",
@@ -169,8 +181,8 @@ async def test_create_airports_with_invalids(create_airports: CreateAirports, ad
             "37.4146",
             "622",
             "EU",
-            "RU1",
-            "RU13-MOS",
+            "RU",
+            "RU-MOS",
             "Moscow",
             "yes",
             "UUEE35353",
@@ -189,8 +201,8 @@ async def test_create_airports_with_invalids(create_airports: CreateAirports, ad
             "31.1434",
             "121.805",
             "13",
-            "AS3131",
-            "CN5353",
+            "AS",
+            "CN",
             "CN-31",
             "Shanghai (Pudong)",
             "ye3s",

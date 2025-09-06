@@ -3,14 +3,14 @@ from sqlalchemy import select
 from src.entities.user.user import User
 from src.entities.user.user_repository import UserRepositoryInterface
 from src.entities.user.value_objects.email import Email
-from src.entities.value_objects.entity_id import EntityId
+from src.entities.user.value_objects.user_id import UserId
 from src.infrastructure.persistence.db.models.models import UserOrm
 from src.infrastructure.persistence.repositories.base_repository import BaseRepository
 from src.infrastructure.persistence.repositories.mappers.user import from_orm_to_user
 
 
 class UserRepository(UserRepositoryInterface, BaseRepository):
-    async def get(self, email: Email | str | None = None, id: EntityId | None = None) -> User | None:
+    async def get(self, email: Email | str | None = None, id: UserId | None = None) -> User | None:
         if email is not None:
             result = await self.db.execute(select(UserOrm).where(UserOrm.email == email))
         elif id is not None:

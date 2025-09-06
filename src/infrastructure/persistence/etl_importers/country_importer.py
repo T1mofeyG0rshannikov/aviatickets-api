@@ -1,7 +1,9 @@
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.application.etl_importers.country_importer import CountryImporterInterface
+from src.application.persistence.etl_importers.country_importer import (
+    CountryImporterInterface,
+)
 from src.entities.location.country.country import Country
 from src.infrastructure.persistence.db.models.models import CountryOrm
 

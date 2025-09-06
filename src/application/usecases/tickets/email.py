@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
-from src.application.usecases.tickets.pdf.usecase import CreatePdfTicket
+from src.application.services.file_manager import File
+from src.application.usecases.tickets.pdf.get import GetPdfTicket
 from src.entities.exceptions import AccessDeniedError
 from src.entities.user.user import User
 from src.entities.user_ticket.exceptions import UserTicketNotFoundError
@@ -8,7 +9,6 @@ from src.entities.user_ticket.user_ticket_repository import (
     UserTicketRepositoryInterface,
 )
 from src.entities.value_objects.entity_id import EntityId
-from src.interface_adapters.file import File
 
 
 class EmailSenderInterface(ABC):
@@ -21,12 +21,12 @@ class SendPdfTicketToEmail:
     def __init__(
         self,
         user_ticket_repository: UserTicketRepositoryInterface,
-        create_pdf_ticket: CreatePdfTicket,
         email_sender: EmailSenderInterface,
+        get_pdf_ticket: GetPdfTicket,
     ) -> None:
-        self.create_pdf_ticket = create_pdf_ticket
         self.email_sender = email_sender
         self.repository = user_ticket_repository
+        self.get_pdf_ticket = get_pdf_ticket
 
     async def __call__(self, user_ticket_id: EntityId, user: User) -> None:
         user_ticket = await self.repository.get(id=user_ticket_id)
@@ -36,7 +36,7 @@ class SendPdfTicketToEmail:
         if user_ticket.user_id != user.id:
             raise AccessDeniedError("Вы можете получать на почту только свои билеты")
 
-        file = await self.create_pdf_ticket(user_ticket_id=user_ticket_id, user=user)
+        file = await self.get_pdf_ticket(user_ticket_id=user_ticket_id, user=user)
         return self.email_sender.send(
             recipient_email=user.email, subject="Электронный билет", body="Вот ваш билет", files=[file]
         )

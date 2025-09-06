@@ -1,6 +1,7 @@
 from datetime import date, datetime
 
 from src.application.dto.user_ticket import CreatePassengerDTO
+from src.entities.user.value_objects.user_id import UserId
 from src.entities.user_ticket.exceptions import (
     ExpiredInternationalPassportError,
     InvalidInternationalPassportError,
@@ -42,7 +43,7 @@ class PassengerFactory:
 
 class UserTicketFactory:
     @classmethod
-    def create(cls, user_id: EntityId, ticket_id: EntityId, passengers_dto: list[CreatePassengerDTO]) -> UserTicket:
+    def create(cls, user_id: UserId, ticket_id: EntityId, passengers_dto: list[CreatePassengerDTO]) -> UserTicket:
         passengers = []
 
         for passenger in passengers_dto:
