@@ -11,11 +11,11 @@ from src.infrastructure.persistence.db.models.models import (
     TicketOrm,
     TicketSegmentOrm,
 )
-from src.infrastructure.persistence.repositories.base_repository import BaseRepository
+from src.infrastructure.persistence.persist_base import PersistBase
 from src.infrastructure.persistence.repositories.mappers.ticket import orm_to_ticket
 
 
-class TicketRepository(TicketRepositoryInterface, BaseRepository):
+class TicketRepository(TicketRepositoryInterface, PersistBase):
     async def get(self, id: EntityId) -> Ticket | None:
         result = await self.db.execute(
             select(TicketOrm)

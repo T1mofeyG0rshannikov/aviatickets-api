@@ -9,13 +9,13 @@ from src.infrastructure.persistence.db.models.models import (
     CountryOrm,
     RegionOrm,
 )
-from src.infrastructure.persistence.repositories.base_repository import BaseRepository
+from src.infrastructure.persistence.persist_base import PersistBase
 from src.infrastructure.persistence.repositories.mappers.city import orm_to_city
 from src.infrastructure.persistence.repositories.mappers.country import orm_to_country
 from src.infrastructure.persistence.repositories.mappers.region import orm_to_region
 
 
-class LocationRepository(LocationRepositoryInterface, BaseRepository):
+class LocationRepository(LocationRepositoryInterface, PersistBase):
     async def all_cities(self) -> list[City]:
         results = await self.db.execute(select(CityOrm))
         cities = results.scalars().all()

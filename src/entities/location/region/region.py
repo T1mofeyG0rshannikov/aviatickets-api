@@ -15,3 +15,6 @@ class Region:
     @classmethod
     def create(cls, iso: ISOCode, name: str, name_english: str, country_id: EntityId):
         return cls(id=EntityId.generate(), iso=iso, name=name, name_english=name_english, country_id=country_id)
+
+    def __hash__(self):
+        return hash(self.iso)

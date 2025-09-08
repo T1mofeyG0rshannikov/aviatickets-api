@@ -1,15 +1,38 @@
 import pytest
 
 from src.application.dto.bulk_result import BulkResult
-from src.application.usecases.airports.create.loader import AirportsLoader
-from src.application.usecases.airports.create.usecase import CreateAirports
-from src.infrastructure.etl_parsers.airports_parser.adapter import CsvToAirportAdapter
-from src.infrastructure.etl_parsers.airports_parser.airports_parser import (
-    AirportsCsvParser,
+from src.application.persistence.etl_importers.airport_importer import (
+    AirportBulkSaverInterface,
 )
+from src.application.persistence.etl_importers.country_importer import (
+    CountryImporterInterface,
+)
+from src.application.persistence.etl_importers.region_importer import (
+    RegionImporterInterface,
+)
+from src.application.usecases.airports.import_airports.adapter import (
+    AirportLoadDataToCreateDTO,
+)
+from src.application.usecases.airports.import_airports.loader import AirportsLoader
+from src.application.usecases.airports.import_airports.usecase import ImportAirports
+from src.application.usecases.country.get_or_create_countries_by_iso import (
+    GetOrCreateCountriesByISO,
+)
+from src.application.usecases.country.persist_countries import PersistCountries
+from src.application.usecases.region.get_or_create_regions_by_iso import (
+    GetOrCreateRegionsByISO,
+)
+from src.application.usecases.region.persist_regions import PersistRegions
+from src.entities.location.location_repository import LocationRepositoryInterface
+from src.infrastructure.etl_parsers.airports_parser import AirportsCsvParser
+from src.infrastructure.persistence.db.models.models import AirportOrm
 from src.infrastructure.persistence.etl_importers.airport_importer import (
-    AirportImporter,
+    AirportsBulkSaver,
 )
+from src.infrastructure.persistence.etl_importers.country_importer import (
+    CountryImporter,
+)
+from src.infrastructure.persistence.etl_importers.region_importer import RegionImporter
 from src.infrastructure.persistence.repositories.airport_repository import (
     AirportRepository,
 )
@@ -19,35 +42,84 @@ from src.infrastructure.persistence.repositories.location_repository import (
 
 
 @pytest.fixture
-async def adapter() -> CsvToAirportAdapter:
-    return CsvToAirportAdapter()
+async def adapter() -> AirportLoadDataToCreateDTO:
+    return AirportLoadDataToCreateDTO()
 
 
 @pytest.fixture
-async def importer(db) -> AirportImporter:
-    return AirportImporter(db)
+async def importer(db) -> AirportsBulkSaver:
+    return AirportsBulkSaver(db, AirportOrm)
 
 
 @pytest.fixture
-async def loader(adapter, location_repository) -> AirportsLoader:
-    return AirportsCsvParser([], adapter, location_repository)
+async def loader() -> AirportsLoader:
+    return AirportsCsvParser([])
+
+
+@pytest.fixture
+def region_importer(db) -> RegionImporterInterface:
+    return RegionImporter(db)
+
+
+@pytest.fixture
+def country_importer(db) -> CountryImporterInterface:
+    return CountryImporter(db)
+
+
+@pytest.fixture
+def persist_regions(
+    region_importer: RegionImporterInterface,
+) -> PersistRegions:
+    return PersistRegions(region_importer)
+
+
+@pytest.fixture
+def persist_countries(
+    country_importer: CountryImporterInterface,
+) -> PersistCountries:
+    return PersistCountries(country_importer)
+
+
+@pytest.fixture
+def get_or_create_regions(
+    persist_regions: PersistRegions, location_repository: LocationRepositoryInterface
+) -> GetOrCreateRegionsByISO:
+    return GetOrCreateRegionsByISO(persist_regions, location_repository)
+
+
+@pytest.fixture
+def get_or_create_countries(
+    persist_countries: PersistCountries, location_repository: LocationRepositoryInterface
+) -> GetOrCreateCountriesByISO:
+    return GetOrCreateCountriesByISO(persist_countries, location_repository)
 
 
 @pytest.fixture
 async def create_airports(
     airport_repository: AirportRepository,
-    importer: AirportImporter,
+    importer: AirportBulkSaverInterface,
     location_repository: LocationRepository,
     loader: AirportsLoader,
-) -> CreateAirports:
-    return CreateAirports(airport_repository, importer, loader, location_repository)
+    adapter: AirportLoadDataToCreateDTO,
+    get_or_create_regions: GetOrCreateRegionsByISO,
+    get_or_create_countries: GetOrCreateCountriesByISO,
+    db,
+) -> ImportAirports:
+    return ImportAirports(
+        transaction=db,
+        repository=airport_repository,
+        saver=importer,
+        loader=loader,
+        location_repository=location_repository,
+        adapter=adapter,
+        get_or_create_countries_by_iso=get_or_create_countries,
+        get_or_create_regions_by_iso=get_or_create_regions,
+    )
 
 
 @pytest.mark.asyncio
 async def test_create_airports(
-    create_airports: CreateAirports,
-    adapter: CsvToAirportAdapter,
-    location_repository: LocationRepository,
+    create_airports: ImportAirports,
     populate_countries_db,
     populate_cities_db,
     populate_regions_db,
@@ -97,7 +169,7 @@ async def test_create_airports(
         ],
     ]
 
-    loader = AirportsCsvParser(csv_data, adapter, location_repository)
+    loader = AirportsCsvParser(csv_data)
 
     create_airports.loader = loader
 
@@ -107,7 +179,7 @@ async def test_create_airports(
 
 
 @pytest.mark.asyncio
-async def test_create_airports_with_skipped(create_airports: CreateAirports, populate_db, adapter, location_repository):
+async def test_create_airports_with_skipped(create_airports: ImportAirports, populate_db, adapter, location_repository):
     csv_data = [
         [
             "26396",
@@ -153,7 +225,7 @@ async def test_create_airports_with_skipped(create_airports: CreateAirports, pop
         ],
     ]
 
-    loader = AirportsCsvParser(csv_data, adapter, location_repository)
+    loader = AirportsCsvParser(csv_data)
 
     create_airports.loader = loader
 
@@ -164,7 +236,7 @@ async def test_create_airports_with_skipped(create_airports: CreateAirports, pop
 
 @pytest.mark.asyncio
 async def test_create_airports_with_invalids(
-    create_airports: CreateAirports,
+    create_airports: ImportAirports,
     adapter,
     location_repository,
     populate_countries_db,
@@ -216,7 +288,7 @@ async def test_create_airports_with_invalids(
         ],
     ]
 
-    loader = AirportsCsvParser(csv_data, adapter, location_repository)
+    loader = AirportsCsvParser(csv_data)
 
     create_airports.loader = loader
 

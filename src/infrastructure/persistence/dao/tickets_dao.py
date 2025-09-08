@@ -7,7 +7,6 @@ from src.application.dto.ticket import TicketFullInfoDTO
 from src.application.persistence.dao.ticket_dao import TicketDAOInterface
 from src.entities.tickets.filters import TicketsFilter
 from src.entities.value_objects.entity_id import EntityId
-from src.infrastructure.persistence.dao.base_dao import BaseDAO
 from src.infrastructure.persistence.dao.builders.ticket import TicketFullInfoDTOBuilder
 from src.infrastructure.persistence.dao.filters.filters import SqlalchemyTicketsFilter
 from src.infrastructure.persistence.db.models.models import (
@@ -16,9 +15,10 @@ from src.infrastructure.persistence.db.models.models import (
     TicketOrm,
     TicketSegmentOrm,
 )
+from src.infrastructure.persistence.persist_base import PersistBase
 
 
-class TicketDAO(BaseDAO, TicketDAOInterface):
+class TicketDAO(PersistBase, TicketDAOInterface):
     def _ticket_full_info_joins_query(self) -> Select:
         return (
             select(TicketOrm)

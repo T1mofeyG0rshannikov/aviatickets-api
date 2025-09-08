@@ -8,7 +8,7 @@ from src.application.persistence.etl_importers.airline_importer import (
     AirlineImporterInterface,
 )
 from src.application.persistence.etl_importers.airport_importer import (
-    AirportImporterInterface,
+    AirportBulkSaverInterface,
 )
 from src.application.persistence.etl_importers.city_importer import (
     CityImporterInterface,
@@ -20,13 +20,24 @@ from src.application.persistence.etl_importers.region_importer import (
     RegionImporterInterface,
 )
 from src.application.services.currency_converter import CurrencyConverter
-from src.application.usecases.airports.create.usecase import CreateAirports
 from src.application.usecases.airports.get.usecase import GetAirports
+from src.application.usecases.airports.import_airports.adapter import (
+    AirportLoadDataToCreateDTO,
+)
+from src.application.usecases.airports.import_airports.usecase import ImportAirports
+from src.application.usecases.country.get_or_create_countries_by_iso import (
+    GetOrCreateCountriesByISO,
+)
+from src.application.usecases.country.import_countries.usecase import ImportCountries
+from src.application.usecases.country.persist_countries import PersistCountries
 from src.application.usecases.create_airlines.usecase import CreateAirlines
 from src.application.usecases.create_cities.usecase import CreateCities
-from src.application.usecases.create_countries.usecase import CreateCountries
-from src.application.usecases.create_regions.usecase import CreateRegions
 from src.application.usecases.create_user_ticket import CreateUserTicket
+from src.application.usecases.region.get_or_create_regions_by_iso import (
+    GetOrCreateRegionsByISO,
+)
+from src.application.usecases.region.import_regions.usecase import ImportRegions
+from src.application.usecases.region.persist_regions import PersistRegions
 from src.application.usecases.tickets.email import SendPdfTicketToEmail
 from src.application.usecases.tickets.filter import FilterTickets
 from src.application.usecases.tickets.get import GetTicket
@@ -43,9 +54,7 @@ from src.application.usecases.user.create import CreateUser
 from src.infrastructure.clients.ticket_parsers.amadeus.parser import AmadeusTicketParser
 from src.infrastructure.email_sender.service import EmailSender
 from src.infrastructure.etl_parsers.airlines_parser import AirlinesTXTParser
-from src.infrastructure.etl_parsers.airports_parser.airports_parser import (
-    AirportsCsvParser,
-)
+from src.infrastructure.etl_parsers.airports_parser import AirportsCsvParser
 from src.infrastructure.etl_parsers.cities_parser import CitiesCsvParser
 from src.infrastructure.etl_parsers.countries_parser import CountriesCsvParser
 from src.infrastructure.etl_parsers.regions_parser.parser import RegionsCsvParser
@@ -64,6 +73,7 @@ from src.web.depends.annotations.annotations import (
     UserRepositoryAnnotation,
     UserTicketRepositoryAnnotation,
 )
+from src.web.depends.annotations.db_annotation import DbAnnotation
 from src.web.depends.annotations.jwt_processor import JwtProcessorAnnotation
 from src.web.depends.depends import (  # get_aviasales_ticket_parser,
     get_amadeus_ticket_parser,
@@ -91,14 +101,55 @@ from src.web.depends.importers import (
 )
 
 
+def get_persist_countries(
+    importer: Annotated[CountryImporterInterface, Depends(get_country_importer)],
+) -> PersistCountries:
+    return PersistCountries(importer)
+
+
+def get_persist_regions(
+    importer: Annotated[RegionImporterInterface, Depends(get_region_importer)],
+) -> PersistRegions:
+    return PersistRegions(importer)
+
+
+def get_airport_load_data_to_create_dto() -> AirportLoadDataToCreateDTO:
+    return AirportLoadDataToCreateDTO()
+
+
+def get_or_create_countries(
+    persist_countries: Annotated[PersistCountries, Depends(get_persist_countries)],
+    location_repository: LocationRepositoryAnnotation,
+) -> GetOrCreateCountriesByISO:
+    return GetOrCreateCountriesByISO(persist_countries, location_repository)
+
+
+def get_or_create_regions(
+    persist_regions: Annotated[PersistRegions, Depends(get_persist_regions)],
+    location_repository: LocationRepositoryAnnotation,
+) -> GetOrCreateRegionsByISO:
+    return GetOrCreateRegionsByISO(persist_regions, location_repository)
+
+
 def get_create_airports_interactor(
     repository: AirportRepositoryAnnotation,
-    importer: Annotated[AirportImporterInterface, Depends(get_airport_importer)],
+    saver: Annotated[AirportBulkSaverInterface, Depends(get_airport_importer)],
     csv_parser: Annotated[AirportsCsvParser, Depends(get_csv_airports_parser)],
     location_repository: LocationRepositoryAnnotation,
-) -> CreateAirports:
-    return CreateAirports(
-        location_repository=location_repository, importer=importer, loader=csv_parser, repository=repository
+    get_or_create_countries: Annotated[GetOrCreateCountriesByISO, Depends(get_or_create_countries)],
+    get_or_create_regions: Annotated[GetOrCreateRegionsByISO, Depends(get_or_create_regions)],
+    adapter: Annotated[AirportLoadDataToCreateDTO, Depends(get_airport_load_data_to_create_dto)],
+    transaction: DbAnnotation,
+) -> ImportAirports:
+    return ImportAirports(
+        location_repository=location_repository,
+        saver=saver,
+        loader=csv_parser,
+        repository=repository,
+        get_or_create_countries_by_iso=get_or_create_countries,
+        get_or_create_regions_by_iso=get_or_create_regions,
+        adapter=adapter,
+        transaction=transaction,
     )
 
 
@@ -113,17 +164,17 @@ def get_create_airlines_interactor(
 def get_create_countries_interactor(
     csv_parser: Annotated[CountriesCsvParser, Depends(get_countries_csv_parser)],
     repository: LocationRepositoryAnnotation,
-    importer: Annotated[CountryImporterInterface, Depends(get_country_importer)],
-) -> CreateCountries:
-    return CreateCountries(csv_parser, repository, importer)
+    persist_countries: Annotated[PersistCountries, Depends(get_persist_countries)],
+) -> ImportCountries:
+    return ImportCountries(csv_parser, repository, persist_countries)
 
 
 def get_create_regions_interactor(
     csv_parser: Annotated[RegionsCsvParser, Depends(get_regions_csv_parser)],
     repository: LocationRepositoryAnnotation,
     importer: Annotated[RegionImporterInterface, Depends(get_region_importer)],
-) -> CreateRegions:
-    return CreateRegions(loader=csv_parser, repository=repository, importer=importer)
+) -> ImportRegions:
+    return ImportRegions(loader=csv_parser, repository=repository, importer=importer)
 
 
 def get_create_cities_interactor(

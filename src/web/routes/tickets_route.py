@@ -4,12 +4,12 @@ from uuid import UUID
 from fastapi import APIRouter, Depends
 
 from src.application.dto.ticket import TicketFullInfoDTO
-from src.application.usecases.airports.create.usecase import CreateAirports
 from src.application.usecases.airports.get.usecase import GetAirports
+from src.application.usecases.airports.import_airports.usecase import ImportAirports
+from src.application.usecases.country.import_countries.usecase import ImportCountries
 from src.application.usecases.create_airlines.usecase import CreateAirlines
 from src.application.usecases.create_cities.usecase import CreateCities
-from src.application.usecases.create_countries.usecase import CreateCountries
-from src.application.usecases.create_regions.usecase import CreateRegions
+from src.application.usecases.region.import_regions.usecase import ImportRegions
 from src.application.usecases.tickets.filter import FilterTickets
 from src.application.usecases.tickets.get import GetTicket
 from src.application.usecases.tickets.parse import ParseAviaTickets
@@ -37,7 +37,7 @@ router = APIRouter(prefix="", tags=["tickets"])
 @admin_required
 async def add_airports(
     user: UserAnnotation,
-    usecase: Annotated[CreateAirports, Depends(get_create_airports_interactor)],
+    usecase: Annotated[ImportAirports, Depends(get_create_airports_interactor)],
 ):
     return await usecase()
 
@@ -54,7 +54,7 @@ async def add_airlines(
 @admin_required
 async def add_countries(
     user: UserAnnotation,
-    usecase: Annotated[CreateCountries, Depends(get_create_countries_interactor)],
+    usecase: Annotated[ImportCountries, Depends(get_create_countries_interactor)],
 ):
     return await usecase()
 
@@ -63,7 +63,7 @@ async def add_countries(
 @admin_required
 async def add_regions(
     user: UserAnnotation,
-    usecase: Annotated[CreateRegions, Depends(get_create_regions_interactor)],
+    usecase: Annotated[ImportRegions, Depends(get_create_regions_interactor)],
 ):
     return await usecase()
 

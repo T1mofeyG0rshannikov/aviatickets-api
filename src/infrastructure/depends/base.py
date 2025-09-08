@@ -18,7 +18,6 @@ from src.infrastructure.clients.ticket_parsers.aviasales.config import (
     AviasalesAPIConfig,
 )
 from src.infrastructure.email_sender.config import EmailSenderConfig
-from src.infrastructure.etl_parsers.airports_parser.adapter import CsvToAirportAdapter
 from src.infrastructure.factories.login import LoginFactory
 from src.infrastructure.jwt.jwt_config import JwtConfig
 from src.infrastructure.jwt.jwt_processor import JwtProcessor
@@ -68,10 +67,6 @@ class InfraDIContainer(containers.DeclarativeContainer):
 @lru_cache
 def get_email_config() -> EmailSenderConfig:
     return EmailSenderConfig()
-
-
-def get_csv_to_airport_adapter() -> CsvToAirportAdapter:
-    return CsvToAirportAdapter()
 
 
 @lru_cache

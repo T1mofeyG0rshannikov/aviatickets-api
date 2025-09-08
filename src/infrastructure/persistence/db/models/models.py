@@ -5,6 +5,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.orm.exc import DetachedInstanceError
 from sqlalchemy.types import TIMESTAMP
 
+from src.entities.airport.airport import Airport
 from src.infrastructure.persistence.db.database import Model
 
 
@@ -44,6 +45,23 @@ class AirportOrm(Model):
 
     def __str__(self) -> str:
         return self.name
+
+    @classmethod
+    def from_entity(cls, airport: Airport) -> "AirportOrm":
+        return AirportOrm(
+            id=airport.id.value,
+            name=airport.name.value,
+            continent=airport.continent,
+            country_id=airport.country_id.value if airport.country_id else None,
+            region_id=airport.region_id.value if airport.region_id else None,
+            city_id=airport.city_id.value if airport.city_id else None,
+            scheduled_service=airport.scheduled_service,
+            icao=airport.icao,
+            iata=airport.iata,
+            gps_code=airport.gps_code,
+            local_code=airport.local_code,
+            name_russian=airport.name_russian.value if airport.name_russian else None,
+        )
 
 
 class TicketSegmentOrm(Model):

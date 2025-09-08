@@ -6,11 +6,11 @@ from src.entities.airline.airline import Airline
 from src.entities.airline.airline_repository import AirlineRepositoryInterface
 from src.entities.airline.value_objects.iata_code import IATACode
 from src.infrastructure.persistence.db.models.models import AirlineOrm
-from src.infrastructure.persistence.repositories.base_repository import BaseRepository
+from src.infrastructure.persistence.persist_base import PersistBase
 from src.infrastructure.persistence.repositories.mappers.airline import orm_to_airline
 
 
-class AirlineRepository(AirlineRepositoryInterface, BaseRepository):
+class AirlineRepository(AirlineRepositoryInterface, PersistBase):
     async def get(self, iata: IATACode) -> Airline:
         results = await self.db.execute(select(AirlineOrm).where(AirlineOrm.iata == iata))
         airline = results.scalar()

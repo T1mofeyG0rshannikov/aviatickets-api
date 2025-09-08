@@ -8,13 +8,13 @@ from src.entities.user_ticket.user_ticket_repository import (
 )
 from src.entities.value_objects.entity_id import EntityId
 from src.infrastructure.persistence.db.models.models import PassengerOrm, UserTicketOrm
-from src.infrastructure.persistence.repositories.base_repository import BaseRepository
+from src.infrastructure.persistence.persist_base import PersistBase
 from src.infrastructure.persistence.repositories.mappers.user_ticket import (
     from_orm_to_user_ticket,
 )
 
 
-class UserTicketRepository(UserTicketRepositoryInterface, BaseRepository):
+class UserTicketRepository(UserTicketRepositoryInterface, PersistBase):
     async def get(self, id: EntityId) -> UserTicket | None:
         result = await self.db.execute(
             select(UserTicketOrm).options(joinedload(UserTicketOrm.passengers)).where(UserTicketOrm.id == id.value)

@@ -1,5 +1,5 @@
 from src.application.dto.location import CreateCountryDTO
-from src.application.usecases.create_countries.loader import CountriesLoader
+from src.application.usecases.country.import_countries.loader import CountriesLoader
 
 
 class CountriesCsvParser(CountriesLoader):

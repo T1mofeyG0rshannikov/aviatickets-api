@@ -1,16 +1,15 @@
 from typing import Annotated
 
 from fastapi import Depends
+
 from src.infrastructure.etl_parsers.airlines_parser import AirlinesTXTParser
-from src.infrastructure.depends.base import get_csv_to_airport_adapter
-from src.infrastructure.etl_parsers.airports_parser.adapter import CsvToAirportAdapter
-from src.infrastructure.etl_parsers.airports_parser.airports_parser import AirportsCsvParser
-from src.infrastructure.etl_parsers.regions_parser.parser import RegionsCsvParser
-from src.infrastructure.etl_parsers.regions_parser.adapter import RegionsLoaderAdapter
+from src.infrastructure.etl_parsers.airports_parser import AirportsCsvParser
 from src.infrastructure.etl_parsers.cities_parser import CitiesCsvParser
 from src.infrastructure.etl_parsers.countries_parser import CountriesCsvParser
-from src.web.depends.files_from_request import get_csv_file, get_txt_file
+from src.infrastructure.etl_parsers.regions_parser.adapter import RegionsLoaderAdapter
+from src.infrastructure.etl_parsers.regions_parser.parser import RegionsCsvParser
 from src.web.depends.annotations.annotations import LocationRepositoryAnnotation
+from src.web.depends.files_from_request import get_csv_file, get_txt_file
 
 
 def get_countries_csv_parser(
@@ -38,10 +37,8 @@ def get_regions_csv_parser(
 
 def get_csv_airports_parser(
     csv_data: Annotated[list[list[str]], Depends(get_csv_file)],
-    adapter: Annotated[CsvToAirportAdapter, Depends(get_csv_to_airport_adapter)],
-    location_repository: LocationRepositoryAnnotation,
 ) -> AirportsCsvParser:
-    return AirportsCsvParser(csv_data, adapter, location_repository)
+    return AirportsCsvParser(csv_data)
 
 
 def get_txt_airlines_parser(

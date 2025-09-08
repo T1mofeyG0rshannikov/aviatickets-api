@@ -3,7 +3,6 @@ from sqlalchemy.orm import joinedload
 
 from src.application.dto.airports.full_info import AirportFullInfoDTO
 from src.application.persistence.dao.airport_dao import AirportDAOInterface
-from src.infrastructure.persistence.dao.base_dao import BaseDAO
 from src.infrastructure.persistence.dao.builders.airport import (
     AirportFullInfoDTOBuilder,
 )
@@ -13,10 +12,10 @@ from src.infrastructure.persistence.db.models.models import (
     CountryOrm,
     RegionOrm,
 )
-from src.infrastructure.persistence.repositories.base_repository import BaseRepository
+from src.infrastructure.persistence.persist_base import PersistBase
 
 
-class AirportDAO(BaseDAO, AirportDAOInterface):
+class AirportDAO(PersistBase, AirportDAOInterface):
     async def filter(self, start_with: str, limit=10) -> list[AirportFullInfoDTO]:
         results = await self.db.execute(
             select(AirportOrm)
