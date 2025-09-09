@@ -14,7 +14,7 @@ from src.application.dto.user import UserDTO
 from src.application.dto.user_ticket import PassengerDTO, UserTicketFullInfoDTO
 from src.entities.value_objects.price.currency_enum import CurrencyEnum
 
-mock_user_ticket_dto = UserTicketFullInfoDTO(
+MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
     id=UUID("946791d0-e73f-44cf-b7cf-93d2da8f3cc0"),
     user=UserDTO(
         id=UUID("0c95ad77-07b3-4516-accc-c96647dbbbb8"),

@@ -15,7 +15,7 @@ class AirportsAdapterResponse:
     airports: list[CreateAirportDTO]
 
 
-class AirportLoadDataToCreateDTO:
+class AirportLoadDataToCreateDTOAdapter:
     async def execute(
         self,
         data: list[AirportLoadData],

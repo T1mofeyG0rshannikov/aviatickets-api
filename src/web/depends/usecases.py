@@ -22,7 +22,10 @@ from src.application.persistence.etl_importers.region_importer import (
 from src.application.services.currency_converter import CurrencyConverter
 from src.application.usecases.airports.get.usecase import GetAirports
 from src.application.usecases.airports.import_airports.adapter import (
-    AirportLoadDataToCreateDTO,
+    AirportLoadDataToCreateDTOAdapter,
+)
+from src.application.usecases.airports.import_airports.load_data_to_create_dto_adapter import (
+    ConvertAirportLoadDataToCreateData,
 )
 from src.application.usecases.airports.import_airports.usecase import ImportAirports
 from src.application.usecases.country.get_or_create_countries_by_iso import (
@@ -113,8 +116,8 @@ def get_persist_regions(
     return PersistRegions(importer)
 
 
-def get_airport_load_data_to_create_dto() -> AirportLoadDataToCreateDTO:
-    return AirportLoadDataToCreateDTO()
+def get_airport_load_data_to_create_data_adapter() -> AirportLoadDataToCreateDTOAdapter:
+    return AirportLoadDataToCreateDTOAdapter()
 
 
 def get_or_create_countries(
@@ -131,25 +134,29 @@ def get_or_create_regions(
     return GetOrCreateRegionsByISO(persist_regions, location_repository)
 
 
+def get_convert_airport_load_data_to_create_data(
+    location_repository: LocationRepositoryAnnotation,
+    adapter: Annotated[AirportLoadDataToCreateDTOAdapter, Depends(get_airport_load_data_to_create_data_adapter)],
+    get_or_create_countries: Annotated[GetOrCreateCountriesByISO, Depends(get_or_create_countries)],
+    get_or_create_regions: Annotated[GetOrCreateRegionsByISO, Depends(get_or_create_regions)],
+) -> ConvertAirportLoadDataToCreateData:
+    return ConvertAirportLoadDataToCreateData(
+        location_repository=location_repository,
+        adapter=adapter,
+        get_or_create_countries_by_iso=get_or_create_countries,
+        get_or_create_regions_by_iso=get_or_create_regions,
+    )
+
+
 def get_create_airports_interactor(
     repository: AirportRepositoryAnnotation,
     saver: Annotated[AirportBulkSaverInterface, Depends(get_airport_importer)],
     csv_parser: Annotated[AirportsCsvParser, Depends(get_csv_airports_parser)],
-    location_repository: LocationRepositoryAnnotation,
-    get_or_create_countries: Annotated[GetOrCreateCountriesByISO, Depends(get_or_create_countries)],
-    get_or_create_regions: Annotated[GetOrCreateRegionsByISO, Depends(get_or_create_regions)],
-    adapter: Annotated[AirportLoadDataToCreateDTO, Depends(get_airport_load_data_to_create_dto)],
+    converter: Annotated[ConvertAirportLoadDataToCreateData, Depends(get_convert_airport_load_data_to_create_data)],
     transaction: DbAnnotation,
 ) -> ImportAirports:
     return ImportAirports(
-        location_repository=location_repository,
-        saver=saver,
-        loader=csv_parser,
-        repository=repository,
-        get_or_create_countries_by_iso=get_or_create_countries,
-        get_or_create_regions_by_iso=get_or_create_regions,
-        adapter=adapter,
-        transaction=transaction,
+        saver=saver, loader=csv_parser, repository=repository, transaction=transaction, converter=converter
     )
 
 

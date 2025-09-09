@@ -4,23 +4,14 @@ from src.application.persistence.etl_importers.airport_importer import (
     AirportBulkSaverInterface,
 )
 from src.application.persistence.transaction import Transaction
-from src.application.usecases.airports.import_airports.adapter import (
-    AirportLoadDataToCreateDTO,
+from src.application.usecases.airports.import_airports.load_data_to_create_dto_adapter import (
+    ConvertAirportLoadDataToCreateData,
 )
 from src.application.usecases.airports.import_airports.loader import AirportsLoader
-from src.application.usecases.country.get_or_create_countries_by_iso import (
-    GetOrCreateCountriesByISO,
-)
-from src.application.usecases.region.get_or_create_regions_by_iso import (
-    GetOrCreateRegionsByISO,
-)
 from src.entities.airport.airport import Airport
 from src.entities.airport.airport_repository import AirportRepositoryInterface
 from src.entities.airport.value_objects.iata_code import IATACode
 from src.entities.exceptions import DomainError
-from src.entities.location.country.iso import ISOCode as CountryISO
-from src.entities.location.location_repository import LocationRepositoryInterface
-from src.entities.location.region.iso import ISOCode as RegionISO
 
 
 class ImportAirports:
@@ -30,19 +21,13 @@ class ImportAirports:
         repository: AirportRepositoryInterface,
         saver: AirportBulkSaverInterface,
         loader: AirportsLoader,
-        location_repository: LocationRepositoryInterface,
-        adapter: AirportLoadDataToCreateDTO,
-        get_or_create_countries_by_iso: GetOrCreateCountriesByISO,
-        get_or_create_regions_by_iso: GetOrCreateRegionsByISO,
+        converter: ConvertAirportLoadDataToCreateData,
     ) -> None:
         self.repository = repository
-        self.location_repository = location_repository
         self.saver = saver
         self.loader = loader
-        self.adapter = adapter
         self.transaction = transaction
-        self.get_or_create_countries_by_iso = get_or_create_countries_by_iso
-        self.get_or_create_regions_by_iso = get_or_create_regions_by_iso
+        self.converter = converter
 
     async def get_exist_codes(self) -> set[IATACode]:
         airports = await self.repository.all()
@@ -56,24 +41,8 @@ class ImportAirports:
         airports = loader_response.airports
         invalid = loader_response.invalid
 
-        regions_iso = set()
-        countries_iso = set()
+        adapter_response = await self.converter(airports=airports)
 
-        for load_data in airports:
-            regions_iso.add(RegionISO(load_data.region_iso))
-            countries_iso.add(CountryISO(load_data.country_iso))
-
-        countries_dict = await self.get_or_create_countries_by_iso(countries_iso)
-
-        regions_dict = await self.get_or_create_regions_by_iso(regions_iso, countries_dict)
-
-        cities = await self.location_repository.all_cities()
-
-        cities_dict = {city.name_english: city for city in cities}
-
-        adapter_response = await self.adapter.execute(
-            data=airports, countries_dict=countries_dict, regions_dict=regions_dict, cities_dict=cities_dict
-        )
         create_airports_dto = adapter_response.airports
         invalid += adapter_response.invalid
 
@@ -82,6 +51,7 @@ class ImportAirports:
         exist_codes = await self.get_exist_codes()
 
         for airport in create_airports_dto:
+            print(airport.iata, exist_codes, airport.iata in exist_codes)
             if airport.iata in exist_codes:
                 skipped += 1
             else:
@@ -106,6 +76,6 @@ class ImportAirports:
                 except DomainError:
                     continue
 
-        inserted = await self.saver.add_many(create_data)
+        await self.saver.add_many(create_data)
         await self.transaction.commit()
-        return BulkResult(skipped=skipped, inserted=inserted, invalid=invalid)
+        return BulkResult(skipped=skipped, inserted=len(create_data), invalid=invalid)

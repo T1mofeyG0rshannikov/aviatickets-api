@@ -5,11 +5,9 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import StreamingResponse
 
-from src.application.auth.access_token import AccessToken
 from src.application.dto.user_ticket import CreatePassengerDTO
 from src.application.usecases.create_user_ticket import CreateUserTicket
 from src.application.usecases.tickets.email import SendPdfTicketToEmail
-from src.application.usecases.tickets.pdf.generate import GeneratePdfTicket
 from src.application.usecases.tickets.pdf.get import GetPdfTicket
 from src.application.usecases.user.auth.login import Login
 from src.application.usecases.user.auth.register import Register

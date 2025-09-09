@@ -1,7 +1,7 @@
 from unittest.mock import MagicMock
 
-import mocks
 import pytest
+import user_ticket.mocks as utmocks
 
 from src.application.builders.user_ticket import UserTicketFullInfoAssembler
 from src.application.dto.pdf_service import AdapterPdfField
@@ -79,7 +79,7 @@ async def mock_create_pdf_ticket(default_pdf_generator: DefaultPdfTicketGenerato
 
 @pytest.mark.asyncio
 async def test_create_pdf(mock_create_pdf_ticket: GeneratePdfTicket):
-    mock_user_ticket_dto = mocks.mock_user_ticket_dto
+    mock_user_ticket_dto = utmocks.MOCK_USER_TICKET_DTO
 
     mock_create_pdf_ticket.builder.execute.return_value = mock_user_ticket_dto  # type: ignore
 
@@ -94,7 +94,7 @@ async def test_create_pdf(mock_create_pdf_ticket: GeneratePdfTicket):
 async def test_default_pdf_template_adapter(
     pdf_ticket_adapter: DefaultPdfTicketAdapter, config: DefaultPdfTicketAdapterConfig
 ):
-    mock_user_ticket_dto = mocks.mock_user_ticket_dto
+    mock_user_ticket_dto = utmocks.MOCK_USER_TICKET_DTO
 
     expected_result = [
         PdfFieldsAdapter(
