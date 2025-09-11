@@ -24,3 +24,6 @@ class InsuranceContract:
         result = f"{part1}-{part2}/{part3}{part4}"
 
         return cls(value=result)
+
+    def __str__(self) -> str:
+        return self.value

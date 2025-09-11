@@ -1,15 +1,15 @@
 from dataclasses import dataclass
 from uuid import UUID
 
-from entities.insurance.insurance import Insurance
 from src.application.services.file_manager import File
+from src.entities.insurance.insurance import Insurance
 
 
 @dataclass(frozen=True)
 class PdfInsuranceRecord:
     name: str
     content_path: str
-    user_ticket_id: UUID
+    insurance_id: UUID
 
 
 class PdfInsurance(File):
@@ -19,4 +19,4 @@ class PdfInsurance(File):
 
     @classmethod
     def get_name(self, insurance: Insurance) -> str:
-        return insurance.contract
+        return insurance.contract.value.replace("/", "-") + ".pdf"

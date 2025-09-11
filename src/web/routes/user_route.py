@@ -7,6 +7,8 @@ from fastapi.responses import StreamingResponse
 
 from src.application.dto.user_ticket import CreatePassengerDTO
 from src.application.usecases.create_user_ticket import CreateUserTicket
+from src.application.usecases.insurance.create import CreateInsurance
+from src.application.usecases.insurance.get_pdf import GetPdfInsurance
 from src.application.usecases.tickets.email import SendPdfTicketToEmail
 from src.application.usecases.tickets.pdf.get import GetPdfTicket
 from src.application.usecases.user.auth.login import Login
@@ -16,8 +18,10 @@ from src.entities.user.value_objects.password import Password
 from src.entities.value_objects.entity_id import EntityId
 from src.web.depends.annotations.user_annotation import UserAnnotation
 from src.web.depends.usecases import (
+    get_create_insurance_interactor,
     get_create_user_ticket_interactor,
     get_login_interactor,
+    get_pdf_insurance_interactor,
     get_pdf_ticket_interactor,
     get_register_interactor,
     get_send_pdf_ticket_to_email_interactor,
@@ -79,3 +83,25 @@ async def login(
     access_token = await usecase(Email(data.email), Password(data.password))
     request.session.update({"token": access_token})
     return LoginResponse(access_token=access_token)
+
+
+@router.get("/pdf-insurance", status_code=200, response_class=StreamingResponse)
+@user_required
+async def get_pdf_insurance(
+    user: UserAnnotation,
+    insurance_id: UUID,
+    usecase: Annotated[GetPdfInsurance, Depends(get_pdf_insurance_interactor)],
+) -> StreamingResponse:
+    file = await usecase(EntityId(insurance_id), user)
+    headers = {"Content-Disposition": f"attachment; filename={file.name}"}
+    return StreamingResponse(BytesIO(file.content), media_type="application/pdf", headers=headers)
+
+
+@router.post("/insurance", status_code=201)
+@user_required
+async def create_insurance(
+    user: UserAnnotation,
+    user_ticket_id: UUID,
+    usecase: Annotated[CreateInsurance, Depends(get_create_insurance_interactor)],
+):
+    return await usecase(EntityId(user_ticket_id), user)

@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 import pytz  # type: ignore
 
+from src.entities.airport.airport import Airport
 from src.entities.tickets.exceptions import DepartureAtMustBeBeforeReturnAtError
 from src.entities.tickets.value_objects.departure_at import DepartureAt
 from src.entities.tickets.value_objects.flight_number import FlightNumber
@@ -14,8 +15,8 @@ class TicketSegment:
     id: EntityId
     segment_number: int
     flight_number: FlightNumber
-    origin_airport_id: EntityId
-    destination_airport_id: EntityId
+    origin_airport: Airport
+    destination_airport: Airport
     airline_id: EntityId
     departure_at: DepartureAt
     return_at: ReturnAt
@@ -28,8 +29,8 @@ class TicketSegment:
         cls,
         flight_number: FlightNumber,
         segment_number: int,
-        origin_airport_id: EntityId,
-        destination_airport_id: EntityId,
+        origin_airport: Airport,
+        destination_airport: Airport,
         airline_id: EntityId,
         departure_at: DepartureAt,
         return_at: ReturnAt,
@@ -47,8 +48,8 @@ class TicketSegment:
             id=EntityId.generate(),
             flight_number=flight_number,
             segment_number=segment_number,
-            origin_airport_id=origin_airport_id,
-            destination_airport_id=destination_airport_id,
+            origin_airport=origin_airport,
+            destination_airport=destination_airport,
             airline_id=airline_id,
             departure_at=departure_at,
             return_at=return_at,

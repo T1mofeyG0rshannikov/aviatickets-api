@@ -17,7 +17,7 @@ class TicketUniqueKey:
 
         for itinerary in itineraries:
             for segment in itinerary.segments:
-                unique_string += f"{segment.flight_number};{segment.departure_at};{segment.return_at};{segment.origin_airport_id};{segment.destination_airport_id}"
+                unique_string += f"{segment.flight_number};{segment.departure_at};{segment.return_at};{segment.origin_airport.id};{segment.destination_airport.id}"
 
         return cls(value=hash(unique_string))
 

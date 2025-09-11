@@ -8,21 +8,23 @@ from src.application.dto.ticket import (
     CreateTicketItineraryDTO,
     CreateTicketSegmentDTO,
 )
+from src.application.usecases.airports.get.query import GetAirportsDict
+from src.entities.airport.value_objects.iata_code import IATACode
 from src.entities.tickets.value_objects.seat_class.enum import SeatClassEnum
 from src.infrastructure.persistence.repositories.airline_repository import (
     AirlineRepository,
-)
-from src.infrastructure.persistence.repositories.airport_repository import (
-    AirportRepository,
 )
 from src.infrastructure.timezone_resolver import TimezoneResolver
 
 
 class AmadeusTicketAdapter:
     def __init__(
-        self, repository: AirportRepository, airline_repository: AirlineRepository, timezone_resolver: TimezoneResolver
+        self,
+        airline_repository: AirlineRepository,
+        timezone_resolver: TimezoneResolver,
+        airports_query: GetAirportsDict,
     ) -> None:
-        self.repository = repository
+        self.airports_query = airports_query
         self.airline_repository = airline_repository
         self.timezone_resolver = timezone_resolver
 
@@ -58,10 +60,8 @@ class AmadeusTicketAdapter:
                     airports_iata.add(segment["arrival"]["iataCode"])
                     airlines_iata.add(segment["carrierCode"])
 
-        airports = await self.repository.filter(iata_codes=airports_iata)
         airlines = await self.airline_repository.filter(iata_codes=airlines_iata)
-        airports_dict = {airport.iata: airport for airport in airports}
-
+        airports_dict = await self.airports_query(codes=airports_iata, key=IATACode)
         airlines_dict = {airline.iata: airline for airline in airlines}
 
         for t in response_data:

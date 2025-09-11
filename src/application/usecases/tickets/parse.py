@@ -5,6 +5,7 @@ from src.application.factories.ticket.ticket_factory import TicketFactory
 from src.application.tickets_parser import TicketsParseParams, TicketsParser
 from src.entities.airport.airport_repository import AirportRepositoryInterface
 from src.entities.exceptions import AirportNotFoundError
+from src.entities.tickets.ticket_entity.ticket import Ticket
 from src.entities.tickets.tickets_repository import TicketRepositoryInterface
 from src.entities.tickets.value_objects.unique_key import TicketUniqueKey
 from src.entities.value_objects.entity_id import EntityId
@@ -14,9 +15,11 @@ class ParseAviaTickets:
     def __init__(
         self,
         parsers: list[TicketsParser],
+        ticket_factory: TicketFactory,
         airports_repository: AirportRepositoryInterface,
         ticket_repository: TicketRepositoryInterface,
     ) -> None:
+        self.ticket_factory = ticket_factory
         self._parsers = parsers
         self.airports_repository = airports_repository
         self.ticket_repository = ticket_repository
@@ -34,7 +37,7 @@ class ParseAviaTickets:
         childrens: int,
         infants: int,
     ) -> None:
-        parsed_tickets = []
+        parsed_tickets: list[Ticket] = []
         exist_tickets_unique_keys = await self.get_all_unique_keys()
 
         for origin_airport_id in origin_airport_ids:
@@ -65,7 +68,7 @@ class ParseAviaTickets:
                         continue
 
                     for ticket_dto in tickets_dto:
-                        ticket = TicketFactory.create(ticket_dto)
+                        ticket = await self.ticket_factory.create(ticket_dto)
 
                         if ticket.unique_key not in exist_tickets_unique_keys:
                             parsed_tickets.append(ticket)

@@ -6,6 +6,7 @@ from redis import Redis  # type: ignore
 
 from src.application.builders.user_ticket import UserTicketFullInfoAssembler
 from src.application.services.currency_converter import CurrencyConverter
+from src.application.usecases.airports.get.query import GetAirportsDict
 from src.application.usecases.tickets.pdf.config import PdfGeneratorConfig
 from src.application.usecases.tickets.pdf.strategies.default.adapter import (
     DefaultPdfTicketAdapter,
@@ -45,6 +46,9 @@ from src.infrastructure.email_sender.service import EmailSender
 from src.infrastructure.jwt.jwt_config import JwtConfig
 from src.infrastructure.jwt.jwt_processor import JwtProcessor
 from src.infrastructure.pdf_service.service import PdfService
+from src.infrastructure.persistence.data_mappers.insurance_files_data_mapper import (
+    InsuranceFilesDataMapper,
+)
 from src.infrastructure.persistence.data_mappers.ticket_files_data_mapper import (
     TicketFilesDataMapper,
 )
@@ -94,12 +98,18 @@ def get_timezone_resolver() -> TimezoneResolver:
     return TimezoneResolver()
 
 
+def get_airports_dict(repository: AirportRepositoryAnnotation) -> GetAirportsDict:
+    return GetAirportsDict(repository)
+
+
 def get_amadeus_ticket_adapter(
-    repository: AirportRepositoryAnnotation,
+    airports_query: Annotated[GetAirportsDict, Depends(get_airports_dict)],
     airline_repository: AirlineRepositoryAnnotation,
     timezone_resolver: Annotated[TimezoneResolver, Depends(get_timezone_resolver)],
 ) -> AmadeusTicketAdapter:
-    return AmadeusTicketAdapter(repository, airline_repository, timezone_resolver)
+    return AmadeusTicketAdapter(
+        airports_query=airports_query, airline_repository=airline_repository, timezone_resolver=timezone_resolver
+    )
 
 
 def get_amadeus_ticket_parser(
@@ -166,3 +176,7 @@ def get_pdf_generator_config() -> PdfGeneratorConfig:
 
 def get_ticket_files_data_mapper(db: DbAnnotation) -> TicketFilesDataMapper:
     return TicketFilesDataMapper(db)
+
+
+def get_insurance_data_mapper(db: DbAnnotation) -> InsuranceFilesDataMapper:
+    return InsuranceFilesDataMapper(db)

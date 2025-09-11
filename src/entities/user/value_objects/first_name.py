@@ -20,3 +20,6 @@ class FirstName:
         if not self.validation(self.value):
             raise InvalidFirstNameError(f"{self.value} is not valid user first name")
         self.value = self.value.capitalize()
+
+    def __str__(self) -> str:
+        return self.value

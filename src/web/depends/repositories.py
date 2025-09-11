@@ -4,6 +4,9 @@ from src.infrastructure.persistence.repositories.airline_repository import (
 from src.infrastructure.persistence.repositories.airport_repository import (
     AirportRepository,
 )
+from src.infrastructure.persistence.repositories.insurance_repository import (
+    InsuranceRepository,
+)
 from src.infrastructure.persistence.repositories.location_repository import (
     LocationRepository,
 )
@@ -39,3 +42,7 @@ def get_user_repository(db: DbAnnotation) -> UserRepository:
 
 def get_user_ticket_repository(db: DbAnnotation) -> UserTicketRepository:
     return UserTicketRepository(db)
+
+
+def get_insurance_repository(db: DbAnnotation) -> InsuranceRepository:
+    return InsuranceRepository(db)

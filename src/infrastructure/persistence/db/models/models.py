@@ -138,6 +138,7 @@ class UserOrm(Model):
     is_active = Column(Boolean, default=True)
 
     tickets = relationship("UserTicketOrm", back_populates="user")
+    insurances = relationship("InsuranceOrm", back_populates="insured")
 
     def __str__(self) -> str:
         return self.email
@@ -244,6 +245,39 @@ class PdfTicketOrm(Model):
 
     user_ticket_id = Column(UUID(as_uuid=True), ForeignKey("usertickets.id"))
     user_ticket = relationship(UserTicketOrm, back_populates="pdf")
+
+    name = Column(String)
+    content_path = Column(String)
+
+
+class InsuranceOrm(Model):
+    __tablename__ = "insurances"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+
+    contract = Column(String, unique=True)
+    insured_id = Column(UUID(as_uuid=True), ForeignKey("user.id"))
+    insured = relationship(UserOrm, back_populates="insurances")
+
+    premium_value = Column(Numeric(10, 2))
+    premium_currency = Column(String)
+
+    created_at = Column(Date)
+    start_date = Column(Date)
+    end_date = Column(Date)
+
+    territory = Column(String)
+
+    pdf = relationship("PdfInsuranceOrm", back_populates="insurance")
+
+
+class PdfInsuranceOrm(Model):
+    __tablename__ = "pdfinsurances"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+
+    insurance_id = Column(UUID(as_uuid=True), ForeignKey("insurances.id"))
+    insurance = relationship(InsuranceOrm, back_populates="pdf")
 
     name = Column(String)
     content_path = Column(String)

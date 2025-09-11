@@ -1,8 +1,10 @@
+from transliterate import translit
+
 from src.application.dto.pdf_service import AdapterPdfField
 from src.application.services.currency_converter import CurrencyConverter
 from src.application.services.pdf_service import PdfServiceInterface
-from src.application.usecases.insurance.config import PdfInsuranceGeneratorConfig
 from src.application.usecases.insurance.pdf_insurance import PdfInsurance
+from src.application.usecases.tickets.pdf.config import PdfGeneratorConfig
 from src.entities.insurance.insurance import Insurance
 from src.entities.user.exceptions import UserNotFoundError
 from src.entities.user.user_repository import UserRepositoryInterface
@@ -25,13 +27,13 @@ class PdfInsuranceAdapter:
 
         if insured is None:
             raise UserNotFoundError(f"Нет пользователя с id='{insurance.insured_id}'")
-
+        print(insured.full_name.upper())
         return [
             AdapterPdfField(name="Days", value=str(insurance.length_of_stay)),
             AdapterPdfField(name="Contract", value=str(insurance.contract)),
             AdapterPdfField(name="Insured", value=insured.full_name.upper()),
-            AdapterPdfField(name="InsuredEng", value=str(insurance.length_of_stay)),
-            AdapterPdfField(name="Territory", value=str(insurance.length_of_stay)),
+            AdapterPdfField(name="InsuredEng", value=translit(insured.full_name.upper(), "ru", reversed=True)),
+            AdapterPdfField(name="Territory", value=str(insurance.territory)),
             AdapterPdfField(name="CreatedAt", value=insurance.created_at.strftime("%d.%m.%Y")),
             AdapterPdfField(name="FromDate", value=insurance.start_date.strftime("%d.%m.%Y")),
             AdapterPdfField(name="ToDate", value=insurance.end_date.strftime("%d.%m.%Y")),
@@ -41,7 +43,7 @@ class PdfInsuranceAdapter:
 
 class GeneratePdfInsuranse:
     def __init__(
-        self, config: PdfInsuranceGeneratorConfig, adapter: PdfInsuranceAdapter, pdf_service: PdfServiceInterface
+        self, config: PdfGeneratorConfig, adapter: PdfInsuranceAdapter, pdf_service: PdfServiceInterface
     ) -> None:
         self.adapter = adapter
         self.pdf_service = pdf_service
@@ -50,7 +52,7 @@ class GeneratePdfInsuranse:
     async def __call__(self, insurance: Insurance) -> PdfInsurance:
         adapter_fields = await self.adapter.execute(insurance)
 
-        self.pdf_service.set_file(self.config.template_name)
+        self.pdf_service.set_file(f"{self.config.pdf_insurance_template_path}")
 
         self.pdf_service.update_form(adapter_fields)
 

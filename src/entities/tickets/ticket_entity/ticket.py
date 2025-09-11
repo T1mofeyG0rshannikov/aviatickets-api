@@ -14,6 +14,10 @@ class Ticket:
     itineraries: list[TicketItinerary]
 
     @property
+    def destination_country_id(self):
+        return self.itineraries[0].segments[-1].destination_airport.country_id
+
+    @property
     def departure_date(self):
         for segment in self.itineraries[0].segments:
             if segment.segment_number == 1:

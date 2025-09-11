@@ -4,6 +4,7 @@ from src.entities.location.city.city import City
 from src.entities.location.country.country import Country
 from src.entities.location.location_repository import LocationRepositoryInterface
 from src.entities.location.region.region import Region
+from src.entities.value_objects.entity_id import EntityId
 from src.infrastructure.persistence.db.models.models import (
     CityOrm,
     CountryOrm,
@@ -40,6 +41,11 @@ class LocationRepository(LocationRepositoryInterface, PersistBase):
 
     async def get_country(self, iso: str) -> Country | None:
         result = await self.db.execute(select(CountryOrm).where(CountryOrm.iso == iso))
+        country = result.scalar()
+        return orm_to_country(country) if country else None
+
+    async def get_country_by_id(self, id: EntityId) -> Country | None:
+        result = await self.db.execute(select(CountryOrm).where(CountryOrm.id == id.value))
         country = result.scalar()
         return orm_to_country(country) if country else None
 

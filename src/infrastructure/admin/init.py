@@ -5,6 +5,10 @@ from src.infrastructure.admin.model_views.airline import AirlineAdmin
 from src.infrastructure.admin.model_views.airport import AirportAdmin
 from src.infrastructure.admin.model_views.city import CityAdmin
 from src.infrastructure.admin.model_views.country import CountryAdmin
+from src.infrastructure.admin.model_views.insurance import (
+    InsuranceAdmin,
+    InsurancePdfAdmin,
+)
 from src.infrastructure.admin.model_views.region import RegionAdmin
 from src.infrastructure.admin.model_views.ticket import (
     TicketAdmin,
@@ -42,3 +46,5 @@ def init_admin(app: FastAPI) -> None:
     admin.add_view(CountryAdmin)
     admin.add_view(PassengerAdmin)
     admin.add_view(UserTicketPdfAdmin)
+    admin.add_view(InsuranceAdmin)
+    admin.add_view(InsurancePdfAdmin)

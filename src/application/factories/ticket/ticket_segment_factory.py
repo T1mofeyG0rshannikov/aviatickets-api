@@ -1,6 +1,7 @@
 from datetime import datetime
 from uuid import UUID
 
+from src.entities.airport.airport import Airport
 from src.entities.tickets.ticket_entity.ticket_segment import TicketSegment
 from src.entities.tickets.value_objects.departure_at import DepartureAt
 from src.entities.tickets.value_objects.flight_number import FlightNumber
@@ -14,8 +15,8 @@ class TicketSegmentFactory:
         cls,
         flight_number: str,
         segment_number: int,
-        origin_airport_id: UUID,
-        destination_airport_id: UUID,
+        origin_airport: Airport,
+        destination_airport: Airport,
         airline_id: UUID,
         departure_at: datetime,
         return_at: datetime,
@@ -26,8 +27,8 @@ class TicketSegmentFactory:
         return TicketSegment.create(
             flight_number=FlightNumber(flight_number),
             segment_number=segment_number,
-            origin_airport_id=EntityId(origin_airport_id),
-            destination_airport_id=EntityId(destination_airport_id),
+            origin_airport=origin_airport,
+            destination_airport=destination_airport,
             airline_id=EntityId(airline_id),
             departure_at=DepartureAt(departure_at),
             return_at=ReturnAt(return_at),

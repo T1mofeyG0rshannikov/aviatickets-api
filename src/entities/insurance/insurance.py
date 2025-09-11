@@ -19,9 +19,10 @@ class Insurance:
     start_date: datetime
     end_date: datetime
     length_of_stay: int
+    territory: str
 
     @classmethod
-    def create(cls, insured_id: UserId, ticket: Ticket):
+    def create(cls, insured_id: UserId, ticket: Ticket, territory: str):
         start_date = ticket.departure_date
 
         end_date = ticket.arrival_date
@@ -37,4 +38,5 @@ class Insurance:
             start_date=start_date,
             end_date=end_date,
             length_of_stay=length_of_stay,
+            territory=territory,
         )

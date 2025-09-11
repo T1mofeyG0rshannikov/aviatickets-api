@@ -3,7 +3,11 @@ from typing import Annotated
 from fastapi import Depends
 
 from src.application.builders.user_ticket import UserTicketFullInfoAssembler
+from src.application.factories.ticket.ticket_factory import TicketFactory
 from src.application.pdf_templates import PdfTemplatesEnum
+from src.application.persistence.data_mappers.insurance_files import (
+    InsuranceFilesDataMapperInterface,
+)
 from src.application.persistence.etl_importers.airline_importer import (
     AirlineImporterInterface,
 )
@@ -20,6 +24,8 @@ from src.application.persistence.etl_importers.region_importer import (
     RegionImporterInterface,
 )
 from src.application.services.currency_converter import CurrencyConverter
+from src.application.services.file_manager import FileManagerInterface
+from src.application.services.pdf_service import PdfServiceInterface
 from src.application.usecases.airports.get.usecase import GetAirports
 from src.application.usecases.airports.import_airports.adapter import (
     AirportLoadDataToCreateDTOAdapter,
@@ -36,6 +42,12 @@ from src.application.usecases.country.persist_countries import PersistCountries
 from src.application.usecases.create_airlines.usecase import CreateAirlines
 from src.application.usecases.create_cities.usecase import CreateCities
 from src.application.usecases.create_user_ticket import CreateUserTicket
+from src.application.usecases.insurance.create import CreateInsurance
+from src.application.usecases.insurance.generate_pdf import (
+    GeneratePdfInsuranse,
+    PdfInsuranceAdapter,
+)
+from src.application.usecases.insurance.get_pdf import GetPdfInsurance
 from src.application.usecases.region.get_or_create_regions_by_iso import (
     GetOrCreateRegionsByISO,
 )
@@ -55,6 +67,7 @@ from src.application.usecases.user.auth.login import Login
 from src.application.usecases.user.auth.register import Register
 from src.application.usecases.user.create import CreateUser
 from src.infrastructure.clients.ticket_parsers.amadeus.parser import AmadeusTicketParser
+from src.infrastructure.depends.base import get_pdf_service
 from src.infrastructure.email_sender.service import EmailSender
 from src.infrastructure.etl_parsers.airlines_parser import AirlinesTXTParser
 from src.infrastructure.etl_parsers.airports_parser import AirportsCsvParser
@@ -70,6 +83,7 @@ from src.web.depends.annotations.annotations import (
     AirlineRepositoryAnnotation,
     AirportDAOAnnotation,
     AirportRepositoryAnnotation,
+    InsuranceRepositoryAnnotation,
     LocationRepositoryAnnotation,
     TicketDAOAnnotation,
     TicketRepositoryAnnotation,
@@ -84,6 +98,7 @@ from src.web.depends.depends import (  # get_aviasales_ticket_parser,
     get_default_pdf_generator,
     get_email_sender,
     get_file_manager,
+    get_insurance_data_mapper,
     get_pdf_generator_config,
     get_ticket_files_data_mapper,
     get_user_ticket_assembler,
@@ -192,16 +207,22 @@ def get_create_cities_interactor(
     return CreateCities(loader=csv_parser, repository=repository, importer=importer)
 
 
+def get_ticket_factory(airport_repository: AirportRepositoryAnnotation) -> TicketFactory:
+    return TicketFactory(airport_repository)
+
+
 def get_parse_tickets_interactor(
     # aviasales_parser: Annotated[AviasalesTicketParser, Depends(get_aviasales_ticket_parser)],
     amadeus_parser: Annotated[AmadeusTicketParser, Depends(get_amadeus_ticket_parser)],
     airports_repository: AirportRepositoryAnnotation,
     ticket_repository: TicketRepositoryAnnotation,
+    ticket_factory: Annotated[TicketFactory, Depends(get_ticket_factory)],
 ) -> ParseAviaTickets:
     return ParseAviaTickets(
         parsers=[amadeus_parser],
         airports_repository=airports_repository,
         ticket_repository=ticket_repository,
+        ticket_factory=ticket_factory,
     )
 
 
@@ -283,3 +304,52 @@ def get_login_interactor(
 
 def get_airports_interactor(airport_read_repository: AirportDAOAnnotation) -> GetAirports:
     return GetAirports(airport_read_repository)
+
+
+def get_insurance_adapter(
+    currency_converter: Annotated[CurrencyConverter, Depends(get_currency_converter)],
+    user_repository: UserRepositoryAnnotation,
+) -> PdfInsuranceAdapter:
+    return PdfInsuranceAdapter(currency_converter=currency_converter, user_repository=user_repository)
+
+
+def get_generate_pdf_insurance(
+    config: Annotated[PdfGeneratorConfig, Depends(get_pdf_generator_config)],
+    adapter: Annotated[PdfInsuranceAdapter, Depends(get_insurance_adapter)],
+    pdf_service: Annotated[PdfServiceInterface, Depends(get_pdf_service)],
+) -> GeneratePdfInsuranse:
+    return GeneratePdfInsuranse(config=config, adapter=adapter, pdf_service=pdf_service)
+
+
+def get_pdf_insurance_interactor(
+    transaction: DbAnnotation,
+    file_manager: Annotated[FileManagerInterface, Depends(get_file_manager)],
+    generate_pdf: Annotated[GeneratePdfInsuranse, Depends(get_generate_pdf_insurance)],
+    ticket_files_data_mapper: Annotated[InsuranceFilesDataMapperInterface, Depends(get_insurance_data_mapper)],
+    repository: InsuranceRepositoryAnnotation,
+    config: Annotated[PdfGeneratorConfig, Depends(get_pdf_generator_config)],
+) -> GetPdfInsurance:
+    return GetPdfInsurance(
+        transaction=transaction,
+        file_manager=file_manager,
+        generate_pdf=generate_pdf,
+        ticket_files_data_mapper=ticket_files_data_mapper,
+        repository=repository,
+        config=config,
+    )
+
+
+def get_create_insurance_interactor(
+    transaction: DbAnnotation,
+    repository: InsuranceRepositoryAnnotation,
+    user_ticket_repository: UserTicketRepositoryAnnotation,
+    ticket_repository: TicketRepositoryAnnotation,
+    location_repository: LocationRepositoryAnnotation,
+) -> CreateInsurance:
+    return CreateInsurance(
+        transaction=transaction,
+        repository=repository,
+        user_ticket_repository=user_ticket_repository,
+        ticket_repository=ticket_repository,
+        location_repository=location_repository,
+    )

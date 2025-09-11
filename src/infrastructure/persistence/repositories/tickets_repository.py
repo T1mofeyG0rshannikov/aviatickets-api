@@ -19,7 +19,16 @@ class TicketRepository(TicketRepositoryInterface, PersistBase):
     async def get(self, id: EntityId) -> Ticket | None:
         result = await self.db.execute(
             select(TicketOrm)
-            .options(joinedload(TicketOrm.itineraries).joinedload(TicketItineraryOrm.segments))
+            .options(
+                joinedload(TicketOrm.itineraries)
+                .joinedload(TicketItineraryOrm.segments)
+                .joinedload(TicketSegmentOrm.origin_airport)
+            )
+            .options(
+                joinedload(TicketOrm.itineraries)
+                .joinedload(TicketItineraryOrm.segments)
+                .joinedload(TicketSegmentOrm.destination_airport)
+            )
             .where(TicketOrm.id == id.value)
         )
         ticket = result.scalar()
@@ -60,8 +69,8 @@ class TicketRepository(TicketRepositoryInterface, PersistBase):
                     TicketSegmentOrm(
                         id=segment.id.value,
                         segment_number=segment.segment_number,
-                        origin_airport_id=segment.origin_airport_id.value,
-                        destination_airport_id=segment.destination_airport_id.value,
+                        origin_airport_id=segment.origin_airport.id.value,
+                        destination_airport_id=segment.destination_airport.id.value,
                         airline_id=segment.airline_id.value,
                         departure_at=segment.departure_at.value,
                         return_at=segment.return_at.value,

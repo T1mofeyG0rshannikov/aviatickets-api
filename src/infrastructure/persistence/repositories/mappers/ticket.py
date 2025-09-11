@@ -10,6 +10,7 @@ from src.infrastructure.persistence.db.models.models import (
     TicketOrm,
     TicketSegmentOrm,
 )
+from src.infrastructure.persistence.repositories.mappers.airport import orm_to_airport
 
 
 def orm_to_ticket_segment(segment: TicketSegmentOrm) -> TicketSegment:
@@ -17,8 +18,8 @@ def orm_to_ticket_segment(segment: TicketSegmentOrm) -> TicketSegment:
         id=EntityId(segment.id),
         flight_number=FlightNumber(segment.flight_number),
         segment_number=segment.segment_number,
-        origin_airport_id=EntityId(segment.origin_airport_id),
-        destination_airport_id=EntityId(segment.destination_airport_id),
+        origin_airport=orm_to_airport(segment.origin_airport),
+        destination_airport=orm_to_airport(segment.destination_airport),
         airline_id=EntityId(segment.airline_id),
         departure_at=segment.departure_at,
         return_at=segment.return_at,

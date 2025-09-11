@@ -5,6 +5,7 @@ from src.entities.location.country.country import Country
 from src.entities.location.country.iso import ISOCode as ISOCountryCode
 from src.entities.location.region.iso import ISOCode as ISORegionCode
 from src.entities.location.region.region import Region
+from src.entities.value_objects.entity_id import EntityId
 
 
 class LocationRepositoryInterface(Protocol):
@@ -18,6 +19,9 @@ class LocationRepositoryInterface(Protocol):
         raise NotImplementedError
 
     async def get_country(self, iso: ISOCountryCode) -> Country | None:
+        raise NotImplementedError
+
+    async def get_country_by_id(self, id: EntityId) -> Country | None:
         raise NotImplementedError
 
     async def all_countries(self) -> list[Country]:
