@@ -5,7 +5,11 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.orm.exc import DetachedInstanceError
 from sqlalchemy.types import TIMESTAMP
 
+from src.entities.airline.airline import Airline
 from src.entities.airport.airport import Airport
+from src.entities.location.city.city import City
+from src.entities.location.country.country import Country
+from src.entities.location.region.region import Region
 from src.infrastructure.persistence.db.database import Model
 
 
@@ -134,6 +138,7 @@ class UserOrm(Model):
     second_name = Column(String)
     email = Column(String, unique=True)
     hash_password = Column(String)
+    birth_date = Column(Date)
     is_superuser = Column(Boolean, default=False)
     is_active = Column(Boolean, default=True)
 
@@ -158,6 +163,16 @@ class AirlineOrm(Model):
     def __str__(self) -> str:
         return self.name
 
+    @classmethod
+    def from_entity(cls, airline: Airline) -> "AirlineOrm":
+        return cls(
+            id=airline.id.value,
+            icao=airline.icao,
+            iata=airline.iata,
+            name=airline.name.value,
+            name_russian=airline.name_russian.value,
+        )
+
 
 class CountryOrm(Model):
     __tablename__ = "countries"
@@ -173,6 +188,10 @@ class CountryOrm(Model):
 
     def __str__(self) -> str:
         return self.name
+
+    @classmethod
+    def from_entity(cls, country: Country) -> "CountryOrm":
+        return cls(id=country.id.value, iso=country.iso, name=country.name, name_english=country.name_english)
 
 
 class RegionOrm(Model):
@@ -191,6 +210,16 @@ class RegionOrm(Model):
     def __str__(self) -> str:
         return self.name
 
+    @classmethod
+    def from_entity(cls, region: Region) -> "RegionOrm":
+        return cls(
+            id=region.id.value,
+            iso=region.iso,
+            name=region.name,
+            name_english=region.name_english,
+            country_id=region.country_id.value if region.country_id else None,
+        )
+
 
 class CityOrm(Model):
     __tablename__ = "cities"
@@ -203,6 +232,10 @@ class CityOrm(Model):
 
     def __str__(self) -> str:
         return self.name
+
+    @classmethod
+    def from_entity(cls, city: City) -> "CityOrm":
+        return cls(id=city.id.value, name=city.name, name_english=city.name_english)
 
 
 class UserTicketOrm(Model):

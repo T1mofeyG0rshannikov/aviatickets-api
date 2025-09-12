@@ -1,6 +1,7 @@
 from dependency_injector import containers, providers
 
 from src.application.usecases.user.auth.login import Login
+from src.application.usecases.user.create import CreateUser
 from src.infrastructure.depends.repos_container import ReposContainer
 from src.infrastructure.jwt.jwt_config import JwtConfig
 from src.infrastructure.jwt.jwt_processor import JwtProcessor
@@ -20,6 +21,7 @@ class UsecasesDIContainer(containers.DeclarativeContainer):
     )
 
     create_user = providers.Factory(
+        CreateUser,
         user_repository=ReposContainer.user_repository,
         password_hasher=password_hasher,
     )

@@ -12,6 +12,12 @@ from src.application.dto.ticket import (
 )
 from src.application.dto.user import UserDTO
 from src.application.dto.user_ticket import PassengerDTO, UserTicketFullInfoDTO
+from src.entities.user.user import User
+from src.entities.user.value_objects.birth_date import BirthDate
+from src.entities.user.value_objects.email import Email
+from src.entities.user.value_objects.first_name import FirstName
+from src.entities.user.value_objects.second_name import SecondName
+from src.entities.user.value_objects.user_id import UserId
 from src.entities.value_objects.price.currency_enum import CurrencyEnum
 
 MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
@@ -21,6 +27,7 @@ MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
         first_name="Тимофей",
         second_name="Марков",
         email="tgorshannikov@mail.ru",
+        birth_date=datetime.date(2000, 1, 1),
     ),
     ticket=TicketFullInfoDTO(
         id=UUID("ea0a55d3-ce52-4596-b026-ac482d7a3403"),
@@ -293,4 +300,16 @@ MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
             second_name="string",
         )
     ],
+)
+
+
+MOCK_USER = User(
+    id=UserId(value=UUID("0c95ad77-07b3-4516-accc-c96647dbbbb8")),
+    first_name=FirstName("Тимофей"),
+    second_name=SecondName("Марков"),
+    email=Email("tgorshannikov@mail.ru"),
+    hash_password="$2b$12$nfKvEXfUHAgKZRVPLwwD9.4edFLxtpyTF6SoEvqh2i0Ad4AeyiDQW",
+    birth_date=BirthDate(value=datetime.date(2000, 1, 1)),
+    is_superuser=True,
+    is_active=True,
 )

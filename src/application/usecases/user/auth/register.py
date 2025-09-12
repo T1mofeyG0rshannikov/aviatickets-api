@@ -16,6 +16,7 @@ class Register:
             first_name=data.first_name,
             second_name=data.second_name,
             is_superuser=data.is_superuser,
+            birth_date=data.birth_date,
         )
 
         access_token = self.jwt_processor.create_access_token(user.email, user.id)

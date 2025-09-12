@@ -27,7 +27,7 @@ class PdfInsuranceAdapter:
 
         if insured is None:
             raise UserNotFoundError(f"Нет пользователя с id='{insurance.insured_id}'")
-        print(insured.full_name.upper())
+
         return [
             AdapterPdfField(name="Days", value=str(insurance.length_of_stay)),
             AdapterPdfField(name="Contract", value=str(insurance.contract)),

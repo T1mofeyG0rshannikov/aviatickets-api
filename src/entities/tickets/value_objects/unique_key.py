@@ -26,4 +26,4 @@ class TicketUniqueKey:
         return cls(value=unique_key_value)
 
     def __str__(self):
-        return self.value
+        return str(self.value)

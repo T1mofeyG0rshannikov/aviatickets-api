@@ -1,4 +1,5 @@
 from src.entities.user.user import User
+from src.entities.user.value_objects.birth_date import BirthDate
 from src.entities.user.value_objects.email import Email
 from src.entities.user.value_objects.first_name import FirstName
 from src.entities.user.value_objects.second_name import SecondName
@@ -12,6 +13,7 @@ def from_orm_to_user(user: UserOrm) -> User:
         first_name=FirstName(user.first_name),
         second_name=SecondName(user.second_name),
         email=Email(user.email),
+        birth_date=BirthDate(user.birth_date),
         hash_password=user.hash_password,
         is_superuser=user.is_superuser,
         is_active=user.is_active,

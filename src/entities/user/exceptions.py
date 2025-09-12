@@ -36,3 +36,7 @@ class InvalidFirstNameError(DomainError):
 
 class InvalidSecondNameError(DomainError):
     pass
+
+
+class BirthDateInFutureErro(DomainError):
+    pass

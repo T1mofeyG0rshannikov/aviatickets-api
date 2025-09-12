@@ -1,3 +1,5 @@
+from datetime import date
+
 from src.application.auth.password_hasher import PasswordHasherInterface
 from src.application.factories.user_factory import UserFactory
 from src.entities.user.exceptions import UserWithEmailAlreadyExistError
@@ -12,7 +14,7 @@ class CreateUser:
         self.password_hasher = password_hasher
 
     async def __call__(
-        self, password: str, email: str, first_name: str, second_name: str, is_superuser: bool = False
+        self, password: str, email: str, first_name: str, second_name: str, birth_date: date, is_superuser: bool = False
     ) -> User:
         password = Password(password)
 
@@ -28,6 +30,7 @@ class CreateUser:
             second_name=second_name,
             hash_password=hashed_password,
             is_superuser=is_superuser,
+            birth_date=birth_date,
         )
 
         await self.repository.save(user)

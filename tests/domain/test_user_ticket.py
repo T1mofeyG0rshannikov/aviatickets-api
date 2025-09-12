@@ -7,7 +7,7 @@ from src.entities.user_ticket.exceptions import (
     InvalidInternationalPassportError,
 )
 from src.entities.user_ticket.user_ticket import Passenger
-from src.infrastructure.persistence.repositories.user_repository import UserRepository
+from src.entities.user_ticket.value_objects.passport import InternationalPassport
 
 
 @pytest.mark.asyncio
@@ -17,9 +17,10 @@ async def test_create_user_ticket_with_invalid_passport_number():
             first_name="Тимофей",
             second_name="Марков",
             gender="Мужской",
-            birth_date=datetime.datetime(year=2025, month=1, day=1),
-            passport="invalid_passport",
-            expiration_date=datetime.datetime(year=2027, month=1, day=1),
+            birth_date=datetime.date(year=2025, month=1, day=1),
+            passport=InternationalPassport(
+                number="invalid_passport", expiration_date=datetime.date(year=2027, month=1, day=1)
+            ),
         )
 
     assert "'invalid_passport' is not a valid international passport number" in str(excinfo.value)
@@ -27,14 +28,16 @@ async def test_create_user_ticket_with_invalid_passport_number():
 
 @pytest.mark.asyncio
 async def test_create_user_ticket_with_expired_passport():
+    passport_number = "123456789"
     with pytest.raises(ExpiredInternationalPassportError) as excinfo:
         Passenger.create(
             first_name="Тимофей",
             second_name="Марков",
             gender="Мужской",
-            birth_date=datetime.datetime(year=2025, month=1, day=1),
-            passport="123456789",
-            expiration_date=datetime.datetime(year=2025, month=1, day=1),
+            birth_date=datetime.date(year=2025, month=1, day=1),
+            passport=InternationalPassport(
+                number=passport_number, expiration_date=datetime.date(year=2025, month=1, day=1)
+            ),
         )
 
-    assert f"У пассажира Тимофей Марков истёк срок загран. паспорта" in str(excinfo.value)
+    assert f"{passport_number} is expired" in str(excinfo.value)

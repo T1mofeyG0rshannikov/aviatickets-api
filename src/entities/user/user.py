@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+from src.entities.user.value_objects.birth_date import BirthDate
 from src.entities.user.value_objects.email import Email
 from src.entities.user.value_objects.first_name import FirstName
 from src.entities.user.value_objects.second_name import SecondName
@@ -14,6 +15,7 @@ class User:
     email: Email
     hash_password: str
     is_superuser: bool
+    birth_date: BirthDate
     is_active: bool = True
 
     @classmethod
@@ -22,6 +24,7 @@ class User:
         first_name: FirstName,
         second_name: SecondName,
         email: Email,
+        birth_date: BirthDate,
         hash_password: str,
         is_superuser: bool = False,
         is_active: bool = True,
@@ -34,6 +37,7 @@ class User:
             hash_password=hash_password,
             is_superuser=is_superuser,
             is_active=is_active,
+            birth_date=birth_date,
         )
 
     @property

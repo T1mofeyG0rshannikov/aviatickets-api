@@ -1,12 +1,8 @@
-import uuid
-
 import pytest
 
 from src.entities.location.country.country import Country
-from src.entities.value_objects.entity_id import EntityId
 
 
-@pytest.mark
 def test_create_region():
     region = Country.create(
         iso="RU",
@@ -17,7 +13,6 @@ def test_create_region():
     assert isinstance(region, Country)
 
 
-@pytest.mark
 def test_create_region_with_invalid_iso():
     invalid_iso = "R1U-M3OS"
     with pytest.raises(ValueError) as excinfo:

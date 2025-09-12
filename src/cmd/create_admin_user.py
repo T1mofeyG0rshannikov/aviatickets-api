@@ -1,4 +1,5 @@
 import asyncio
+from datetime import date, datetime
 from getpass import getpass
 
 from src.application.usecases.user.create import CreateUser
@@ -10,6 +11,7 @@ async def create_admin_user(
     password: str,
     first_name: str,
     second_name: str,
+    birth_date: date,
     create_user: CreateUser,
 ) -> None:
     await create_user(
@@ -17,6 +19,7 @@ async def create_admin_user(
         password=password,
         first_name=first_name,
         second_name=second_name,
+        birth_date=birth_date,
         is_superuser=True,
     )
 
@@ -28,13 +31,17 @@ async def main():
     first_name = input("Enter first_name: ")
     second_name = input("Enter second_name: ")
     password = getpass("Enter password: ")
+    birth_date = input("Enter your birth date in format dd.mm.yyyy: ")
 
     create_user = await UsecasesDIContainer.create_user()
 
-    asyncio.run(
-        create_admin_user(
-            email=email, password=password, first_name=first_name, second_name=second_name, create_user=create_user
-        )
+    await create_admin_user(
+        email=email,
+        password=password,
+        first_name=first_name,
+        second_name=second_name,
+        create_user=create_user,
+        birth_date=datetime.strptime(birth_date, "%d.%m.%Y"),
     )
 
 

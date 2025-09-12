@@ -9,6 +9,8 @@ class PdfService(PdfServiceInterface):
     def set_file(self, file_path: str) -> None:
         self._file = fitz.open(file_path)
 
+    #        font = self._file.insert_font(fontfile=r"C:\Users\tgors\Downloads\Helvetica CY", fontname="F1")  # имя "F1" любое
+
     def _get_file(self) -> fitz.Document:
         file = self._file
         if file is None:
@@ -58,14 +60,28 @@ class PdfService(PdfServiceInterface):
                 rect = widget.rect
                 rect.x1 += 150
                 rect.y1 += 150
+                font = fitz.Font("helv")
+                page.insert_font(fontname="F0", fontbuffer=font.buffer)
+                # page.insert_text((50, 250), "ToUnicode Привет Hello", fontname="F0", fontsize=50, overlay=False)
+
                 page.insert_textbox(
                     rect,
                     widget.field_value,
                     fontsize=widget.text_fontsize,
                     color=widget.text_color,
-                    fontname=widget.text_font,
+                    fontname="F0",
                     align=fitz.TEXT_ALIGN_LEFT,
+                    #   overlay=False
                 )
+
+                #                page.insert_textbox(
+                #                   rect,
+                #                  widget.field_value,
+                #                 fontsize=widget.text_fontsize,
+                #                color=widget.text_color,
+                #               fontname="tiro",
+                #              align=fitz.TEXT_ALIGN_LEFT,
+                #         )
                 page.delete_widget(widget)
 
         pdf_bytes = doc.write(garbage=4)

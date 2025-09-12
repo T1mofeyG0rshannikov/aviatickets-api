@@ -1,3 +1,4 @@
+from datetime import date
 from unittest.mock import MagicMock
 from uuid import UUID
 
@@ -24,6 +25,7 @@ from src.application.usecases.tickets.pdf.strategies.default.generator import (
 )
 from src.entities.exceptions import AccessDeniedError
 from src.entities.user.user import User
+from src.entities.user.value_objects.birth_date import BirthDate
 from src.entities.user.value_objects.email import Email
 from src.entities.user.value_objects.first_name import FirstName
 from src.entities.user.value_objects.second_name import SecondName
@@ -121,6 +123,7 @@ async def test_assecc_denied_create_pdf_ticket(get_pdf_ticket: GetPdfTicket):
         second_name=SecondName("Марков"),
         email=Email("tgorshannikov@mail.ru"),
         hash_password="$2b$12$nfKvEXfUHAgKZRVPLwwD9.4edFLxtpyTF6SoEvqh2i0Ad4AeyiDQW",
+        birth_date=BirthDate(value=date(2000, 1, 1)),
         is_superuser=True,
         is_active=True,
     )

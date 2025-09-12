@@ -92,6 +92,13 @@ from src.web.depends.annotations.annotations import (
 )
 from src.web.depends.annotations.db_annotation import DbAnnotation
 from src.web.depends.annotations.jwt_processor import JwtProcessorAnnotation
+from src.web.depends.bulk_savers import (
+    get_airline_importer,
+    get_airport_importer,
+    get_city_importer,
+    get_country_importer,
+    get_region_importer,
+)
 from src.web.depends.depends import (  # get_aviasales_ticket_parser,
     get_amadeus_ticket_parser,
     get_currency_converter,
@@ -109,13 +116,6 @@ from src.web.depends.etl_loaders import (
     get_csv_airports_parser,
     get_regions_csv_parser,
     get_txt_airlines_parser,
-)
-from src.web.depends.importers import (
-    get_airline_importer,
-    get_airport_importer,
-    get_city_importer,
-    get_country_importer,
-    get_region_importer,
 )
 
 

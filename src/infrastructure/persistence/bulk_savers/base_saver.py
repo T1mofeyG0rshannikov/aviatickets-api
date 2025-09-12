@@ -19,9 +19,14 @@ OrmModel = TypeVar("OrmModel", bound=BaseOrmModel)
 class BulkSaver(PersistBase, Generic[EntityType, OrmModel]):
     orm_model: type[OrmModel]
 
-    def __init__(self, db: AsyncSession, orm_model: type[OrmModel]) -> None:
-        self.orm_model = orm_model
+    def __init__(self, db: AsyncSession) -> None:
         super().__init__(db)
+
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        for base in cls.__orig_bases__:
+            if hasattr(base, "__args__"):
+                cls.orm_model = base.__args__[1]
 
     async def add_many(self, objects: list[EntityType]) -> None:
         orm_objects = [self.orm_model.from_entity(obj) for obj in objects]
