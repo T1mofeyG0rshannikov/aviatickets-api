@@ -1,9 +1,9 @@
-from sqlalchemy import or_, select
+from sqlalchemy import desc, func, or_, select
 from sqlalchemy.orm import joinedload
 
 from src.application.dto.location import CountryWithAirportsDTO
 from src.application.persistence.dao.countries_dao import CountriesDAOInterface
-from src.infrastructure.persistence.db.models.models import CountryOrm
+from src.infrastructure.persistence.db.models.models import AirportOrm, CountryOrm
 from src.infrastructure.persistence.persist_base import PersistBase
 
 
@@ -11,6 +11,7 @@ class CountriesDAO(PersistBase, CountriesDAOInterface):
     async def filter(self, start_with: str, limit=10) -> list[CountryWithAirportsDTO]:
         results = await self.db.execute(
             select(CountryOrm)
+            .outerjoin(AirportOrm)
             .options(
                 joinedload(CountryOrm.airports),
             )
@@ -21,6 +22,9 @@ class CountriesDAO(PersistBase, CountriesDAOInterface):
                     CountryOrm.iso.istartswith(f"{start_with}"),
                 )
             )
+            .group_by(CountryOrm.id, CountryOrm.name, CountryOrm.name_english, CountryOrm.iso)
+            .having(func.count(AirportOrm.id) > 0)
+            .order_by(desc(func.count(AirportOrm.id)))
             .limit(limit)
         )
 
