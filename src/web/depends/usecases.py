@@ -34,13 +34,15 @@ from src.application.usecases.airports.import_airports.load_data_to_create_dto_a
     ConvertAirportLoadDataToCreateData,
 )
 from src.application.usecases.airports.import_airports.usecase import ImportAirports
+from src.application.usecases.city.get import GetCities
+from src.application.usecases.city.import_cities.usecase import CreateCities
+from src.application.usecases.country.get import GetCountries
 from src.application.usecases.country.get_or_create_countries_by_iso import (
     GetOrCreateCountriesByISO,
 )
 from src.application.usecases.country.import_countries.usecase import ImportCountries
 from src.application.usecases.country.persist_countries import PersistCountries
 from src.application.usecases.create_airlines.usecase import CreateAirlines
-from src.application.usecases.create_cities.usecase import CreateCities
 from src.application.usecases.create_user_ticket import CreateUserTicket
 from src.application.usecases.insurance.create import CreateInsurance
 from src.application.usecases.insurance.generate_pdf import (
@@ -83,6 +85,8 @@ from src.web.depends.annotations.annotations import (
     AirlineRepositoryAnnotation,
     AirportDAOAnnotation,
     AirportRepositoryAnnotation,
+    CitiesDAOAnnotation,
+    CountriesDAOAnnotation,
     InsuranceRepositoryAnnotation,
     LocationRepositoryAnnotation,
     TicketDAOAnnotation,
@@ -304,6 +308,14 @@ def get_login_interactor(
 
 def get_airports_interactor(airport_read_repository: AirportDAOAnnotation) -> GetAirports:
     return GetAirports(airport_read_repository)
+
+
+def get_countries_interactor(countries_dao: CountriesDAOAnnotation) -> GetCountries:
+    return GetCountries(countries_dao)
+
+
+def get_cities_interactor(cities_dao: CitiesDAOAnnotation) -> GetCities:
+    return GetCities(cities_dao)
 
 
 def get_insurance_adapter(

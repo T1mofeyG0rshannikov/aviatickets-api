@@ -6,9 +6,9 @@ from fastapi import APIRouter, Depends
 from src.application.dto.ticket import TicketFullInfoDTO
 from src.application.usecases.airports.get.usecase import GetAirports
 from src.application.usecases.airports.import_airports.usecase import ImportAirports
+from src.application.usecases.city.import_cities.usecase import CreateCities
 from src.application.usecases.country.import_countries.usecase import ImportCountries
 from src.application.usecases.create_airlines.usecase import CreateAirlines
-from src.application.usecases.create_cities.usecase import CreateCities
 from src.application.usecases.region.import_regions.usecase import ImportRegions
 from src.application.usecases.tickets.filter import FilterTickets
 from src.application.usecases.tickets.get import GetTicket

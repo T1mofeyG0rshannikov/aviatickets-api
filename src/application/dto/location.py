@@ -11,6 +11,14 @@ class CityDTO:
     name_english: str
 
 
+@dataclass
+class CityWithAirportsDTO:
+    id: UUID
+    name: str
+    name_english: str
+    airports: list[UUID]
+
+
 class CreateCityDTO(BaseModel):
     name: str
     name_english: str
@@ -28,6 +36,15 @@ class CountryDTO:
     iso: str
     name: str
     name_english: str
+
+
+@dataclass
+class CountryWithAirportsDTO:
+    id: UUID
+    iso: str
+    name: str
+    name_english: str
+    airports: list[UUID]
 
 
 @dataclass

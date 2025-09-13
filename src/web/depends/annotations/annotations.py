@@ -3,6 +3,8 @@ from typing import Annotated
 from fastapi import Depends
 
 from src.infrastructure.persistence.dao.airport_dao import AirportDAO
+from src.infrastructure.persistence.dao.cities_dao import CitiestDAO
+from src.infrastructure.persistence.dao.countries_dao import CountriesDAO
 from src.infrastructure.persistence.dao.tickets_dao import TicketDAO
 from src.infrastructure.persistence.repositories.airline_repository import (
     AirlineRepository,
@@ -23,7 +25,12 @@ from src.infrastructure.persistence.repositories.user_repository import UserRepo
 from src.infrastructure.persistence.repositories.user_ticket_repository import (
     UserTicketRepository,
 )
-from src.web.depends.dao import get_airport_dao, get_ticket_dao
+from src.web.depends.dao import (
+    get_airport_dao,
+    get_cities_dao,
+    get_countries_dao,
+    get_ticket_dao,
+)
 from src.web.depends.repositories import (
     get_airline_repository,
     get_airports_repository,
@@ -40,6 +47,8 @@ AirlineRepositoryAnnotation = Annotated[AirlineRepository, Depends(get_airline_r
 TicketRepositoryAnnotation = Annotated[TicketRepository, Depends(get_ticket_repository)]
 TicketDAOAnnotation = Annotated[TicketDAO, Depends(get_ticket_dao)]
 AirportDAOAnnotation = Annotated[AirportDAO, Depends(get_airport_dao)]
+CitiesDAOAnnotation = Annotated[CitiestDAO, Depends(get_cities_dao)]
+CountriesDAOAnnotation = Annotated[CountriesDAO, Depends(get_countries_dao)]
 UserRepositoryAnnotation = Annotated[UserRepository, Depends(get_user_repository)]
 UserTicketRepositoryAnnotation = Annotated[UserTicketRepository, Depends(get_user_ticket_repository)]
 InsuranceRepositoryAnnotation = Annotated[InsuranceRepository, Depends(get_insurance_repository)]

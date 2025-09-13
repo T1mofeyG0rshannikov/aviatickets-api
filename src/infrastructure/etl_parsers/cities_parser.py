@@ -1,5 +1,5 @@
 from src.application.dto.location import CreateCityDTO
-from src.application.usecases.create_cities.loader import CitiesLoader
+from src.application.usecases.city.import_cities.loader import CitiesLoader
 
 
 class CitiesCsvParser(CitiesLoader):

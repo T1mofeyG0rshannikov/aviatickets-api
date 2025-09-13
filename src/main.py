@@ -7,6 +7,7 @@ from starlette.middleware.sessions import SessionMiddleware
 from src.infrastructure.admin.init import init_admin
 from src.infrastructure.depends.base import InfraDIContainer
 from src.web.exc_handler import init_exc_handlers
+from src.web.routes.filter_route import router as filter_router
 from src.web.routes.tickets_route import router as tickets_router
 from src.web.routes.user_route import router as user_router
 
@@ -35,4 +36,5 @@ app.add_middleware(
 
 app.include_router(router=user_router)
 app.include_router(router=tickets_router)
+app.include_router(router=filter_router)
 init_exc_handlers(app)
