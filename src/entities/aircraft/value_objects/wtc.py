@@ -5,7 +5,7 @@ from src.entities.aircraft.exceptions import InvalidAircraftIATACodeError
 
 
 class AircraftWTCEnum(StrEnum):
-    l = "light"  # type: ignore
+    l = "light"
     m = "medium"
     h = "heavy"
     j = "super"
