@@ -18,5 +18,5 @@ class GeneratePdfTicket:
         self, user_ticket: UserTicket, template: PdfTemplatesEnum = PdfTemplatesEnum.default
     ) -> PdfTicket:
         user_ticket_dto = await self.builder.execute(user_ticket)
-        print(user_ticket_dto)
+        # print(user_ticket_dto)
         return await self._strategies[template].execute(user_ticket_dto)

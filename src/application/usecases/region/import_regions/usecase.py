@@ -2,6 +2,7 @@ from src.application.factories.region_factory import RegionFactory
 from src.application.persistence.bulk_savers.region_saver import (
     RegionBulkSaverInterface,
 )
+from src.application.persistence.transaction import Transaction
 from src.application.usecases.region.import_regions.loader import RegionsLoader
 from src.entities.exceptions import DomainError
 from src.entities.location.location_repository import LocationRepositoryInterface
@@ -14,10 +15,12 @@ class ImportRegions:
         loader: RegionsLoader,
         repository: LocationRepositoryInterface,
         importer: RegionBulkSaverInterface,
+        transaction: Transaction,
     ) -> None:
         self.loader = loader
         self.repository = repository
         self.importer = importer
+        self.transaction = transaction
 
     async def get_exist_codes(self) -> set[ISOCode]:
         regions = await self.repository.all_regions()
@@ -40,4 +43,5 @@ class ImportRegions:
                 except DomainError as e:
                     print(f"Error while building Region: {e}")
 
-        return await self.importer.add_many(create_data)  # type: ignore
+        await self.importer.add_many(regions)
+        await self.transaction.commit()

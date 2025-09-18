@@ -1,6 +1,7 @@
 from src.application.persistence.data_mappers.ticket_files import (
     TicketFilesDataMapperInterface,
 )
+from src.application.persistence.transaction import Transaction
 from src.application.services.file_manager import FileManagerInterface
 from src.application.usecases.tickets.pdf.config import PdfGeneratorConfig
 from src.application.usecases.tickets.pdf.exceptions import TicketFileNotFoundError
@@ -23,12 +24,14 @@ class GetPdfTicket:
         ticket_files_data_mapper: TicketFilesDataMapperInterface,
         user_ticket_repository: UserTicketRepositoryInterface,
         config: PdfGeneratorConfig,
+        transaction: Transaction,
     ) -> None:
         self.file_manager = file_manager
         self.generate_pdf = generate_pdf
         self.data_mapper = ticket_files_data_mapper
         self.user_ticket_repository = user_ticket_repository
         self.config = config
+        self.transaction = transaction
 
     async def __call__(self, user_ticket_id: EntityId, user: User) -> PdfTicket:
         user_ticket = await self.user_ticket_repository.get(user_ticket_id)
@@ -56,4 +59,5 @@ class GetPdfTicket:
 
         content_path = f"{self.config.pdf_tickets_folder}/{pdf_ticket.name}.pdf"
         await self.data_mapper.save(name=pdf_ticket.name, user_ticket_id=user_ticket_id, content_path=content_path)
+        await self.transaction.commit()
         return pdf_ticket

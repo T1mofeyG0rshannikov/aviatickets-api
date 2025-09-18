@@ -1,5 +1,6 @@
 from src.application.dto.user_ticket import CreatePassengerDTO
 from src.application.factories.user_ticket_factory import UserTicketFactory
+from src.application.persistence.transaction import Transaction
 from src.entities.tickets.exceptions import TicketNotFoundError
 from src.entities.tickets.tickets_repository import TicketRepositoryInterface
 from src.entities.user.user import User
@@ -10,9 +11,15 @@ from src.entities.value_objects.entity_id import EntityId
 
 
 class CreateUserTicket:
-    def __init__(self, repository: UserTicketRepositoryInterface, ticket_repository: TicketRepositoryInterface) -> None:
+    def __init__(
+        self,
+        repository: UserTicketRepositoryInterface,
+        ticket_repository: TicketRepositoryInterface,
+        transaction: Transaction,
+    ) -> None:
         self.repository = repository
         self.ticket_repository = ticket_repository
+        self.transaction = transaction
 
     async def __call__(self, ticket_id: EntityId, passengers_to_create: list[CreatePassengerDTO], user: User) -> None:
         ticket = await self.ticket_repository.get(id=ticket_id)
@@ -24,3 +31,4 @@ class CreateUserTicket:
         )
 
         await self.repository.save(user_ticket=user_ticket)
+        await self.transaction.commit()

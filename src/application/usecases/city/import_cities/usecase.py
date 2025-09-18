@@ -1,4 +1,5 @@
 from src.application.persistence.bulk_savers.city_saver import CityBulkSaverInterface
+from src.application.persistence.transaction import Transaction
 from src.application.usecases.city.import_cities.loader import CitiesLoader
 from src.entities.location.city.city import City
 from src.entities.location.location_repository import LocationRepositoryInterface
@@ -6,11 +7,16 @@ from src.entities.location.location_repository import LocationRepositoryInterfac
 
 class CreateCities:
     def __init__(
-        self, loader: CitiesLoader, repository: LocationRepositoryInterface, importer: CityBulkSaverInterface
+        self,
+        loader: CitiesLoader,
+        repository: LocationRepositoryInterface,
+        importer: CityBulkSaverInterface,
+        transaction: Transaction,
     ) -> None:
         self.loader = loader
         self.repository = repository
         self.importer = importer
+        self.transaction = transaction
 
     async def get_exist_names(self) -> set[str]:
         cities = await self.repository.all_cities()
@@ -27,4 +33,5 @@ class CreateCities:
             if data.name not in exist_names
         ]
 
-        return await self.importer.add_many(cities=create_data)  # type: ignore
+        await self.importer.add_many(cities=create_data)
+        await self.transaction.commit()

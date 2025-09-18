@@ -2,6 +2,7 @@ from datetime import date
 
 from src.application.auth.password_hasher import PasswordHasherInterface
 from src.application.factories.user_factory import UserFactory
+from src.application.persistence.transaction import Transaction
 from src.entities.user.exceptions import UserWithEmailAlreadyExistError
 from src.entities.user.user import User
 from src.entities.user.user_repository import UserRepositoryInterface
@@ -9,8 +10,14 @@ from src.entities.user.value_objects.password import Password
 
 
 class CreateUser:
-    def __init__(self, user_repository: UserRepositoryInterface, password_hasher: PasswordHasherInterface) -> None:
+    def __init__(
+        self,
+        user_repository: UserRepositoryInterface,
+        password_hasher: PasswordHasherInterface,
+        transaction: Transaction,
+    ) -> None:
         self.repository = user_repository
+        self.transaction = transaction
         self.password_hasher = password_hasher
 
     async def __call__(
@@ -34,4 +41,5 @@ class CreateUser:
         )
 
         await self.repository.save(user)
+        await self.transaction.commit()
         return user

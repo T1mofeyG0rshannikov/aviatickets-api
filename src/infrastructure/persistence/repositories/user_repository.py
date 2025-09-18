@@ -31,4 +31,3 @@ class UserRepository(UserRepositoryInterface, PersistenceBase):
             is_superuser=user.is_superuser,
         )
         self.db.add(user)
-        await self.db.commit()

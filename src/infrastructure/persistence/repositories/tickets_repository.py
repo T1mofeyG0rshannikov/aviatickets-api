@@ -86,8 +86,6 @@ class TicketRepository(TicketRepositoryInterface, PersistenceBase):
                 ]
 
                 self.db.add_all(segments_orm)
-
-            await self.db.commit()
         except SQLAlchemyError as e:
             await self.db.rollback()
             raise e

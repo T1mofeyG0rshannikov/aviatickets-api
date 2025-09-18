@@ -2,12 +2,12 @@ from datetime import datetime
 
 from src.application.exceptions import FetchAPIError
 from src.application.factories.ticket.ticket_factory import TicketFactory
+from src.application.persistence.transaction import Transaction
 from src.application.tickets_parser import TicketsParseParams, TicketsParser
 from src.entities.airport.airport_repository import AirportRepositoryInterface
 from src.entities.exceptions import AirportNotFoundError
 from src.entities.tickets.ticket_entity.ticket import Ticket
 from src.entities.tickets.tickets_repository import TicketRepositoryInterface
-from src.entities.tickets.value_objects.unique_key import TicketUniqueKey
 from src.entities.value_objects.entity_id import EntityId
 
 
@@ -18,14 +18,13 @@ class ParseAviaTickets:
         ticket_factory: TicketFactory,
         airports_repository: AirportRepositoryInterface,
         ticket_repository: TicketRepositoryInterface,
+        transaction: Transaction,
     ) -> None:
         self.ticket_factory = ticket_factory
         self._parsers = parsers
         self.airports_repository = airports_repository
         self.ticket_repository = ticket_repository
-
-    async def get_all_unique_keys(self) -> set[TicketUniqueKey]:
-        return await self.ticket_repository.all_unique_keys()
+        self.transaction = transaction
 
     async def __call__(
         self,
@@ -38,7 +37,7 @@ class ParseAviaTickets:
         infants: int,
     ) -> None:
         parsed_tickets: list[Ticket] = []
-        exist_tickets_unique_keys = await self.get_all_unique_keys()
+        exist_tickets_unique_keys = await self.ticket_repository.all_unique_keys()
 
         for origin_airport_id in origin_airport_ids:
             for destination_airport_id in destination_airport_ids:
@@ -73,4 +72,5 @@ class ParseAviaTickets:
                         if ticket.unique_key not in exist_tickets_unique_keys:
                             parsed_tickets.append(ticket)
 
-        return await self.ticket_repository.save_many(parsed_tickets)
+        await self.ticket_repository.save_many(parsed_tickets)
+        await self.transaction.commit()

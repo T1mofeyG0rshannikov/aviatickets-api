@@ -30,11 +30,6 @@ class CreateInsurance:
         self.location_repository = location_repository
 
     async def __call__(self, user_ticket_id: EntityId, user: User) -> Insurance:
-        #        insurance = await self.repository.get_by_user_ticket_id(user_ticket_id)
-
-        #       if insurance is not None:
-        #          raise InsuranceAlreadyExistError(f"Вы уже создавали страховку на билет с id='{user_ticket_id}'")
-
         user_ticket = await self.user_ticket_repository.get(id=user_ticket_id)
 
         if user_ticket is None:

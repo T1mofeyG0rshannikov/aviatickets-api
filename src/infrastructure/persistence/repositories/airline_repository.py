@@ -27,17 +27,8 @@ class AirlineRepository(AirlineRepositoryInterface, PersistenceBase):
 
         return [orm_to_airline(airline) for airline in airlines]
 
-    async def create_many(self, airlines: list[Airline]) -> None:
-        airlines_orm = [
-            AirlineOrm(
-                id=airline.id.value,
-                icao=airline.icao,
-                iata=airline.iata,
-                name=airline.name,
-                name_russian=airline.name_russian,
-            )
-            for airline in airlines
-        ]
+    async def all_iata_codes(self) -> list[IATACode]:
+        results = await self.db.execute(select(Airline.iata))
+        codes = results.scalars().all()
 
-        self.db.add_all(airlines_orm)
-        await self.db.commit()
+        return [IATACode(code) for code in codes]
