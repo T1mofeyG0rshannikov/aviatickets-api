@@ -8,25 +8,25 @@ from src.application.dto.ticket import (
     CreateTicketItineraryDTO,
     CreateTicketSegmentDTO,
 )
-from src.application.usecases.airports.get.query import GetAirportsDict
-from src.entities.airport.value_objects.iata_code import IATACode
+from src.application.queries.get_aircrafts_dict import GetAircraftsDict
+from src.application.queries.get_airlines_dict import GetAirlinesDict
+from src.application.queries.get_airports_dict import GetAirportsDict
 from src.entities.tickets.value_objects.seat_class.enum import SeatClassEnum
-from src.infrastructure.persistence.repositories.airline_repository import (
-    AirlineRepository,
-)
 from src.infrastructure.timezone_resolver import TimezoneResolver
 
 
 class AmadeusTicketAdapter:
     def __init__(
         self,
-        airline_repository: AirlineRepository,
+        airlines_query: GetAirlinesDict,
         timezone_resolver: TimezoneResolver,
         airports_query: GetAirportsDict,
+        aircrafts_query: GetAircraftsDict,
     ) -> None:
         self.airports_query = airports_query
-        self.airline_repository = airline_repository
+        self.airlines_query = airlines_query
         self.timezone_resolver = timezone_resolver
+        self.aircrafts_query = aircrafts_query
 
     def iso_time_to_minutes(self, iso_time_string: str) -> int:
         duration = isodate.parse_duration(iso_time_string)
@@ -52,6 +52,7 @@ class AmadeusTicketAdapter:
         dto_list = []
         airports_iata = set()
         airlines_iata = set()
+        aircrafts_iata = set()
 
         for t in response_data:
             for itinerary in t["itineraries"]:
@@ -59,10 +60,13 @@ class AmadeusTicketAdapter:
                     airports_iata.add(segment["departure"]["iataCode"])
                     airports_iata.add(segment["arrival"]["iataCode"])
                     airlines_iata.add(segment["carrierCode"])
+                    print(segment["aircraft"])
+                    aircrafts_iata.add(segment["aircraft"]["code"])
 
-        airlines = await self.airline_repository.filter(iata_codes=airlines_iata)
-        airports_dict = await self.airports_query(codes=airports_iata, key=IATACode)
-        airlines_dict = {airline.iata: airline for airline in airlines}
+        airlines_dict = await self.airlines_query(codes=airlines_iata, key="iata")
+        airports_dict = await self.airports_query(codes=airports_iata, key="iata")
+        aircrafts_dict = await self.aircrafts_query(codes=aircrafts_iata, key="iata")
+        print(aircrafts_dict)
 
         for t in response_data:
             itineraries_dto = []
@@ -80,6 +84,12 @@ class AmadeusTicketAdapter:
                         destination_airport = airports_dict[segment["arrival"]["iataCode"]]
                     except KeyError:
                         print(f'''no airport with iata "{segment["arrival"]["iataCode"]}"''')
+                        continue
+
+                    try:
+                        aircraft = aircrafts_dict[segment["aircraft"]["code"]]
+                    except KeyError:
+                        print(f'''no aircraft with iata "{segment["aircraft"]["code"]}"''')
                         continue
 
                     departure_at = datetime.fromisoformat(segment["departure"]["at"]).replace(
@@ -103,6 +113,7 @@ class AmadeusTicketAdapter:
                                 t["travelerPricings"][0]["fareDetailsBySegment"][ind]["class"]
                             ),
                             status="confirmed",
+                            aircraft_id=aircraft.id.value,
                         )
                     )
 

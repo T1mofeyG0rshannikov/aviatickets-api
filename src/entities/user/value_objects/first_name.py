@@ -12,12 +12,13 @@ class FirstName:
 
     value: str
 
-    def validation(self, value: str):
+    @staticmethod
+    def validation(value: str) -> bool:
         pattern = re.compile(r"^[А-Яa-яЁё]+$")
         return bool(pattern.fullmatch(value))
 
     def __pre_save__(self):
-        if not self.validation(self.value):
+        if not FirstName.validation(self.value):
             raise InvalidFirstNameError(f"{self.value} is not valid user first name")
         self.value = self.value.capitalize()
 

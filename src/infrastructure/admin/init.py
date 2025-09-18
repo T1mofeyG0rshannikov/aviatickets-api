@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from src.infrastructure.admin.admin import CustomAdmin
+from src.infrastructure.admin.model_views.aircraft import AircraftAdmin
 from src.infrastructure.admin.model_views.airline import AirlineAdmin
 from src.infrastructure.admin.model_views.airport import AirportAdmin
 from src.infrastructure.admin.model_views.city import CityAdmin
@@ -34,6 +35,7 @@ def init_admin(app: FastAPI) -> None:
         templates_dir="src/infrastructure/admin/templates",
     )
 
+    admin.add_view(AircraftAdmin)
     admin.add_view(AirportAdmin)
     admin.add_view(AirlineAdmin)
     admin.add_view(TicketAdmin)

@@ -2,6 +2,7 @@ import datetime
 from decimal import Decimal
 from uuid import UUID
 
+from src.application.dto.aircraft import AircraftDTO
 from src.application.dto.airline import AirlineDTO
 from src.application.dto.airports.full_info import AirportFullInfoDTO
 from src.application.dto.location import CityDTO, CountryDTO, RegionDTO
@@ -21,29 +22,29 @@ from src.entities.user.value_objects.user_id import UserId
 from src.entities.value_objects.price.currency_enum import CurrencyEnum
 
 MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
-    id=UUID("946791d0-e73f-44cf-b7cf-93d2da8f3cc0"),
+    id=UUID("9f8619ce-2b4e-4a6d-b714-c523430bd5df"),
     user=UserDTO(
         id=UUID("0c95ad77-07b3-4516-accc-c96647dbbbb8"),
         first_name="Тимофей",
         second_name="Марков",
         email="tgorshannikov@mail.ru",
-        birth_date=datetime.date(2000, 1, 1),
+        birth_date=datetime.date(11, 11, 2000),
     ),
     ticket=TicketFullInfoDTO(
-        id=UUID("ea0a55d3-ce52-4596-b026-ac482d7a3403"),
-        price=Decimal("961.62"),
+        id=UUID("fc1bab96-5edb-47cd-98df-08b3ae42e461"),
+        price=Decimal("920.38"),
         currency=CurrencyEnum.eur,
         itineraries=[
             TicketItineraryFullInfoDTO(
-                id=UUID("d0d5a429-29b6-4f1e-9184-46f9dd0829e1"),
+                id=UUID("9e1ba5dd-a3c8-4bcc-9392-35e75517e808"),
                 transfers=1,
                 segments=[
                     TicketSegmentFullInfoDTO(
-                        id=UUID("36759260-9aa9-4d61-8f64-a7b4a4638aac"),
-                        flight_number="QR-340",
+                        id=UUID("56ecd9f8-a44c-44d3-b127-2579d94d4254"),
+                        flight_number="QR-338",
                         segment_number=1,
                         destination_airport=AirportFullInfoDTO(
-                            id=UUID("1d69dae8-8304-4627-b9cd-4c1510df9a90"),
+                            id=UUID("21131c03-e842-4e20-b82d-20f3e650a0ce"),
                             name="Hamad International Airport",
                             continent="AS",
                             country=CountryDTO(
@@ -59,11 +60,16 @@ MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
                             icao="OTHH",
                             iata="DOH",
                             gps_code="OTHH",
-                            region=None,
-                            name_russian=None,
+                            region=RegionDTO(
+                                id=UUID("2821ead3-66d8-46b6-b564-4960fc78e956"),
+                                iso="QA-DA",
+                                name="Эд-Доха",
+                                name_english="Doha",
+                            ),
+                            name_russian="Международный аэропорт Доха",
                         ),
                         origin_airport=AirportFullInfoDTO(
-                            id=UUID("22ec4f30-a186-47b6-9b20-c753fd29ce5d"),
+                            id=UUID("bda7b0bf-1163-4f88-a089-73672b892d9d"),
                             name="Sheremetyevo International Airport",
                             continent="EU",
                             country=CountryDTO(
@@ -73,9 +79,7 @@ MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
                                 name_english="Russia",
                             ),
                             city=CityDTO(
-                                id=UUID("68ef468b-9d14-4bb7-97ae-5c503d6abe0d"),
-                                name="Москва",
-                                name_english="Moscow",
+                                id=UUID("68ef468b-9d14-4bb7-97ae-5c503d6abe0d"), name="Москва", name_english="Moscow"
                             ),
                             scheduled_service="yes",
                             icao="UUEE",
@@ -96,18 +100,19 @@ MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
                             name="Qatar Airways",
                             name_russian="Катарские Авиалинии",
                         ),
-                        departure_at=datetime.datetime(2025, 9, 4, 14, 5, tzinfo=datetime.timezone.utc),
-                        return_at=datetime.datetime(2025, 9, 4, 19, 30, tzinfo=datetime.timezone.utc),
+                        aircraft=AircraftDTO(name="Boeing 787-9 pax", iata="789"),
+                        departure_at=datetime.datetime(2025, 9, 19, 20, 50, tzinfo=datetime.timezone.utc),
+                        return_at=datetime.datetime(2025, 9, 20, 2, 15, tzinfo=datetime.timezone.utc),
                         duration=325,
                         status="confirmed",
-                        seat_class="premium economy",
+                        seat_class="economy",
                     ),
                     TicketSegmentFullInfoDTO(
-                        id=UUID("5f66ce96-dc81-437a-b5ff-86a1fdba8398"),
-                        flight_number="QR-1002",
+                        id=UUID("0b2721a0-8f02-4e18-9152-fa4f02d5496d"),
+                        flight_number="QR-1022",
                         segment_number=2,
                         destination_airport=AirportFullInfoDTO(
-                            id=UUID("283aed83-e7b2-4b90-b892-00e7eb814d21"),
+                            id=UUID("20a22957-7d96-4b70-ad81-f35d8f76770b"),
                             name="Dubai International Airport",
                             continent="AS",
                             country=CountryDTO(
@@ -123,11 +128,16 @@ MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
                             icao="OMDB",
                             iata="DXB",
                             gps_code="OMDB",
-                            region=None,
+                            region=RegionDTO(
+                                id=UUID("ba845903-1625-46f6-b74e-ae331dd01b9f"),
+                                iso="AE-DU",
+                                name="Дубай",
+                                name_english="Dubai",
+                            ),
                             name_russian=None,
                         ),
                         origin_airport=AirportFullInfoDTO(
-                            id=UUID("1d69dae8-8304-4627-b9cd-4c1510df9a90"),
+                            id=UUID("21131c03-e842-4e20-b82d-20f3e650a0ce"),
                             name="Hamad International Airport",
                             continent="AS",
                             country=CountryDTO(
@@ -143,8 +153,13 @@ MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
                             icao="OTHH",
                             iata="DOH",
                             gps_code="OTHH",
-                            region=None,
-                            name_russian=None,
+                            region=RegionDTO(
+                                id=UUID("2821ead3-66d8-46b6-b564-4960fc78e956"),
+                                iso="QA-DA",
+                                name="Эд-Доха",
+                                name_english="Doha",
+                            ),
+                            name_russian="Международный аэропорт Доха",
                         ),
                         airline=AirlineDTO(
                             id=UUID("bc444200-eab9-4d76-a6bf-55fdd93a4965"),
@@ -153,25 +168,26 @@ MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
                             name="Qatar Airways",
                             name_russian="Катарские Авиалинии",
                         ),
-                        departure_at=datetime.datetime(2025, 9, 4, 22, 15, tzinfo=datetime.timezone.utc),
-                        return_at=datetime.datetime(2025, 9, 4, 23, 35, tzinfo=datetime.timezone.utc),
+                        aircraft=AircraftDTO(name="Airbus A350-900", iata="359"),
+                        departure_at=datetime.datetime(2025, 9, 20, 6, 20, tzinfo=datetime.timezone.utc),
+                        return_at=datetime.datetime(2025, 9, 20, 7, 40, tzinfo=datetime.timezone.utc),
                         duration=80,
                         status="confirmed",
-                        seat_class="premium economy",
+                        seat_class="economy",
                     ),
                 ],
-                duration=570,
+                duration=650,
             ),
             TicketItineraryFullInfoDTO(
-                id=UUID("592ae00b-4119-4c5c-acfe-16801d566603"),
+                id=UUID("1526896a-8bfe-439c-afee-925999daf67a"),
                 transfers=1,
                 segments=[
                     TicketSegmentFullInfoDTO(
-                        id=UUID("2e495614-33ff-4744-a1ee-ad5f9e9da80e"),
-                        flight_number="QR-1023",
+                        id=UUID("5b5eac2d-2239-4a9c-8876-be0d1ab36b9c"),
+                        flight_number="QR-1007",
                         segment_number=1,
                         destination_airport=AirportFullInfoDTO(
-                            id=UUID("1d69dae8-8304-4627-b9cd-4c1510df9a90"),
+                            id=UUID("21131c03-e842-4e20-b82d-20f3e650a0ce"),
                             name="Hamad International Airport",
                             continent="AS",
                             country=CountryDTO(
@@ -187,11 +203,16 @@ MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
                             icao="OTHH",
                             iata="DOH",
                             gps_code="OTHH",
-                            region=None,
-                            name_russian=None,
+                            region=RegionDTO(
+                                id=UUID("2821ead3-66d8-46b6-b564-4960fc78e956"),
+                                iso="QA-DA",
+                                name="Эд-Доха",
+                                name_english="Doha",
+                            ),
+                            name_russian="Международный аэропорт Доха",
                         ),
                         origin_airport=AirportFullInfoDTO(
-                            id=UUID("283aed83-e7b2-4b90-b892-00e7eb814d21"),
+                            id=UUID("20a22957-7d96-4b70-ad81-f35d8f76770b"),
                             name="Dubai International Airport",
                             continent="AS",
                             country=CountryDTO(
@@ -207,7 +228,12 @@ MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
                             icao="OMDB",
                             iata="DXB",
                             gps_code="OMDB",
-                            region=None,
+                            region=RegionDTO(
+                                id=UUID("ba845903-1625-46f6-b74e-ae331dd01b9f"),
+                                iso="AE-DU",
+                                name="Дубай",
+                                name_english="Dubai",
+                            ),
                             name_russian=None,
                         ),
                         airline=AirlineDTO(
@@ -217,18 +243,19 @@ MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
                             name="Qatar Airways",
                             name_russian="Катарские Авиалинии",
                         ),
-                        departure_at=datetime.datetime(2025, 9, 10, 9, 15, tzinfo=datetime.timezone.utc),
-                        return_at=datetime.datetime(2025, 9, 10, 10, 30, tzinfo=datetime.timezone.utc),
+                        aircraft=AircraftDTO(name="Airbus A330-300", iata="333"),
+                        departure_at=datetime.datetime(2025, 9, 27, 7, 45, tzinfo=datetime.timezone.utc),
+                        return_at=datetime.datetime(2025, 9, 27, 9, 0, tzinfo=datetime.timezone.utc),
                         duration=75,
                         status="confirmed",
-                        seat_class="premium economy",
+                        seat_class="economy",
                     ),
                     TicketSegmentFullInfoDTO(
-                        id=UUID("43ce36e7-f90c-43e4-a012-d301b0c24f1b"),
+                        id=UUID("9be4e665-91ad-4a74-9f42-3f700c8c569b"),
                         flight_number="QR-337",
                         segment_number=2,
                         destination_airport=AirportFullInfoDTO(
-                            id=UUID("22ec4f30-a186-47b6-9b20-c753fd29ce5d"),
+                            id=UUID("bda7b0bf-1163-4f88-a089-73672b892d9d"),
                             name="Sheremetyevo International Airport",
                             continent="EU",
                             country=CountryDTO(
@@ -238,9 +265,7 @@ MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
                                 name_english="Russia",
                             ),
                             city=CityDTO(
-                                id=UUID("68ef468b-9d14-4bb7-97ae-5c503d6abe0d"),
-                                name="Москва",
-                                name_english="Moscow",
+                                id=UUID("68ef468b-9d14-4bb7-97ae-5c503d6abe0d"), name="Москва", name_english="Moscow"
                             ),
                             scheduled_service="yes",
                             icao="UUEE",
@@ -255,7 +280,7 @@ MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
                             name_russian="Международный аэропорт Шереметьево",
                         ),
                         origin_airport=AirportFullInfoDTO(
-                            id=UUID("1d69dae8-8304-4627-b9cd-4c1510df9a90"),
+                            id=UUID("21131c03-e842-4e20-b82d-20f3e650a0ce"),
                             name="Hamad International Airport",
                             continent="AS",
                             country=CountryDTO(
@@ -271,8 +296,13 @@ MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
                             icao="OTHH",
                             iata="DOH",
                             gps_code="OTHH",
-                            region=None,
-                            name_russian=None,
+                            region=RegionDTO(
+                                id=UUID("2821ead3-66d8-46b6-b564-4960fc78e956"),
+                                iso="QA-DA",
+                                name="Эд-Доха",
+                                name_english="Doha",
+                            ),
+                            name_russian="Международный аэропорт Доха",
                         ),
                         airline=AirlineDTO(
                             id=UUID("bc444200-eab9-4d76-a6bf-55fdd93a4965"),
@@ -281,23 +311,21 @@ MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
                             name="Qatar Airways",
                             name_russian="Катарские Авиалинии",
                         ),
-                        departure_at=datetime.datetime(2025, 9, 10, 12, 50, tzinfo=datetime.timezone.utc),
-                        return_at=datetime.datetime(2025, 9, 10, 18, 20, tzinfo=datetime.timezone.utc),
+                        aircraft=AircraftDTO(name="Boeing 787-9 pax", iata="789"),
+                        departure_at=datetime.datetime(2025, 9, 27, 12, 50, tzinfo=datetime.timezone.utc),
+                        return_at=datetime.datetime(2025, 9, 27, 18, 20, tzinfo=datetime.timezone.utc),
                         duration=330,
                         status="confirmed",
-                        seat_class="premium economy",
+                        seat_class="economy",
                     ),
                 ],
-                duration=545,
+                duration=635,
             ),
         ],
     ),
     passengers=[
         PassengerDTO(
-            id=UUID("664014a4-fdf9-4176-9f10-6fdb3eedf3dd"),
-            gender="string",
-            first_name="string",
-            second_name="string",
+            id=UUID("32911dd0-7aff-45c5-b6a1-de1b3750fabe"), gender="string", first_name="string", second_name="string"
         )
     ],
 )

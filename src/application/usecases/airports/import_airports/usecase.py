@@ -1,6 +1,6 @@
 from src.application.dto.bulk_result import BulkResult
 from src.application.factories.airport_factory import AirportFactory
-from src.application.persistence.etl_importers.airport_importer import (
+from src.application.persistence.bulk_savers.airport_saver import (
     AirportBulkSaverInterface,
 )
 from src.application.persistence.transaction import Transaction

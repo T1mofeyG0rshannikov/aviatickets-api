@@ -6,10 +6,10 @@ from src.application.persistence.data_mappers.insurance_files import (
 from src.application.usecases.insurance.pdf_insurance import PdfInsuranceRecord
 from src.entities.value_objects.entity_id import EntityId
 from src.infrastructure.persistence.db.models.models import PdfInsuranceOrm
-from src.infrastructure.persistence.persist_base import PersistBase
+from src.infrastructure.persistence.persist_base import PersistenceBase
 
 
-class InsuranceFilesDataMapper(PersistBase, InsuranceFilesDataMapperInterface):
+class InsuranceFilesDataMapper(PersistenceBase, InsuranceFilesDataMapperInterface):
     async def get_insurance_file(self, insurance_id: EntityId) -> PdfInsuranceRecord | None:
         result = await self.db.execute(
             select(PdfInsuranceOrm).where(PdfInsuranceOrm.insurance_id == insurance_id.value)

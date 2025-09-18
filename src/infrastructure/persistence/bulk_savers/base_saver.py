@@ -2,7 +2,7 @@ from typing import Generic, TypeVar
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.infrastructure.persistence.persist_base import PersistBase
+from src.infrastructure.persistence.persist_base import PersistenceBase
 
 EntityType = TypeVar("EntityType")
 
@@ -16,7 +16,7 @@ class BaseOrmModel(Generic[EntityType]):
 OrmModel = TypeVar("OrmModel", bound=BaseOrmModel)
 
 
-class BulkSaver(PersistBase, Generic[EntityType, OrmModel]):
+class BulkSaver(PersistenceBase, Generic[EntityType, OrmModel]):
     orm_model: type[OrmModel]
 
     def __init__(self, db: AsyncSession) -> None:

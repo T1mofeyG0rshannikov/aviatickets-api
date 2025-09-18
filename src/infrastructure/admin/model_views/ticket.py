@@ -1,12 +1,20 @@
 from typing import Any
 
+from fastapi import Request
+from fastapi.responses import RedirectResponse
+from sqladmin import action
+from sqladmin.helpers import slugify_class_name
+from sqlalchemy import delete
 from sqlalchemy.orm import joinedload
 
 from src.infrastructure.admin.model_views.base import BaseModelView
+from src.infrastructure.persistence.db.database import new_session
 from src.infrastructure.persistence.db.models.models import (
+    PassengerOrm,
     TicketItineraryOrm,
     TicketOrm,
     TicketSegmentOrm,
+    UserTicketOrm,
 )
 
 
@@ -31,6 +39,28 @@ class TicketAdmin(BaseModelView, model=TicketOrm):  # type: ignore
         )
 
         return await self._get_object_by_pk(stmt)
+
+    @action(name="delete_all", label="Удалить", confirmation_message="Вы уверены?")
+    async def delete_all_action(self, request: Request):
+        async with self.session_maker(expire_on_commit=False) as session:
+            await session.execute(delete(PassengerOrm))
+            await session.execute(delete(UserTicketOrm))
+            await session.execute(delete(TicketSegmentOrm))
+            await session.execute(delete(TicketItineraryOrm))
+            await session.execute(delete(self.model))
+            await session.commit()
+            return RedirectResponse(url=f"/admin/{slugify_class_name(self.model.__name__)}/list", status_code=303)
+
+    async def on_model_delete(self, model: Any, request: Request) -> None:
+        """Perform some actions before a model is deleted.
+        By default does nothing.
+        """
+        async with new_session() as session:
+            await session.execute(
+                delete(TicketSegmentOrm).where(TicketSegmentOrm.ticket_itinerary.has(ticket_id=model.id))
+            )
+            await session.commit()
+            await session.close()
 
 
 class TicketItineraryAdmin(BaseModelView, model=TicketItineraryOrm):  # type: ignore

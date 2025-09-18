@@ -4,10 +4,10 @@ from sqlalchemy.orm import joinedload
 from src.application.dto.location import CountryWithAirportsDTO
 from src.application.persistence.dao.countries_dao import CountriesDAOInterface
 from src.infrastructure.persistence.db.models.models import AirportOrm, CountryOrm
-from src.infrastructure.persistence.persist_base import PersistBase
+from src.infrastructure.persistence.persist_base import PersistenceBase
 
 
-class CountriesDAO(PersistBase, CountriesDAOInterface):
+class CountriesDAO(PersistenceBase, CountriesDAOInterface):
     async def filter(self, start_with: str, limit=10) -> list[CountryWithAirportsDTO]:
         results = await self.db.execute(
             select(CountryOrm)

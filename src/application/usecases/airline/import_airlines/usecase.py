@@ -1,16 +1,16 @@
 from src.application.factories.airline_factory import AirlineFactory
-from src.application.persistence.etl_importers.airline_importer import (
-    AirlineImporterInterface,
+from src.application.persistence.bulk_savers.airline_saver import (
+    AirlineBulkSaverInterface,
 )
-from src.application.usecases.create_airlines.loader import AirlinesLoader
+from src.application.usecases.airline.import_airlines.loader import AirlinesLoader
 from src.entities.airline.airline_repository import AirlineRepositoryInterface
 from src.entities.airline.value_objects.iata_code import IATACode
 from src.entities.exceptions import DomainError
 
 
-class CreateAirlines:
+class ImportAirlines:
     def __init__(
-        self, repository: AirlineRepositoryInterface, importer: AirlineImporterInterface, loader: AirlinesLoader
+        self, repository: AirlineRepositoryInterface, importer: AirlineBulkSaverInterface, loader: AirlinesLoader
     ) -> None:
         self.repository = repository
         self.loader = loader

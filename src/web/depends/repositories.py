@@ -1,3 +1,6 @@
+from src.infrastructure.persistence.repositories.aircraft_repository import (
+    AircraftRepository,
+)
 from src.infrastructure.persistence.repositories.airline_repository import (
     AirlineRepository,
 )
@@ -34,6 +37,10 @@ def get_airline_repository(db: DbAnnotation) -> AirlineRepository:
 
 def get_ticket_repository(db: DbAnnotation) -> TicketRepository:
     return TicketRepository(db)
+
+
+def get_aircraft_repository(db: DbAnnotation) -> AircraftRepository:
+    return AircraftRepository(db)
 
 
 def get_user_repository(db: DbAnnotation) -> UserRepository:

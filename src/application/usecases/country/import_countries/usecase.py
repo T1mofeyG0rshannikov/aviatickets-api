@@ -1,5 +1,8 @@
+from src.application.persistence.bulk_savers.country_saver import (
+    CountryBulkSaverInterface,
+)
+from src.application.persistence.transaction import Transaction
 from src.application.usecases.country.import_countries.loader import CountriesLoader
-from src.application.usecases.country.persist_countries import PersistCountries
 from src.entities.location.country.country import Country
 from src.entities.location.country.iso import ISOCode
 from src.entities.location.location_repository import LocationRepositoryInterface
@@ -7,11 +10,16 @@ from src.entities.location.location_repository import LocationRepositoryInterfac
 
 class ImportCountries:
     def __init__(
-        self, loader: CountriesLoader, repository: LocationRepositoryInterface, persist_countries: PersistCountries
+        self,
+        loader: CountriesLoader,
+        repository: LocationRepositoryInterface,
+        country_bulk_saver: CountryBulkSaverInterface,
+        transaction: Transaction,
     ) -> None:
+        self.transaction = transaction
         self.loader = loader
         self.repository = repository
-        self.persist_countries = persist_countries
+        self.saver = country_bulk_saver
 
     async def get_exist_codes(self) -> set[ISOCode]:
         countries = await self.repository.all_countries()
@@ -28,4 +36,5 @@ class ImportCountries:
             if data.iso not in exist_codes
         ]
 
-        return await self.persist_countries(countries)  # type: ignore
+        await self.saver.add_many(countries)
+        await self.transaction.commit()

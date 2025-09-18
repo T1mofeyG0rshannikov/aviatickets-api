@@ -5,6 +5,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.orm.exc import DetachedInstanceError
 from sqlalchemy.types import TIMESTAMP
 
+from src.entities.aircraft.entity import Aircraft
 from src.entities.airline.airline import Airline
 from src.entities.airport.airport import Airport
 from src.entities.location.city.city import City
@@ -80,6 +81,10 @@ class TicketSegmentOrm(Model):
     )
     airline_id = Column(UUID(as_uuid=True), ForeignKey("airlines.id"), index=True)
     airline = relationship("AirlineOrm", back_populates="tickets")
+
+    aircraft_id = Column(UUID(as_uuid=True), ForeignKey("aircrafts.id"))
+    aircraft = relationship("AircraftOrm", back_populates="tickets")
+
     departure_at = Column(TIMESTAMP(timezone=True))
     return_at = Column(TIMESTAMP(timezone=True))
     duration = Column(Integer)
@@ -314,3 +319,19 @@ class PdfInsuranceOrm(Model):
 
     name = Column(String)
     content_path = Column(String)
+
+
+class AircraftOrm(Model):
+    __tablename__ = "aircrafts"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+
+    name = Column(String)
+    wtc = Column(String)
+    iata = Column(String, unique=True, index=True)
+
+    tickets = relationship(TicketSegmentOrm, back_populates="aircraft")
+
+    @classmethod
+    def from_entity(cls, aircraft: Aircraft) -> "AircraftOrm":
+        return cls(id=aircraft.id.value, name=aircraft.name, iata=aircraft.iata.value, wtc=aircraft.wtc)

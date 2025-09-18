@@ -12,10 +12,10 @@ from src.infrastructure.persistence.db.models.models import (
     CountryOrm,
     RegionOrm,
 )
-from src.infrastructure.persistence.persist_base import PersistBase
+from src.infrastructure.persistence.persist_base import PersistenceBase
 
 
-class AirportDAO(PersistBase, AirportDAOInterface):
+class AirportDAO(PersistenceBase, AirportDAOInterface):
     async def filter(self, start_with: str, limit=10) -> list[AirportFullInfoDTO]:
         results = await self.db.execute(
             select(AirportOrm)

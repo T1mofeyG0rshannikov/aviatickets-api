@@ -1,6 +1,6 @@
 from src.application.factories.region_factory import RegionFactory
-from src.application.persistence.etl_importers.region_importer import (
-    RegionImporterInterface,
+from src.application.persistence.bulk_savers.region_saver import (
+    RegionBulkSaverInterface,
 )
 from src.application.usecases.region.import_regions.loader import RegionsLoader
 from src.entities.exceptions import DomainError
@@ -13,7 +13,7 @@ class ImportRegions:
         self,
         loader: RegionsLoader,
         repository: LocationRepositoryInterface,
-        importer: RegionImporterInterface,
+        importer: RegionBulkSaverInterface,
     ) -> None:
         self.loader = loader
         self.repository = repository

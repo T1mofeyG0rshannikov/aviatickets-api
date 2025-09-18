@@ -1,6 +1,4 @@
-from src.application.persistence.etl_importers.city_importer import (
-    CityImporterInterface,
-)
+from src.application.persistence.bulk_savers.city_saver import CityBulkSaverInterface
 from src.application.usecases.city.import_cities.loader import CitiesLoader
 from src.entities.location.city.city import City
 from src.entities.location.location_repository import LocationRepositoryInterface
@@ -8,7 +6,7 @@ from src.entities.location.location_repository import LocationRepositoryInterfac
 
 class CreateCities:
     def __init__(
-        self, loader: CitiesLoader, repository: LocationRepositoryInterface, importer: CityImporterInterface
+        self, loader: CitiesLoader, repository: LocationRepositoryInterface, importer: CityBulkSaverInterface
     ) -> None:
         self.loader = loader
         self.repository = repository

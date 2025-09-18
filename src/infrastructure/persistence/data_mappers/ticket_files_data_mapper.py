@@ -6,10 +6,10 @@ from src.application.persistence.data_mappers.ticket_files import (
 from src.application.usecases.tickets.pdf.pdf_ticket import PdfTicketRecord
 from src.entities.value_objects.entity_id import EntityId
 from src.infrastructure.persistence.db.models.models import PdfTicketOrm
-from src.infrastructure.persistence.persist_base import PersistBase
+from src.infrastructure.persistence.persist_base import PersistenceBase
 
 
-class TicketFilesDataMapper(PersistBase, TicketFilesDataMapperInterface):
+class TicketFilesDataMapper(PersistenceBase, TicketFilesDataMapperInterface):
     async def get_user_ticket_file(self, user_ticket_id: EntityId) -> PdfTicketRecord | None:
         result = await self.db.execute(select(PdfTicketOrm).where(PdfTicketOrm.user_ticket_id == user_ticket_id.value))
 

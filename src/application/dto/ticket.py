@@ -5,6 +5,7 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
+from src.application.dto.aircraft import AircraftDTO
 from src.application.dto.airline import AirlineDTO
 from src.application.dto.airports.full_info import AirportFullInfoDTO
 from src.entities.value_objects.price.currency_enum import CurrencyEnum
@@ -18,6 +19,7 @@ class TicketSegmentFullInfoDTO:
     destination_airport: AirportFullInfoDTO
     origin_airport: AirportFullInfoDTO
     airline: AirlineDTO
+    aircraft: AircraftDTO
     departure_at: datetime
     return_at: datetime
     duration: int
@@ -52,6 +54,7 @@ class CreateTicketSegmentDTO(BaseModel):
     duration: int
     seat_class: str
     status: str
+    aircraft_id: UUID
 
 
 class CreateTicketItineraryDTO(BaseModel):

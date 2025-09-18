@@ -15,10 +15,10 @@ from src.infrastructure.persistence.db.models.models import (
     TicketOrm,
     TicketSegmentOrm,
 )
-from src.infrastructure.persistence.persist_base import PersistBase
+from src.infrastructure.persistence.persist_base import PersistenceBase
 
 
-class TicketDAO(PersistBase, TicketDAOInterface):
+class TicketDAO(PersistenceBase, TicketDAOInterface):
     def _ticket_full_info_joins_query(self) -> Select:
         return (
             select(TicketOrm)
@@ -53,6 +53,9 @@ class TicketDAO(PersistBase, TicketDAOInterface):
                 joinedload(TicketOrm.itineraries)
                 .joinedload(TicketItineraryOrm.segments)
                 .joinedload(TicketSegmentOrm.airline),
+                joinedload(TicketOrm.itineraries)
+                .joinedload(TicketItineraryOrm.segments)
+                .joinedload(TicketSegmentOrm.aircraft),
             ).order_by(TicketOrm.price)
         )
 

@@ -11,11 +11,11 @@ from src.infrastructure.persistence.db.models.models import (
     TicketOrm,
     TicketSegmentOrm,
 )
-from src.infrastructure.persistence.persist_base import PersistBase
+from src.infrastructure.persistence.persist_base import PersistenceBase
 from src.infrastructure.persistence.repositories.mappers.ticket import orm_to_ticket
 
 
-class TicketRepository(TicketRepositoryInterface, PersistBase):
+class TicketRepository(TicketRepositoryInterface, PersistenceBase):
     async def get(self, id: EntityId) -> Ticket | None:
         result = await self.db.execute(
             select(TicketOrm)
@@ -78,6 +78,7 @@ class TicketRepository(TicketRepositoryInterface, PersistBase):
                         flight_number=segment.flight_number.value,
                         ticket_itinerary_id=itinerary.id.value,
                         status=segment.status,
+                        aircraft_id=segment.aircraft_id.value,
                         seat_class=segment.seat_class,
                     )
                     for itinerary in ticket.itineraries

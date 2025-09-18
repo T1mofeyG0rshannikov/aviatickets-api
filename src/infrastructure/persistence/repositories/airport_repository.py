@@ -7,11 +7,11 @@ from src.entities.airport.airport_repository import AirportRepositoryInterface
 from src.entities.airport.value_objects.iata_code import IATACode
 from src.entities.value_objects.entity_id import EntityId
 from src.infrastructure.persistence.db.models.models import AirportOrm
-from src.infrastructure.persistence.persist_base import PersistBase
+from src.infrastructure.persistence.persist_base import PersistenceBase
 from src.infrastructure.persistence.repositories.mappers.airport import orm_to_airport
 
 
-class AirportRepository(AirportRepositoryInterface, PersistBase):
+class AirportRepository(AirportRepositoryInterface, PersistenceBase):
     async def all(self) -> list[Airport]:
         airports = await self.db.execute(select(AirportOrm))
         return [orm_to_airport(airport) for airport in airports.scalars()]
@@ -26,7 +26,7 @@ class AirportRepository(AirportRepositoryInterface, PersistBase):
         if iata is not None:
             results = await self.db.execute(select(AirportOrm).where(AirportOrm.iata == iata))
         elif id is not None:
-            results = await self.db.execute(select(AirportOrm).where(AirportOrm.id == id))
+            results = await self.db.execute(select(AirportOrm).where(AirportOrm.id == id.value))
 
         airport = results.scalar()
 

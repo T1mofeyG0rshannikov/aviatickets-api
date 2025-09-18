@@ -1,5 +1,6 @@
 from decimal import Decimal
 
+from src.application.dto.aircraft import AircraftDTO
 from src.application.dto.airline import AirlineDTO
 from src.application.dto.ticket import (
     TicketFullInfoDTO,
@@ -34,6 +35,7 @@ class TicketFullInfoDTOBuilder:
                 name=segment.airline.name,
                 name_russian=segment.airline.name_russian,
             ),
+            aircraft=AircraftDTO(name=segment.aircraft.name, iata=segment.aircraft.iata),
             departure_at=segment.departure_at,
             return_at=segment.return_at,
             duration=segment.duration,

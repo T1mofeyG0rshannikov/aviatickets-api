@@ -13,7 +13,7 @@ class FlightNumber:
     value: str
 
     def validation(self, value: str):
-        pattern = r"^[A-Z]{2}\-\d{1,4}[A-Z]?$"
+        pattern = r"^[A-Z0-9]{2}\-\d{1,4}[A-Z]?$"
         return bool(re.match(pattern, value))
 
     def __post_init__(self):

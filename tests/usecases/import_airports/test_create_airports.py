@@ -2,14 +2,14 @@ import mocks
 import pytest
 
 from src.application.dto.bulk_result import BulkResult
-from src.application.persistence.etl_importers.airport_importer import (
+from src.application.persistence.bulk_savers.airport_saver import (
     AirportBulkSaverInterface,
 )
-from src.application.persistence.etl_importers.country_importer import (
-    CountryImporterInterface,
+from src.application.persistence.bulk_savers.country_saver import (
+    CountryBulkSaverInterface,
 )
-from src.application.persistence.etl_importers.region_importer import (
-    RegionImporterInterface,
+from src.application.persistence.bulk_savers.region_saver import (
+    RegionBulkSaverInterface,
 )
 from src.application.usecases.airports.import_airports.adapter import (
     AirportLoadDataToCreateDTOAdapter,
@@ -22,21 +22,14 @@ from src.application.usecases.airports.import_airports.usecase import ImportAirp
 from src.application.usecases.country.get_or_create_countries_by_iso import (
     GetOrCreateCountriesByISO,
 )
-from src.application.usecases.country.persist_countries import PersistCountries
 from src.application.usecases.region.get_or_create_regions_by_iso import (
     GetOrCreateRegionsByISO,
 )
-from src.application.usecases.region.persist_regions import PersistRegions
 from src.entities.location.location_repository import LocationRepositoryInterface
 from src.infrastructure.etl_parsers.airports_parser import AirportsCsvParser
-from src.infrastructure.persistence.db.models.models import AirportOrm
-from src.infrastructure.persistence.etl_importers.airport_importer import (
-    AirportsBulkSaver,
-)
-from src.infrastructure.persistence.etl_importers.country_importer import (
-    CountryImporter,
-)
-from src.infrastructure.persistence.etl_importers.region_importer import RegionImporter
+from src.infrastructure.persistence.bulk_savers.airport_saver import AirportsBulkSaver
+from src.infrastructure.persistence.bulk_savers.country_saver import CountryBulkSaver
+from src.infrastructure.persistence.bulk_savers.region_saver import RegionBulkSaver
 from src.infrastructure.persistence.repositories.airport_repository import (
     AirportRepository,
 )
@@ -52,7 +45,7 @@ async def adapter() -> AirportLoadDataToCreateDTOAdapter:
 
 @pytest.fixture
 async def importer(db) -> AirportsBulkSaver:
-    return AirportsBulkSaver(db, AirportOrm)
+    return AirportsBulkSaver(db)
 
 
 @pytest.fixture
@@ -61,41 +54,27 @@ async def loader() -> AirportsLoader:
 
 
 @pytest.fixture
-def region_importer(db) -> RegionImporterInterface:
-    return RegionImporter(db)
+def regions_bulk_saver(db) -> RegionBulkSaver:
+    return RegionBulkSaver(db)
 
 
 @pytest.fixture
-def country_importer(db) -> CountryImporterInterface:
-    return CountryImporter(db)
-
-
-@pytest.fixture
-def persist_regions(
-    region_importer: RegionImporterInterface,
-) -> PersistRegions:
-    return PersistRegions(region_importer)
-
-
-@pytest.fixture
-def persist_countries(
-    country_importer: CountryImporterInterface,
-) -> PersistCountries:
-    return PersistCountries(country_importer)
+def countries_bulk_saver(db) -> CountryBulkSaver:
+    return CountryBulkSaver(db)
 
 
 @pytest.fixture
 def get_or_create_regions(
-    persist_regions: PersistRegions, location_repository: LocationRepositoryInterface
+    regions_bulk_saver: RegionBulkSaverInterface, location_repository: LocationRepositoryInterface
 ) -> GetOrCreateRegionsByISO:
-    return GetOrCreateRegionsByISO(persist_regions, location_repository)
+    return GetOrCreateRegionsByISO(regions_bulk_saver=regions_bulk_saver, location_repository=location_repository)
 
 
 @pytest.fixture
 def get_or_create_countries(
-    persist_countries: PersistCountries, location_repository: LocationRepositoryInterface
+    countries_bulk_saver: CountryBulkSaverInterface, location_repository: LocationRepositoryInterface
 ) -> GetOrCreateCountriesByISO:
-    return GetOrCreateCountriesByISO(persist_countries, location_repository)
+    return GetOrCreateCountriesByISO(saver=countries_bulk_saver, location_repository=location_repository)
 
 
 @pytest.fixture

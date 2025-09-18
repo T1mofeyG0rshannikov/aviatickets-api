@@ -12,8 +12,12 @@ class BirthDate:
 
     value: date
 
+    @staticmethod
+    def validate(value: date) -> bool:
+        return value <= datetime.now().date()
+
     def __pre_save__(self):
-        if self.value > datetime.now(self.value.tzinfo):
+        if not BirthDate.validate(self.value):
             raise BirthDateInFutureErro("birth date cant be in the future")
 
     def __str__(self) -> str:

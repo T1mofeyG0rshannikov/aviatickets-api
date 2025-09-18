@@ -1,4 +1,3 @@
-from collections.abc import Iterable
 from typing import Protocol
 
 from src.entities.airline.airline import Airline
@@ -12,5 +11,5 @@ class AirlineRepositoryInterface(Protocol):
     async def all(self) -> list[Airline]:
         raise NotImplementedError
 
-    async def filter(self, iata_codes: Iterable[IATACode]) -> list[Airline]:
+    async def filter(self, iata_codes: set[IATACode]) -> list[Airline]:
         raise NotImplementedError

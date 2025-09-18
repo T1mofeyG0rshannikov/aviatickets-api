@@ -27,7 +27,6 @@ async def delete_tables() -> None:
 
 async def db_generator():
     async with new_session() as session:
-        print(session)
         yield session
 
 

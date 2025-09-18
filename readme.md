@@ -16,7 +16,7 @@
 ### Создание администратора (консольная команда):
 
 ```bash
-python -m src.cmd.create_admin_user
+python -m src.cli.create_admin_user
 ```
 ### Описание файлов для загрузки данных в админ панеле
 

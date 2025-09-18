@@ -24,6 +24,7 @@ def orm_to_ticket_segment(segment: TicketSegmentOrm) -> TicketSegment:
         departure_at=segment.departure_at,
         return_at=segment.return_at,
         duration=segment.duration,
+        aircraft_id=segment.aircraft_id,
         seat_class=segment.seat_class,
         status=segment.status,
     )

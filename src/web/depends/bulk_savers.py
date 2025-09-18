@@ -1,3 +1,4 @@
+from src.infrastructure.persistence.bulk_savers.aircraft_saver import AircraftBulkSaver
 from src.infrastructure.persistence.bulk_savers.airline_saver import AirlineBulkSaver
 from src.infrastructure.persistence.bulk_savers.airport_saver import AirportsBulkSaver
 from src.infrastructure.persistence.bulk_savers.city_saver import CityBulkSaver
@@ -24,3 +25,7 @@ def get_country_importer(db: DbAnnotation) -> CountryBulkSaver:
 
 def get_region_importer(db: DbAnnotation) -> RegionBulkSaver:
     return RegionBulkSaver(db)
+
+
+def get_aircraft_bulk_saver(db: DbAnnotation) -> AircraftBulkSaver:
+    return AircraftBulkSaver(db)

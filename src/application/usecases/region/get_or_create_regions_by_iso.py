@@ -1,6 +1,8 @@
 import pycountry
 
-from src.application.usecases.region.persist_regions import PersistRegions
+from src.application.persistence.bulk_savers.region_saver import (
+    RegionBulkSaverInterface,
+)
 from src.entities.location.country.country import Country
 from src.entities.location.country.iso import ISOCode as CountryISOCode
 from src.entities.location.location_repository import LocationRepositoryInterface
@@ -9,8 +11,10 @@ from src.entities.location.region.region import Region
 
 
 class GetOrCreateRegionsByISO:
-    def __init__(self, persist_regions: PersistRegions, location_repository: LocationRepositoryInterface) -> None:
-        self.persist_regions = persist_regions
+    def __init__(
+        self, regions_bulk_saver: RegionBulkSaverInterface, location_repository: LocationRepositoryInterface
+    ) -> None:
+        self.saver = regions_bulk_saver
         self.location_repository = location_repository
 
     async def __call__(
@@ -42,5 +46,5 @@ class GetOrCreateRegionsByISO:
             else:
                 regions_dict[region_iso] = region_from_db
 
-        await self.persist_regions(list(regions_to_save))
+        await self.saver.add_many(list(regions_to_save))
         return regions_dict

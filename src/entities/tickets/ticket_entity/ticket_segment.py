@@ -23,6 +23,7 @@ class TicketSegment:
     duration: int
     seat_class: str
     status: str
+    aircraft_id: EntityId
 
     @classmethod
     def create(
@@ -32,6 +33,7 @@ class TicketSegment:
         origin_airport: Airport,
         destination_airport: Airport,
         airline_id: EntityId,
+        aircraft_id: EntityId,
         departure_at: DepartureAt,
         return_at: ReturnAt,
         duration: int,
@@ -55,5 +57,6 @@ class TicketSegment:
             return_at=return_at,
             duration=duration,
             seat_class=seat_class,
+            aircraft_id=aircraft_id,
             status=status,
         )

@@ -96,6 +96,7 @@ class DefaultPdfTicketAdapter(PdfTicketAdapter):
                     AdapterPdfField(name="originDate", value=self.format_date(ticket.departure_at)),
                     AdapterPdfField(name="originAirline", value=ticket.airline.name),
                     AdapterPdfField(name="originStatus", value=ticket.status),
+                    AdapterPdfField(name="airbus", value=ticket.aircraft.name),
                     AdapterPdfField(name="originClass", value=ticket.seat_class),
                     AdapterPdfField(name="originAirportAddress", value=self.get_airport_place(ticket.origin_airport)),
                     AdapterPdfField(name="originAirport", value=ticket.origin_airport.iata),

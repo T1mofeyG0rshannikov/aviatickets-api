@@ -5,8 +5,10 @@ from fastapi import Depends
 from redis import Redis  # type: ignore
 
 from src.application.builders.user_ticket import UserTicketFullInfoAssembler
+from src.application.queries.get_aircrafts_dict import GetAircraftsDict
+from src.application.queries.get_airlines_dict import GetAirlinesDict
+from src.application.queries.get_airports_dict import GetAirportsDict
 from src.application.services.currency_converter import CurrencyConverter
-from src.application.usecases.airports.get.query import GetAirportsDict
 from src.application.usecases.tickets.pdf.config import PdfGeneratorConfig
 from src.application.usecases.tickets.pdf.strategies.default.adapter import (
     DefaultPdfTicketAdapter,
@@ -56,6 +58,7 @@ from src.infrastructure.persistence.file_manager import FileManager
 from src.infrastructure.redis.config import RedisConfig
 from src.infrastructure.timezone_resolver import TimezoneResolver
 from src.web.depends.annotations.annotations import (
+    AircraftRepositoryAnnotation,
     AirlineRepositoryAnnotation,
     AirportRepositoryAnnotation,
     TicketDAOAnnotation,
@@ -102,13 +105,25 @@ def get_airports_dict(repository: AirportRepositoryAnnotation) -> GetAirportsDic
     return GetAirportsDict(repository)
 
 
+def get_airlines_dict(repository: AirlineRepositoryAnnotation) -> GetAirlinesDict:
+    return GetAirlinesDict(repository)
+
+
+def get_aircrafts_dict(repository: AircraftRepositoryAnnotation) -> GetAircraftsDict:
+    return GetAircraftsDict(repository)
+
+
 def get_amadeus_ticket_adapter(
     airports_query: Annotated[GetAirportsDict, Depends(get_airports_dict)],
-    airline_repository: AirlineRepositoryAnnotation,
+    airlines_query: Annotated[GetAirlinesDict, Depends(get_airlines_dict)],
+    aircrafts_query: Annotated[GetAircraftsDict, Depends(get_aircrafts_dict)],
     timezone_resolver: Annotated[TimezoneResolver, Depends(get_timezone_resolver)],
 ) -> AmadeusTicketAdapter:
     return AmadeusTicketAdapter(
-        airports_query=airports_query, airline_repository=airline_repository, timezone_resolver=timezone_resolver
+        airports_query=airports_query,
+        airlines_query=airlines_query,
+        timezone_resolver=timezone_resolver,
+        aircrafts_query=aircrafts_query,
     )
 
 

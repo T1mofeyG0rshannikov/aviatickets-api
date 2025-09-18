@@ -6,6 +6,9 @@ from src.infrastructure.persistence.dao.airport_dao import AirportDAO
 from src.infrastructure.persistence.dao.cities_dao import CitiestDAO
 from src.infrastructure.persistence.dao.countries_dao import CountriesDAO
 from src.infrastructure.persistence.dao.tickets_dao import TicketDAO
+from src.infrastructure.persistence.repositories.aircraft_repository import (
+    AircraftRepository,
+)
 from src.infrastructure.persistence.repositories.airline_repository import (
     AirlineRepository,
 )
@@ -32,6 +35,7 @@ from src.web.depends.dao import (
     get_ticket_dao,
 )
 from src.web.depends.repositories import (
+    get_aircraft_repository,
     get_airline_repository,
     get_airports_repository,
     get_insurance_repository,
@@ -45,6 +49,7 @@ LocationRepositoryAnnotation = Annotated[LocationRepository, Depends(get_locatio
 AirportRepositoryAnnotation = Annotated[AirportRepository, Depends(get_airports_repository)]
 AirlineRepositoryAnnotation = Annotated[AirlineRepository, Depends(get_airline_repository)]
 TicketRepositoryAnnotation = Annotated[TicketRepository, Depends(get_ticket_repository)]
+AircraftRepositoryAnnotation = Annotated[AircraftRepository, Depends(get_aircraft_repository)]
 TicketDAOAnnotation = Annotated[TicketDAO, Depends(get_ticket_dao)]
 AirportDAOAnnotation = Annotated[AirportDAO, Depends(get_airport_dao)]
 CitiesDAOAnnotation = Annotated[CitiestDAO, Depends(get_cities_dao)]

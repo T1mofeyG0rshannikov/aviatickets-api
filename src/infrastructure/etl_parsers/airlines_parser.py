@@ -1,5 +1,5 @@
 from src.application.dto.airline import CreateAirlineDTO
-from src.application.usecases.create_airlines.loader import AirlinesLoader
+from src.application.usecases.airline.import_airlines.loader import AirlinesLoader
 
 
 class AirlinesTXTParser(AirlinesLoader):
