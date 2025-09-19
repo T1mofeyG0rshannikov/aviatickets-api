@@ -3,6 +3,7 @@ from unittest.mock import MagicMock
 from uuid import UUID
 
 import pytest
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.application.builders.user_ticket import UserTicketFullInfoAssembler
 from src.application.pdf_templates import PdfTemplatesEnum
@@ -92,6 +93,7 @@ def pdf_generator_config() -> PdfGeneratorConfig:
 
 @pytest.fixture
 async def get_pdf_ticket(
+    transaction: AsyncSession,
     file_manager: FileManagerInterface,
     generate_pdf_ticket: GeneratePdfTicket,
     ticket_files_data_mapper: TicketFilesDataMapperInterface,
@@ -99,7 +101,12 @@ async def get_pdf_ticket(
     pdf_generator_config: PdfGeneratorConfig,
 ) -> GetPdfTicket:
     return GetPdfTicket(
-        file_manager, generate_pdf_ticket, ticket_files_data_mapper, user_ticket_repository, pdf_generator_config
+        file_manager,
+        generate_pdf_ticket,
+        ticket_files_data_mapper,
+        user_ticket_repository,
+        pdf_generator_config,
+        transaction=transaction,
     )
 
 

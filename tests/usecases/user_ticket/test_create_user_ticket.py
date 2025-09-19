@@ -15,7 +15,7 @@ async def test_create_user_ticket(create_user_ticket: CreateUserTicket, populate
     user_mock = mocks.MOCK_USER
 
     result = await create_user_ticket(  # type: ignore
-        ticket_id=EntityId(value=UUID("7d7d949f-f907-4c66-a72e-84f9bb84efba")),
+        ticket_id=EntityId(value=UUID("a96d3a5b-edc3-44dc-8984-3fd307a46a60")),
         passengers_to_create=[
             CreatePassengerDTO(
                 first_name="string",
@@ -33,8 +33,12 @@ async def test_create_user_ticket(create_user_ticket: CreateUserTicket, populate
 
 
 @pytest.fixture
-def mock_create_user_ticket(mock_user_ticket_repository, mock_ticket_repository) -> CreateUserTicket:
-    return CreateUserTicket(mock_user_ticket_repository, mock_ticket_repository)
+def mock_create_user_ticket(
+    create_user_ticket: CreateUserTicket, mock_ticket_repository, mock_user_ticket_repository
+) -> CreateUserTicket:
+    create_user_ticket.repository = mock_user_ticket_repository
+    create_user_ticket.ticket_repository = mock_ticket_repository
+    return create_user_ticket
 
 
 @pytest.mark.asyncio

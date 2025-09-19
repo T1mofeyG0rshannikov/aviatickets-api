@@ -113,6 +113,7 @@ class TicketSegmentAdmin(BaseModelView, model=TicketSegmentOrm):  # type: ignore
         TicketSegmentOrm.origin_airport_id,
         TicketSegmentOrm.destination_airport_id,
         TicketSegmentOrm.airline_id,
+        TicketSegmentOrm.aircraft_id,
         TicketSegmentOrm.departure_at,
         TicketSegmentOrm.return_at,
         TicketSegmentOrm.duration,

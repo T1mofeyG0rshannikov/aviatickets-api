@@ -28,7 +28,7 @@ MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
         first_name="Тимофей",
         second_name="Марков",
         email="tgorshannikov@mail.ru",
-        birth_date=datetime.date(11, 11, 2000),
+        birth_date=datetime.date(2000, 11, 11),
     ),
     ticket=TicketFullInfoDTO(
         id=UUID("fc1bab96-5edb-47cd-98df-08b3ae42e461"),
@@ -36,11 +36,9 @@ MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
         currency=CurrencyEnum.eur,
         itineraries=[
             TicketItineraryFullInfoDTO(
-                id=UUID("9e1ba5dd-a3c8-4bcc-9392-35e75517e808"),
                 transfers=1,
                 segments=[
                     TicketSegmentFullInfoDTO(
-                        id=UUID("56ecd9f8-a44c-44d3-b127-2579d94d4254"),
                         flight_number="QR-338",
                         segment_number=1,
                         destination_airport=AirportFullInfoDTO(
@@ -108,7 +106,6 @@ MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
                         seat_class="economy",
                     ),
                     TicketSegmentFullInfoDTO(
-                        id=UUID("0b2721a0-8f02-4e18-9152-fa4f02d5496d"),
                         flight_number="QR-1022",
                         segment_number=2,
                         destination_airport=AirportFullInfoDTO(
@@ -179,11 +176,9 @@ MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
                 duration=650,
             ),
             TicketItineraryFullInfoDTO(
-                id=UUID("1526896a-8bfe-439c-afee-925999daf67a"),
                 transfers=1,
                 segments=[
                     TicketSegmentFullInfoDTO(
-                        id=UUID("5b5eac2d-2239-4a9c-8876-be0d1ab36b9c"),
                         flight_number="QR-1007",
                         segment_number=1,
                         destination_airport=AirportFullInfoDTO(
@@ -251,7 +246,6 @@ MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
                         seat_class="economy",
                     ),
                     TicketSegmentFullInfoDTO(
-                        id=UUID("9be4e665-91ad-4a74-9f42-3f700c8c569b"),
                         flight_number="QR-337",
                         segment_number=2,
                         destination_airport=AirportFullInfoDTO(

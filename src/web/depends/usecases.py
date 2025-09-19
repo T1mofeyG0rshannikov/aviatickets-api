@@ -173,11 +173,12 @@ def get_create_airports_interactor(
 
 
 def get_create_airlines_interactor(
+    transaction: DbAnnotation,
     repository: AirlineRepositoryAnnotation,
     txt_parser: Annotated[AirlinesTXTParser, Depends(get_txt_airlines_parser)],
     importer: Annotated[AirlineBulkSaverInterface, Depends(get_airline_importer)],
 ) -> ImportAirlines:
-    return ImportAirlines(repository, importer, txt_parser)
+    return ImportAirlines(repository, importer, txt_parser, transaction=transaction)
 
 
 def get_create_countries_interactor(
@@ -192,11 +193,12 @@ def get_create_countries_interactor(
 
 
 def get_create_regions_interactor(
+    transaction: DbAnnotation,
     csv_parser: Annotated[RegionsCsvParser, Depends(get_regions_csv_parser)],
     repository: LocationRepositoryAnnotation,
     importer: Annotated[RegionBulkSaverInterface, Depends(get_region_importer)],
 ) -> ImportRegions:
-    return ImportRegions(loader=csv_parser, repository=repository, importer=importer)
+    return ImportRegions(loader=csv_parser, repository=repository, importer=importer, transaction=transaction)
 
 
 def get_aircraft_loader(data: Annotated[list[list[str]], Depends(get_csv_file)]) -> AircraftCsvParser:
@@ -213,11 +215,12 @@ def get_import_aircrafts_interactor(
 
 
 def get_create_cities_interactor(
+    transaction: DbAnnotation,
     csv_parser: Annotated[CitiesCsvParser, Depends(get_cities_csv_parser)],
     repository: LocationRepositoryAnnotation,
     importer: Annotated[CityBulkSaverInterface, Depends(get_city_importer)],
 ) -> CreateCities:
-    return CreateCities(loader=csv_parser, repository=repository, importer=importer)
+    return CreateCities(loader=csv_parser, repository=repository, importer=importer, transaction=transaction)
 
 
 def get_ticket_factory(airport_repository: AirportRepositoryAnnotation) -> TicketFactory:
@@ -225,6 +228,7 @@ def get_ticket_factory(airport_repository: AirportRepositoryAnnotation) -> Ticke
 
 
 def get_parse_tickets_interactor(
+    transaction: DbAnnotation,
     # aviasales_parser: Annotated[AviasalesTicketParser, Depends(get_aviasales_ticket_parser)],
     amadeus_parser: Annotated[AmadeusTicketParser, Depends(get_amadeus_ticket_parser)],
     airports_repository: AirportRepositoryAnnotation,
@@ -236,6 +240,7 @@ def get_parse_tickets_interactor(
         airports_repository=airports_repository,
         ticket_repository=ticket_repository,
         ticket_factory=ticket_factory,
+        transaction=transaction,
     )
 
 
@@ -258,6 +263,7 @@ def get_generate_pdf_ticket_interactor(
 
 
 def get_pdf_ticket_interactor(
+    transaction: DbAnnotation,
     generate_pdf: Annotated[GeneratePdfTicket, Depends(get_generate_pdf_ticket_interactor)],
     file_manager: Annotated[FileManager, Depends(get_file_manager)],
     ticket_files_data_mapper: Annotated[TicketFilesDataMapper, Depends(get_ticket_files_data_mapper)],
@@ -270,6 +276,7 @@ def get_pdf_ticket_interactor(
         user_ticket_repository=user_ticket_repository,
         ticket_files_data_mapper=ticket_files_data_mapper,
         config=config,
+        transaction=transaction,
     )
 
 
@@ -284,9 +291,9 @@ def get_send_pdf_ticket_to_email_interactor(
 
 
 def get_create_user_ticket_interactor(
-    repository: UserTicketRepositoryAnnotation, ticket_repository: TicketRepositoryAnnotation
+    transaction: DbAnnotation, repository: UserTicketRepositoryAnnotation, ticket_repository: TicketRepositoryAnnotation
 ) -> CreateUserTicket:
-    return CreateUserTicket(repository, ticket_repository)
+    return CreateUserTicket(repository, ticket_repository, transaction=transaction)
 
 
 def get_password_hasher() -> PasswordHasher:
@@ -294,10 +301,11 @@ def get_password_hasher() -> PasswordHasher:
 
 
 def get_create_user(
+    transaction: DbAnnotation,
     user_repository: UserRepositoryAnnotation,
     password_hasher: Annotated[PasswordHasher, Depends(get_password_hasher)],
 ) -> CreateUser:
-    return CreateUser(user_repository, password_hasher)
+    return CreateUser(user_repository, password_hasher, transaction=transaction)
 
 
 def get_register_interactor(

@@ -23,7 +23,6 @@ class TicketFullInfoDTOBuilder:
         return TicketSegmentFullInfoDTO(
             status=segment.status,
             seat_class=segment.seat_class,
-            id=segment.id,
             segment_number=segment.segment_number,
             flight_number=segment.flight_number,
             destination_airport=AirportFullInfoDTOBuilder.from_orm(segment.destination_airport),
@@ -44,7 +43,6 @@ class TicketFullInfoDTOBuilder:
     @classmethod
     def from_orm_to_itinerary(cls, itinerary: TicketItineraryOrm) -> TicketItineraryFullInfoDTO:
         return TicketItineraryFullInfoDTO(
-            id=itinerary.id,
             transfers=itinerary.transfers,
             segments=[cls.from_orm_to_segment(segment) for segment in itinerary.segments],
             duration=itinerary.duration,

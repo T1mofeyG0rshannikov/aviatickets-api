@@ -1,3 +1,4 @@
+from fixtures.api_client import *
 from fixtures.auth import *
 from fixtures.create_user import *
 from fixtures.db import *

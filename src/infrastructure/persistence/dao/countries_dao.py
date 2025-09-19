@@ -24,7 +24,7 @@ class CountriesDAO(PersistenceBase, CountriesDAOInterface):
             )
             .group_by(CountryOrm.id, CountryOrm.name, CountryOrm.name_english, CountryOrm.iso)
             .having(func.count(AirportOrm.id) > 0)
-            .order_by(desc(func.count(AirportOrm.id)))
+            .order_by(desc(func.count(AirportOrm.id)), CountryOrm.name)
             .limit(limit)
         )
 

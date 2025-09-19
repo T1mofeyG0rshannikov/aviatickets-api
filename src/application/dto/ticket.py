@@ -13,7 +13,6 @@ from src.entities.value_objects.price.currency_enum import CurrencyEnum
 
 @dataclass
 class TicketSegmentFullInfoDTO:
-    id: UUID
     flight_number: str
     segment_number: int
     destination_airport: AirportFullInfoDTO
@@ -29,7 +28,6 @@ class TicketSegmentFullInfoDTO:
 
 @dataclass
 class TicketItineraryFullInfoDTO:
-    id: UUID
     transfers: int
     segments: list[TicketSegmentFullInfoDTO]
     duration: int

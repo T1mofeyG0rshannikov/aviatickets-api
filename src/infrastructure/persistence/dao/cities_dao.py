@@ -23,7 +23,7 @@ class CitiestDAO(PersistenceBase, CitiesDAOInterface):
             )
             .group_by(CityOrm.id, CityOrm.name, CityOrm.name_english)
             .having(func.count(AirportOrm.id) > 0)
-            .order_by(desc(func.count(AirportOrm.id)))
+            .order_by(desc(func.count(AirportOrm.id)), CityOrm.name)
             .limit(limit)
         )
 

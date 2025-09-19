@@ -98,7 +98,7 @@ async def test_default_pdf_template_adapter(
 
     expected_result = [
         PdfFieldsAdapter(
-            template_name="C:/Users/tgors/Desktop/top.pdf",
+            template_name="pdf_templates/default/top.pdf",
             data_fields_list=[
                 [
                     AdapterPdfField(name="reservationCode", value="Not Available"),
@@ -188,7 +188,7 @@ async def test_default_pdf_template_adapter(
                 ],
             ],
         ),
-        PdfFieldsAdapter(template_name="C:/Users/tgors/Desktop/bottom.pdf", data_fields_list=[]),
+        PdfFieldsAdapter(template_name="pdf_templates/default/bottom.pdf", data_fields_list=[]),
     ]
 
     result = await pdf_ticket_adapter.execute(mock_user_ticket_dto)

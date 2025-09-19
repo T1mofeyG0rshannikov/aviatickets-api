@@ -3,6 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 
 from src.infrastructure.persistence.db.database import Model
 from src.infrastructure.persistence.db.models.models import (
+    AircraftOrm,
     AirlineOrm,
     AirportOrm,
     CityOrm,
@@ -43,6 +44,13 @@ async def db(engine):
 
 
 @pytest.fixture
+async def transaction(engine):
+    new_session = async_sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
+    async with new_session() as session:
+        yield session
+
+
+@pytest.fixture
 def orm_json_loader() -> OrmJsonLoader:
     return OrmJsonLoader()
 
@@ -55,6 +63,7 @@ async def populate_db(engine, db, orm_json_loader: OrmJsonLoader):
     await orm_json_loader.load_objects(CityOrm, db, "tests/data/cities.json")
     await orm_json_loader.load_objects(RegionOrm, db, "tests/data/regions.json")
     await orm_json_loader.load_objects(AirlineOrm, db, "tests/data/airlines.json")
+    await orm_json_loader.load_objects(AircraftOrm, db, "tests/data/aircrafts.json")
     await orm_json_loader.load_objects(AirportOrm, db, "tests/data/airports.json")
     await orm_json_loader.load_objects(TicketOrm, db, "tests/data/tickets.json")
     await orm_json_loader.load_objects(TicketItineraryOrm, db, "tests/data/ticket_itineraries.json")

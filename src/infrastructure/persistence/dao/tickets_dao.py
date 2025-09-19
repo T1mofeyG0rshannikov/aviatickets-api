@@ -63,7 +63,6 @@ class TicketDAO(PersistenceBase, TicketDAOInterface):
         result = await self.db.execute(self._ticket_full_info_joins_query().where(TicketOrm.id == id.value))
 
         ticket = result.scalar()
-
         return TicketFullInfoDTOBuilder.from_orm(ticket) if ticket else None
 
     async def filter(self, filters: TicketsFilter, exchange_rates: dict[str, Decimal]) -> list[TicketFullInfoDTO]:
