@@ -51,7 +51,7 @@ class ImportAirports:
         exist_codes = await self.get_exist_codes()
 
         for airport in create_airports_dto:
-            print(airport.iata, exist_codes, airport.iata in exist_codes)
+            #   print(airport.iata, exist_codes, airport.iata in exist_codes)
             if airport.iata in exist_codes:
                 skipped += 1
             else:
@@ -72,7 +72,9 @@ class ImportAirports:
                     )
                 except DomainError as e:
                     invalid += 1
-                    print(f"Error while building Airport: {e}")
+                    if airport.iata == "SEA":
+                        print(airport)
+                        print(f"Error while building Airport: {e}")
                 except DomainError:
                     continue
 

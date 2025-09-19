@@ -28,7 +28,7 @@ class AirlineRepository(AirlineRepositoryInterface, PersistenceBase):
         return [orm_to_airline(airline) for airline in airlines]
 
     async def all_iata_codes(self) -> list[IATACode]:
-        results = await self.db.execute(select(Airline.iata))
+        results = await self.db.execute(select(AirlineOrm.iata))
         codes = results.scalars().all()
 
         return [IATACode(code) for code in codes]

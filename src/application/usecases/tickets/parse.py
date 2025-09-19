@@ -1,4 +1,5 @@
 from datetime import datetime
+from uuid import UUID
 
 from src.application.exceptions import FetchAPIError
 from src.application.factories.ticket.ticket_factory import TicketFactory
@@ -28,8 +29,8 @@ class ParseAviaTickets:
 
     async def __call__(
         self,
-        origin_airport_ids: list[EntityId],
-        destination_airport_ids: list[EntityId],
+        origin_airport_ids: list[UUID],
+        destination_airport_ids: list[UUID],
         departure_at: datetime,
         return_at: datetime,
         adults: int,
@@ -41,11 +42,11 @@ class ParseAviaTickets:
 
         for origin_airport_id in origin_airport_ids:
             for destination_airport_id in destination_airport_ids:
-                origin_airport = await self.airports_repository.get(id=origin_airport_id)
+                origin_airport = await self.airports_repository.get(id=EntityId(value=origin_airport_id))
                 if origin_airport is None:
                     raise AirportNotFoundError(f"no airport with id = {origin_airport_id} found")
 
-                destination_airport = await self.airports_repository.get(id=destination_airport_id)
+                destination_airport = await self.airports_repository.get(id=EntityId(value=destination_airport_id))
                 if destination_airport is None:
                     raise AirportNotFoundError(f"no airport with id = {destination_airport_id} found")
 

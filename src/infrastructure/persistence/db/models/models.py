@@ -334,4 +334,4 @@ class AircraftOrm(Model):
 
     @classmethod
     def from_entity(cls, aircraft: Aircraft) -> "AircraftOrm":
-        return cls(id=aircraft.id.value, name=aircraft.name, iata=aircraft.iata.value, wtc=aircraft.wtc)
+        return cls(id=aircraft.id.value, name=aircraft.name, iata=aircraft.iata.value, wtc=aircraft.wtc.value)

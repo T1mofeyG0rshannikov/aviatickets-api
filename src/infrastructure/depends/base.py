@@ -27,7 +27,7 @@ from src.infrastructure.security.password_hasher import PasswordHasher
 
 
 async def get_httpx_session():
-    async with httpx.AsyncClient() as session:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(300.0)) as session:
         yield session
 
 

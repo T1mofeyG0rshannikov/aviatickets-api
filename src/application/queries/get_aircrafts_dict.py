@@ -29,5 +29,5 @@ class GetAircraftsDict:
 
         for aircraft in aircrafts:
             aircrfts_dict[key_func(aircraft)] = aircraft
-        print(aircrfts_dict)
+        #  print(aircrfts_dict)
         return aircrfts_dict

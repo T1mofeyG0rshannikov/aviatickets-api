@@ -38,5 +38,5 @@ class ImportAirlines:
                 except DomainError as e:
                     print(f"Error while building Airline: {e}")
 
-        await self.importer.add_many(airlines=data_to_create)
+        await self.importer.add_many(data_to_create)
         await self.transaction.commit()

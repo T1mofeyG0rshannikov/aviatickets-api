@@ -48,7 +48,7 @@ class AmadeusTicketParser(TicketsParser, BaseHttpClient):
         else:
             raise FetchAPIError("Error getting access token: " + response.text)
 
-    # @retry()
+    @retry()
     async def parse(self, params: TicketsParseParams) -> list[CreateTicketDTO]:
         access_token = await self.get_access_token()
 
