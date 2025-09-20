@@ -1,4 +1,4 @@
-from src.entities.tickets.value_objects.unique_key import TicketUniqueKey
+from avia.entities.tickets.value_objects.unique_key import TicketUniqueKey
 
 
 def test_unique_keys_list_contains():

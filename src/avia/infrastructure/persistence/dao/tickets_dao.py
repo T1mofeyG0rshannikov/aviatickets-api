@@ -1,0 +1,72 @@
+from decimal import Decimal
+
+from sqlalchemy import Select, select
+from sqlalchemy.orm import joinedload
+
+from avia.application.dto.ticket import TicketFullInfoDTO
+from avia.application.persistence.dao.ticket_dao import TicketDAOInterface
+from avia.entities.tickets.filters import TicketsFilter
+from avia.entities.value_objects.entity_id import EntityId
+from avia.infrastructure.persistence.dao.builders.ticket import TicketFullInfoDTOBuilder
+from avia.infrastructure.persistence.dao.filters.filters import SqlalchemyTicketsFilter
+from avia.infrastructure.persistence.db.models.models import (
+    AirportOrm,
+    TicketItineraryOrm,
+    TicketOrm,
+    TicketSegmentOrm,
+)
+from avia.infrastructure.persistence.persist_base import PersistenceBase
+
+
+class TicketDAO(PersistenceBase, TicketDAOInterface):
+    def _ticket_full_info_joins_query(self) -> Select:
+        return (
+            select(TicketOrm)
+            .options(
+                joinedload(TicketOrm.itineraries)
+                .joinedload(TicketItineraryOrm.segments)
+                .joinedload(TicketSegmentOrm.origin_airport)
+                .joinedload(AirportOrm.city),
+                joinedload(TicketOrm.itineraries)
+                .joinedload(TicketItineraryOrm.segments)
+                .joinedload(TicketSegmentOrm.origin_airport)
+                .joinedload(AirportOrm.country),
+                joinedload(TicketOrm.itineraries)
+                .joinedload(TicketItineraryOrm.segments)
+                .joinedload(TicketSegmentOrm.origin_airport)
+                .joinedload(AirportOrm.region),
+                joinedload(TicketOrm.itineraries)
+                .joinedload(TicketItineraryOrm.segments)
+                .joinedload(TicketSegmentOrm.destination_airport)
+                .joinedload(AirportOrm.city),
+                joinedload(TicketOrm.itineraries)
+                .joinedload(TicketItineraryOrm.segments)
+                .joinedload(TicketSegmentOrm.destination_airport)
+                .joinedload(AirportOrm.country),
+                joinedload(TicketOrm.itineraries)
+                .joinedload(TicketItineraryOrm.segments)
+                .joinedload(TicketSegmentOrm.destination_airport)
+                .joinedload(AirportOrm.region),
+                joinedload(TicketOrm.itineraries)
+                .joinedload(TicketItineraryOrm.segments)
+                .joinedload(TicketSegmentOrm.airline),
+                joinedload(TicketOrm.itineraries)
+                .joinedload(TicketItineraryOrm.segments)
+                .joinedload(TicketSegmentOrm.aircraft),
+            )
+            .order_by(TicketOrm.price)
+        )
+
+    async def get(self, id: EntityId) -> TicketFullInfoDTO | None:
+        result = await self.db.execute(self._ticket_full_info_joins_query().where(TicketOrm.id == id.value))
+
+        ticket = result.scalar()
+        return TicketFullInfoDTOBuilder.from_orm(ticket) if ticket else None
+
+    async def filter(self, filters: TicketsFilter, exchange_rates: dict[str, Decimal]) -> list[TicketFullInfoDTO]:
+        sqlalchemy_filters = SqlalchemyTicketsFilter(**filters.__dict__)
+        query = await sqlalchemy_filters.build_query(exchange_rates)
+        results = await self.db.execute(self._ticket_full_info_joins_query().where(query))
+        tickets = results.scalars().unique()
+
+        return [TicketFullInfoDTOBuilder.from_orm(ticket) for ticket in tickets]

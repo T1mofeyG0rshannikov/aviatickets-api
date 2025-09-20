@@ -1,15 +1,15 @@
-from decimal import Decimal
 import json
 from datetime import datetime
+from decimal import Decimal
 from typing import TypeVar
 from uuid import UUID
 
 from sqlalchemy import TIMESTAMP
 from sqlalchemy import UUID as DbUUID
-from sqlalchemy import Boolean, Numeric, Integer
+from sqlalchemy import Boolean, Integer, Numeric
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.infrastructure.persistence.db.database import Model
+from avia.infrastructure.persistence.db.database import Model
 
 T = TypeVar("T", bound=Model)
 

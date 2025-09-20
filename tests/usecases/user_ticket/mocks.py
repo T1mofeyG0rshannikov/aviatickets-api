@@ -2,24 +2,24 @@ import datetime
 from decimal import Decimal
 from uuid import UUID
 
-from src.application.dto.aircraft import AircraftDTO
-from src.application.dto.airline import AirlineDTO
-from src.application.dto.airports.full_info import AirportFullInfoDTO
-from src.application.dto.location import CityDTO, CountryDTO, RegionDTO
-from src.application.dto.ticket import (
+from avia.application.dto.aircraft import AircraftDTO
+from avia.application.dto.airline import AirlineDTO
+from avia.application.dto.airports.full_info import AirportFullInfoDTO
+from avia.application.dto.location import CityDTO, CountryDTO, RegionDTO
+from avia.application.dto.ticket import (
     TicketFullInfoDTO,
     TicketItineraryFullInfoDTO,
     TicketSegmentFullInfoDTO,
 )
-from src.application.dto.user import UserDTO
-from src.application.dto.user_ticket import PassengerDTO, UserTicketFullInfoDTO
-from src.entities.user.user import User
-from src.entities.user.value_objects.birth_date import BirthDate
-from src.entities.user.value_objects.email import Email
-from src.entities.user.value_objects.first_name import FirstName
-from src.entities.user.value_objects.second_name import SecondName
-from src.entities.user.value_objects.user_id import UserId
-from src.entities.value_objects.price.currency_enum import CurrencyEnum
+from avia.application.dto.user import UserDTO
+from avia.application.dto.user_ticket import PassengerDTO, UserTicketFullInfoDTO
+from avia.entities.user.user import User
+from avia.entities.user.value_objects.birth_date import BirthDate
+from avia.entities.user.value_objects.email import Email
+from avia.entities.user.value_objects.first_name import FirstName
+from avia.entities.user.value_objects.second_name import SecondName
+from avia.entities.user.value_objects.user_id import UserId
+from avia.entities.value_objects.price.currency_enum import CurrencyEnum
 
 MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
     id=UUID("9f8619ce-2b4e-4a6d-b714-c523430bd5df"),

@@ -1,10 +1,10 @@
 import httpx
 import pytest
-from redis import Redis
+from redis import Redis # type: ignore
 
-from src.application.services.currency_converter import CurrencyConverter
-from src.infrastructure.clients.exchange_rates.config import ExchangeRateServiceConfig
-from src.infrastructure.clients.exchange_rates.exchange_rates_service import (
+from avia.application.services.currency_converter import CurrencyConverter
+from avia.infrastructure.clients.exchange_rates.config import ExchangeRateServiceConfig
+from avia.infrastructure.clients.exchange_rates.exchange_rates_service import (
     ExchangeRateService,
 )
 

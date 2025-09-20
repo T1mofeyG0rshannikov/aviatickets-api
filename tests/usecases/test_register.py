@@ -2,12 +2,12 @@ from datetime import date
 
 import pytest
 
-from src.application.auth.access_token import AccessToken
-from src.application.dto.user import RegisterUserDTO
-from src.application.usecases.user.auth.register import Register
-from src.application.usecases.user.create import CreateUser
-from src.entities.user.exceptions import UserWithEmailAlreadyExistError
-from src.infrastructure.jwt.jwt_processor import JwtProcessor
+from avia.application.auth.access_token import AccessToken
+from avia.application.dto.user import RegisterUserDTO
+from avia.application.usecases.user.auth.register import Register
+from avia.application.usecases.user.create import CreateUser
+from avia.entities.user.exceptions import UserWithEmailAlreadyExistError
+from avia.infrastructure.jwt.jwt_processor import JwtProcessor
 
 
 @pytest.fixture

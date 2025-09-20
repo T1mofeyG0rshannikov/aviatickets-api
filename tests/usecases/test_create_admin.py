@@ -1,7 +1,7 @@
 import datetime
 
-from src.application.usecases.user.create import CreateUser
-from src.cli.create_admin_user import create_admin_user
+from avia.application.usecases.user.create import CreateUser
+from avia.cli.create_admin_user import create_admin_user
 
 
 async def test_create_admin(create_user: CreateUser):

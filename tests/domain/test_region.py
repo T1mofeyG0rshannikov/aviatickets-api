@@ -1,9 +1,9 @@
 import pytest
 
-from src.entities.location.region.exceptions import InvalidRegionISOCode
-from src.entities.location.region.iso import ISOCode
-from src.entities.location.region.region import Region
-from src.entities.value_objects.entity_id import EntityId
+from avia.entities.location.region.exceptions import InvalidRegionISOCode
+from avia.entities.location.region.iso import ISOCode
+from avia.entities.location.region.region import Region
+from avia.entities.value_objects.entity_id import EntityId
 
 
 def test_create_region():

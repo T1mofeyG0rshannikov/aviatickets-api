@@ -1,0 +1,8 @@
+from typing import Protocol
+
+from avia.application.dto.airports.full_info import AirportFullInfoDTO
+
+
+class AirportDAOInterface(Protocol):
+    async def filter(self, start_with: str, limit: int = 10) -> list[AirportFullInfoDTO]:
+        raise NotImplementedError

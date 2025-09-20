@@ -1,0 +1,31 @@
+from typing import Protocol
+
+from avia.entities.location.city.city import City
+from avia.entities.location.country.country import Country
+from avia.entities.location.country.iso import ISOCode as ISOCountryCode
+from avia.entities.location.region.iso import ISOCode as ISORegionCode
+from avia.entities.location.region.region import Region
+from avia.entities.value_objects.entity_id import EntityId
+
+
+class LocationRepositoryInterface(Protocol):
+    async def all_cities(self) -> list[City]:
+        raise NotImplementedError
+
+    async def get_city(self, name_english: str) -> City:
+        raise NotImplementedError
+
+    async def get_region(self, iso: ISORegionCode) -> Region:
+        raise NotImplementedError
+
+    async def get_country(self, iso: ISOCountryCode) -> Country | None:
+        raise NotImplementedError
+
+    async def get_country_by_id(self, id: EntityId) -> Country | None:
+        raise NotImplementedError
+
+    async def all_countries(self) -> list[Country]:
+        raise NotImplementedError
+
+    async def all_regions(self) -> list[Region]:
+        raise NotImplementedError

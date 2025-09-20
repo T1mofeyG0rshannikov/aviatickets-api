@@ -1,12 +1,12 @@
 import pytest
 
-from src.application.auth.access_token import AccessToken
-from src.application.usecases.user.auth.login import Login
-from src.entities.exceptions import AccessDeniedError
-from src.entities.user.exceptions import InvalidPasswordError, UserNotFoundError
-from src.infrastructure.jwt.jwt_processor import JwtProcessor
-from src.infrastructure.persistence.repositories.user_repository import UserRepository
-from src.infrastructure.security.password_hasher import PasswordHasher
+from avia.application.auth.access_token import AccessToken
+from avia.application.usecases.user.auth.login import Login
+from avia.entities.exceptions import AccessDeniedError
+from avia.entities.user.exceptions import InvalidPasswordError, UserNotFoundError
+from avia.infrastructure.jwt.jwt_processor import JwtProcessor
+from avia.infrastructure.persistence.repositories.user_repository import UserRepository
+from avia.infrastructure.security.password_hasher import PasswordHasher
 
 
 @pytest.fixture

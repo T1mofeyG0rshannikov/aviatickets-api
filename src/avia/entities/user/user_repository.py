@@ -1,0 +1,13 @@
+from typing import Protocol
+
+from avia.entities.user.user import User
+from avia.entities.user.value_objects.email import Email
+from avia.entities.user.value_objects.user_id import UserId
+
+
+class UserRepositoryInterface(Protocol):
+    async def get(self, email: Email | str | None = None, id: UserId | None = None) -> User | None:
+        raise NotImplementedError
+
+    async def save(self, data: User) -> None:
+        raise NotImplementedError

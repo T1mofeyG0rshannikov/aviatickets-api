@@ -1,8 +1,8 @@
 import pytest
-from redis import Redis
+from redis import Redis  # type: ignore
 
-from src.infrastructure.depends.base import get_redis_config
-from src.infrastructure.redis.config import RedisConfig
+from avia.infrastructure.depends.base import get_redis_config
+from avia.infrastructure.redis.config import RedisConfig
 
 
 @pytest.fixture

@@ -1,9 +1,9 @@
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.application.auth.password_hasher import PasswordHasherInterface
-from src.application.usecases.user.create import CreateUser
-from src.entities.user.user_repository import UserRepositoryInterface
+from avia.application.auth.password_hasher import PasswordHasherInterface
+from avia.application.usecases.user.create import CreateUser
+from avia.entities.user.user_repository import UserRepositoryInterface
 
 
 @pytest.fixture

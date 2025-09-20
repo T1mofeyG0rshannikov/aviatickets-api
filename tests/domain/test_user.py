@@ -2,9 +2,9 @@ from datetime import date
 
 import pytest
 
-from src.application.factories.user_factory import UserFactory
-from src.entities.user.exceptions import InvalidEmailError
-from src.entities.user.user import User
+from avia.application.factories.user_factory import UserFactory
+from avia.entities.user.exceptions import InvalidEmailError
+from avia.entities.user.user import User
 
 
 def test_create_user():

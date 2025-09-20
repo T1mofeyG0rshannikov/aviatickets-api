@@ -1,0 +1,45 @@
+from datetime import date
+
+from avia.application.auth.password_hasher import PasswordHasherInterface
+from avia.application.factories.user_factory import UserFactory
+from avia.application.persistence.transaction import Transaction
+from avia.entities.user.exceptions import UserWithEmailAlreadyExistError
+from avia.entities.user.user import User
+from avia.entities.user.user_repository import UserRepositoryInterface
+from avia.entities.user.value_objects.password import Password
+
+
+class CreateUser:
+    def __init__(
+        self,
+        user_repository: UserRepositoryInterface,
+        password_hasher: PasswordHasherInterface,
+        transaction: Transaction,
+    ) -> None:
+        self.repository = user_repository
+        self.transaction = transaction
+        self.password_hasher = password_hasher
+
+    async def __call__(
+        self, password: str, email: str, first_name: str, second_name: str, birth_date: date, is_superuser: bool = False
+    ) -> User:
+        password = Password(password)
+
+        hashed_password = self.password_hasher.hash_password(password)
+
+        user_by_email = await self.repository.get(email=email)
+        if user_by_email is not None:
+            raise UserWithEmailAlreadyExistError(f"User with email '{email}' already exist")
+
+        user = UserFactory.create(
+            email=email,
+            first_name=first_name,
+            second_name=second_name,
+            hash_password=hashed_password,
+            is_superuser=is_superuser,
+            birth_date=birth_date,
+        )
+
+        await self.repository.save(user)
+        await self.transaction.commit()
+        return user

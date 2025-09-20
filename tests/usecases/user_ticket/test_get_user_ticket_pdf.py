@@ -5,44 +5,44 @@ from uuid import UUID
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.application.builders.user_ticket import UserTicketFullInfoAssembler
-from src.application.pdf_templates import PdfTemplatesEnum
-from src.application.persistence.data_mappers.ticket_files import (
+from avia.application.builders.user_ticket import UserTicketFullInfoAssembler
+from avia.application.pdf_templates import PdfTemplatesEnum
+from avia.application.persistence.data_mappers.ticket_files import (
     TicketFilesDataMapperInterface,
 )
-from src.application.services.currency_converter import CurrencyConverter
-from src.application.services.file_manager import FileManagerInterface
-from src.application.usecases.tickets.pdf.config import PdfGeneratorConfig
-from src.application.usecases.tickets.pdf.generate import GeneratePdfTicket
-from src.application.usecases.tickets.pdf.get import GetPdfTicket
-from src.application.usecases.tickets.pdf.strategies.default.adapter import (
+from avia.application.services.currency_converter import CurrencyConverter
+from avia.application.services.file_manager import FileManagerInterface
+from avia.application.usecases.tickets.pdf.config import PdfGeneratorConfig
+from avia.application.usecases.tickets.pdf.generate import GeneratePdfTicket
+from avia.application.usecases.tickets.pdf.get import GetPdfTicket
+from avia.application.usecases.tickets.pdf.strategies.default.adapter import (
     DefaultPdfTicketAdapter,
 )
-from src.application.usecases.tickets.pdf.strategies.default.config import (
+from avia.application.usecases.tickets.pdf.strategies.default.config import (
     DefaultPdfTicketAdapterConfig,
 )
-from src.application.usecases.tickets.pdf.strategies.default.generator import (
+from avia.application.usecases.tickets.pdf.strategies.default.generator import (
     DefaultPdfTicketGenerator,
 )
-from src.entities.exceptions import AccessDeniedError
-from src.entities.user.user import User
-from src.entities.user.value_objects.birth_date import BirthDate
-from src.entities.user.value_objects.email import Email
-from src.entities.user.value_objects.first_name import FirstName
-from src.entities.user.value_objects.second_name import SecondName
-from src.entities.user.value_objects.user_id import UserId
-from src.entities.user_ticket.user_ticket import UserTicket
-from src.entities.user_ticket.user_ticket_repository import (
+from avia.entities.exceptions import AccessDeniedError
+from avia.entities.user.user import User
+from avia.entities.user.value_objects.birth_date import BirthDate
+from avia.entities.user.value_objects.email import Email
+from avia.entities.user.value_objects.first_name import FirstName
+from avia.entities.user.value_objects.second_name import SecondName
+from avia.entities.user.value_objects.user_id import UserId
+from avia.entities.user_ticket.user_ticket import UserTicket
+from avia.entities.user_ticket.user_ticket_repository import (
     UserTicketRepositoryInterface,
 )
-from src.entities.value_objects.entity_id import EntityId
-from src.infrastructure.pdf_service.service import PdfService
-from src.infrastructure.persistence.dao.tickets_dao import TicketDAO
-from src.infrastructure.persistence.data_mappers.ticket_files_data_mapper import (
+from avia.entities.value_objects.entity_id import EntityId
+from avia.infrastructure.pdf_service.service import PdfService
+from avia.infrastructure.persistence.dao.tickets_dao import TicketDAO
+from avia.infrastructure.persistence.data_mappers.ticket_files_data_mapper import (
     TicketFilesDataMapper,
 )
-from src.infrastructure.persistence.repositories.user_repository import UserRepository
-from src.infrastructure.persistence.repositories.user_ticket_repository import (
+from avia.infrastructure.persistence.repositories.user_repository import UserRepository
+from avia.infrastructure.persistence.repositories.user_ticket_repository import (
     UserTicketRepository,
 )
 

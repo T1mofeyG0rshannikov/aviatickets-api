@@ -1,11 +1,11 @@
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.application.usecases.create_user_ticket import CreateUserTicket
-from src.infrastructure.persistence.repositories.tickets_repository import (
+from avia.application.usecases.create_user_ticket import CreateUserTicket
+from avia.infrastructure.persistence.repositories.tickets_repository import (
     TicketRepository,
 )
-from src.infrastructure.persistence.repositories.user_ticket_repository import (
+from avia.infrastructure.persistence.repositories.user_ticket_repository import (
     UserTicketRepository,
 )
 

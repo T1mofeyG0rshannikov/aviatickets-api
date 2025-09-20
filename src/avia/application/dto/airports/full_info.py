@@ -1,0 +1,19 @@
+from dataclasses import dataclass
+from uuid import UUID
+
+from avia.application.dto.location import CityDTO, CountryDTO, RegionDTO
+
+
+@dataclass
+class AirportFullInfoDTO:
+    id: UUID
+    name: str
+    continent: str
+    country: CountryDTO
+    city: CityDTO
+    scheduled_service: str
+    icao: str
+    iata: str
+    gps_code: str
+    region: RegionDTO | None = None
+    name_russian: str | None = None

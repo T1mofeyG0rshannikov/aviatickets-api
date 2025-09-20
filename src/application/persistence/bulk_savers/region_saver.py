@@ -1,9 +1,0 @@
-from abc import ABC, abstractmethod
-
-from src.entities.location.region.region import Region
-
-
-class RegionBulkSaverInterface(ABC):
-    @abstractmethod
-    async def add_many(self, regions: list[Region]) -> int:
-        ...

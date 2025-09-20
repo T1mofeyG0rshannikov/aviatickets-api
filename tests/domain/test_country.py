@@ -1,6 +1,6 @@
 import pytest
 
-from src.entities.location.country.country import Country
+from avia.entities.location.country.country import Country
 
 
 def test_create_region():

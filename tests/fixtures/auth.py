@@ -1,8 +1,8 @@
 import pytest
 
-from src.infrastructure.jwt.jwt_config import JwtConfig
-from src.infrastructure.jwt.jwt_processor import JwtProcessor
-from src.infrastructure.security.password_hasher import PasswordHasher
+from avia.infrastructure.jwt.jwt_config import JwtConfig
+from avia.infrastructure.jwt.jwt_processor import JwtProcessor
+from avia.infrastructure.security.password_hasher import PasswordHasher
 
 
 @pytest.fixture

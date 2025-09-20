@@ -1,8 +1,9 @@
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
-from src.infrastructure.persistence.db.database import Model
-from src.infrastructure.persistence.db.models.models import (
+from avia.infrastructure.persistence.db.database import Model
+from avia.infrastructure.persistence.db.get_db_conf import get_db_config
+from avia.infrastructure.persistence.db.models.models import (
     AircraftOrm,
     AirlineOrm,
     AirportOrm,
@@ -20,7 +21,8 @@ from .utils import OrmJsonLoader
 
 @pytest.fixture
 def engine():
-    SQLALCHEMY_DATABASE_URL = "postgresql+asyncpg://postgres:root@localhost:5432/test_aero"
+    SQLALCHEMY_DATABASE_URL = get_db_config().DATABASE_URL
+    print(SQLALCHEMY_DATABASE_URL)
     return create_async_engine(SQLALCHEMY_DATABASE_URL, pool_size=15, max_overflow=50, pool_timeout=30)
 
 
@@ -59,31 +61,31 @@ def orm_json_loader() -> OrmJsonLoader:
 async def populate_db(engine, db, orm_json_loader: OrmJsonLoader):
     await delete_tables(engine)
     await create_tables(engine)
-    await orm_json_loader.load_objects(CountryOrm, db, "tests/data/countries.json")
-    await orm_json_loader.load_objects(CityOrm, db, "tests/data/cities.json")
-    await orm_json_loader.load_objects(RegionOrm, db, "tests/data/regions.json")
-    await orm_json_loader.load_objects(AirlineOrm, db, "tests/data/airlines.json")
-    await orm_json_loader.load_objects(AircraftOrm, db, "tests/data/aircrafts.json")
-    await orm_json_loader.load_objects(AirportOrm, db, "tests/data/airports.json")
-    await orm_json_loader.load_objects(TicketOrm, db, "tests/data/tickets.json")
-    await orm_json_loader.load_objects(TicketItineraryOrm, db, "tests/data/ticket_itineraries.json")
-    await orm_json_loader.load_objects(TicketSegmentOrm, db, "tests/data/ticket_segments.json")
-    await orm_json_loader.load_objects(UserOrm, db, "tests/data/users.json")
+    await orm_json_loader.load_objects(CountryOrm, db, "data/countries.json")
+    await orm_json_loader.load_objects(CityOrm, db, "data/cities.json")
+    await orm_json_loader.load_objects(RegionOrm, db, "data/regions.json")
+    await orm_json_loader.load_objects(AirlineOrm, db, "data/airlines.json")
+    await orm_json_loader.load_objects(AircraftOrm, db, "data/aircrafts.json")
+    await orm_json_loader.load_objects(AirportOrm, db, "data/airports.json")
+    await orm_json_loader.load_objects(TicketOrm, db, "data/tickets.json")
+    await orm_json_loader.load_objects(TicketItineraryOrm, db, "data/ticket_itineraries.json")
+    await orm_json_loader.load_objects(TicketSegmentOrm, db, "data/ticket_segments.json")
+    await orm_json_loader.load_objects(UserOrm, db, "data/users.json")
 
 
 @pytest.fixture
 async def populate_cities_db(engine, db, orm_json_loader: OrmJsonLoader):
     await create_tables(engine)
-    await orm_json_loader.load_objects(CityOrm, db, "tests/data/cities.json")
+    await orm_json_loader.load_objects(CityOrm, db, "data/cities.json")
 
 
 @pytest.fixture
 async def populate_countries_db(engine, db, orm_json_loader: OrmJsonLoader):
     await create_tables(engine)
-    await orm_json_loader.load_objects(CountryOrm, db, "tests/data/countries.json")
+    await orm_json_loader.load_objects(CountryOrm, db, "data/countries.json")
 
 
 @pytest.fixture
 async def populate_regions_db(engine, db, orm_json_loader: OrmJsonLoader):
     await create_tables(engine)
-    await orm_json_loader.load_objects(RegionOrm, db, "tests/data/regions.json")
+    await orm_json_loader.load_objects(RegionOrm, db, "data/regions.json")

@@ -1,17 +1,17 @@
 import pytest
 
-from src.infrastructure.persistence.dao.tickets_dao import TicketDAO
-from src.infrastructure.persistence.repositories.airport_repository import (
+from avia.infrastructure.persistence.dao.tickets_dao import TicketDAO
+from avia.infrastructure.persistence.repositories.airport_repository import (
     AirportRepository,
 )
-from src.infrastructure.persistence.repositories.location_repository import (
+from avia.infrastructure.persistence.repositories.location_repository import (
     LocationRepository,
 )
-from src.infrastructure.persistence.repositories.tickets_repository import (
+from avia.infrastructure.persistence.repositories.tickets_repository import (
     TicketRepository,
 )
-from src.infrastructure.persistence.repositories.user_repository import UserRepository
-from src.infrastructure.persistence.repositories.user_ticket_repository import (
+from avia.infrastructure.persistence.repositories.user_repository import UserRepository
+from avia.infrastructure.persistence.repositories.user_ticket_repository import (
     UserTicketRepository,
 )
 

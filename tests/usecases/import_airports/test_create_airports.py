@@ -1,39 +1,39 @@
 import mocks
 import pytest
 
-from src.application.dto.bulk_result import BulkResult
-from src.application.persistence.bulk_savers.airport_saver import (
+from avia.application.dto.bulk_result import BulkResult
+from avia.application.persistence.bulk_savers.airport_saver import (
     AirportBulkSaverInterface,
 )
-from src.application.persistence.bulk_savers.country_saver import (
+from avia.application.persistence.bulk_savers.country_saver import (
     CountryBulkSaverInterface,
 )
-from src.application.persistence.bulk_savers.region_saver import (
+from avia.application.persistence.bulk_savers.region_saver import (
     RegionBulkSaverInterface,
 )
-from src.application.usecases.airports.import_airports.adapter import (
+from avia.application.usecases.airports.import_airports.adapter import (
     AirportLoadDataToCreateDTOAdapter,
 )
-from src.application.usecases.airports.import_airports.load_data_to_create_dto_adapter import (
+from avia.application.usecases.airports.import_airports.load_data_to_create_dto_adapter import (
     ConvertAirportLoadDataToCreateData,
 )
-from src.application.usecases.airports.import_airports.loader import AirportsLoader
-from src.application.usecases.airports.import_airports.usecase import ImportAirports
-from src.application.usecases.country.get_or_create_countries_by_iso import (
+from avia.application.usecases.airports.import_airports.loader import AirportsLoader
+from avia.application.usecases.airports.import_airports.usecase import ImportAirports
+from avia.application.usecases.country.get_or_create_countries_by_iso import (
     GetOrCreateCountriesByISO,
 )
-from src.application.usecases.region.get_or_create_regions_by_iso import (
+from avia.application.usecases.region.get_or_create_regions_by_iso import (
     GetOrCreateRegionsByISO,
 )
-from src.entities.location.location_repository import LocationRepositoryInterface
-from src.infrastructure.etl_parsers.airports_parser import AirportsCsvParser
-from src.infrastructure.persistence.bulk_savers.airport_saver import AirportsBulkSaver
-from src.infrastructure.persistence.bulk_savers.country_saver import CountryBulkSaver
-from src.infrastructure.persistence.bulk_savers.region_saver import RegionBulkSaver
-from src.infrastructure.persistence.repositories.airport_repository import (
+from avia.entities.location.location_repository import LocationRepositoryInterface
+from avia.infrastructure.etl_parsers.airports_parser import AirportsCsvParser
+from avia.infrastructure.persistence.bulk_savers.airport_saver import AirportsBulkSaver
+from avia.infrastructure.persistence.bulk_savers.country_saver import CountryBulkSaver
+from avia.infrastructure.persistence.bulk_savers.region_saver import RegionBulkSaver
+from avia.infrastructure.persistence.repositories.airport_repository import (
     AirportRepository,
 )
-from src.infrastructure.persistence.repositories.location_repository import (
+from avia.infrastructure.persistence.repositories.location_repository import (
     LocationRepository,
 )
 

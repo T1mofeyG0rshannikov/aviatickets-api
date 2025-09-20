@@ -1,6 +1,6 @@
 import pytest
 
-from src.infrastructure.persistence.file_manager import FileManager
+from avia.infrastructure.persistence.file_manager import FileManager
 
 
 @pytest.fixture

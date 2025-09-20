@@ -2,12 +2,12 @@ import datetime
 
 import pytest
 
-from src.entities.user_ticket.exceptions import (
+from avia.entities.user_ticket.exceptions import (
     ExpiredInternationalPassportError,
     InvalidInternationalPassportError,
 )
-from src.entities.user_ticket.user_ticket import Passenger
-from src.entities.user_ticket.value_objects.passport import InternationalPassport
+from avia.entities.user_ticket.user_ticket import Passenger
+from avia.entities.user_ticket.value_objects.passport import InternationalPassport
 
 
 @pytest.mark.asyncio

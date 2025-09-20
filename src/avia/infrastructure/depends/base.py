@@ -1,0 +1,98 @@
+from functools import lru_cache
+
+import httpx
+from dependency_injector import containers, providers
+from redis import Redis  # type: ignore
+
+from avia.application.usecases.tickets.pdf.strategies.default.config import (
+    DefaultPdfTicketAdapterConfig,
+)
+from avia.infrastructure.admin.auth import AdminAuth
+from avia.infrastructure.admin.config import AdminConfig
+from avia.infrastructure.clients.exchange_rates.config import ExchangeRateServiceConfig
+from avia.infrastructure.clients.exchange_rates.exchange_rates_service import (
+    ExchangeRateService,
+)
+from avia.infrastructure.clients.ticket_parsers.amadeus.config import AmadeusAPIConfig
+from avia.infrastructure.clients.ticket_parsers.aviasales.config import (
+    AviasalesAPIConfig,
+)
+from avia.infrastructure.email_sender.config import EmailSenderConfig
+from avia.infrastructure.factories.login import LoginFactory
+from avia.infrastructure.jwt.jwt_config import JwtConfig
+from avia.infrastructure.jwt.jwt_processor import JwtProcessor
+from avia.infrastructure.pdf_service.service import PdfService
+from avia.infrastructure.redis.config import RedisConfig
+from avia.infrastructure.security.password_hasher import PasswordHasher
+
+
+async def get_httpx_session():
+    async with httpx.AsyncClient(timeout=httpx.Timeout(300.0)) as session:
+        yield session
+
+
+class InfraDIContainer(containers.DeclarativeContainer):
+    jwt_config = providers.Singleton(JwtConfig)
+    jwt_processor = providers.Singleton(JwtProcessor, jwt_config)
+    password_hasher = providers.Singleton(PasswordHasher)
+
+    redis_config = providers.Singleton(RedisConfig)
+
+    redis = providers.Singleton(
+        Redis,
+        host=redis_config.provided.host,
+        port=redis_config.provided.port,
+        db=redis_config.provided.db,
+        decode_responses=True,
+    )
+
+    session = providers.Resource(get_httpx_session)
+    exchange_rate_service_config = providers.Singleton(ExchangeRateServiceConfig)
+
+    exchange_rate_service = providers.Factory(
+        ExchangeRateService, session=session, config=exchange_rate_service_config, redis=redis
+    )
+
+    admin_config = providers.Singleton(AdminConfig)
+
+    admin_auth = providers.Singleton(
+        AdminAuth,
+        jwt_processor=jwt_processor,
+        password_hasher=password_hasher,
+        config=admin_config,
+        login_factory=LoginFactory,
+    )
+
+
+@lru_cache
+def get_email_config() -> EmailSenderConfig:
+    return EmailSenderConfig()
+
+
+@lru_cache
+def get_aviasales_ticket_parser_config() -> AviasalesAPIConfig:
+    return AviasalesAPIConfig()
+
+
+@lru_cache
+def get_amadeus_ticket_parser_config() -> AmadeusAPIConfig:
+    return AmadeusAPIConfig()
+
+
+@lru_cache
+def get_default_pdf_ticket_adapter_config() -> DefaultPdfTicketAdapterConfig:
+    return DefaultPdfTicketAdapterConfig()
+
+
+def get_pdf_service() -> PdfService:
+    return PdfService()
+
+
+@lru_cache
+def get_exchange_rate_service_config() -> ExchangeRateServiceConfig:
+    return ExchangeRateServiceConfig()
+
+
+@lru_cache
+def get_redis_config() -> RedisConfig:
+    return RedisConfig()

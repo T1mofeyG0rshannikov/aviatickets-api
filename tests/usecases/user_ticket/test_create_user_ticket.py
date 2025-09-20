@@ -4,10 +4,10 @@ from uuid import UUID
 import pytest
 import usecases.user_ticket.mocks as mocks
 
-from src.application.dto.user_ticket import CreatePassengerDTO
-from src.application.usecases.create_user_ticket import CreateUserTicket
-from src.entities.tickets.exceptions import TicketNotFoundError
-from src.entities.value_objects.entity_id import EntityId
+from avia.application.dto.user_ticket import CreatePassengerDTO
+from avia.application.usecases.create_user_ticket import CreateUserTicket
+from avia.entities.tickets.exceptions import TicketNotFoundError
+from avia.entities.value_objects.entity_id import EntityId
 
 
 @pytest.mark.asyncio

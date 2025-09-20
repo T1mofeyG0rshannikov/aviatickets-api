@@ -3,26 +3,26 @@ from unittest.mock import MagicMock
 import pytest
 import user_ticket.mocks as utmocks
 
-from src.application.builders.user_ticket import UserTicketFullInfoAssembler
-from src.application.dto.pdf_service import AdapterPdfField
-from src.application.pdf_templates import PdfTemplatesEnum
-from src.application.services.currency_converter import CurrencyConverter
-from src.application.usecases.tickets.pdf.generate import GeneratePdfTicket
-from src.application.usecases.tickets.pdf.pdf_ticket import PdfTicket
-from src.application.usecases.tickets.pdf.strategies.default.adapter import (
+from avia.application.builders.user_ticket import UserTicketFullInfoAssembler
+from avia.application.dto.pdf_service import AdapterPdfField
+from avia.application.pdf_templates import PdfTemplatesEnum
+from avia.application.services.currency_converter import CurrencyConverter
+from avia.application.usecases.tickets.pdf.generate import GeneratePdfTicket
+from avia.application.usecases.tickets.pdf.pdf_ticket import PdfTicket
+from avia.application.usecases.tickets.pdf.strategies.default.adapter import (
     DefaultPdfTicketAdapter,
     PdfFieldsAdapter,
 )
-from src.application.usecases.tickets.pdf.strategies.default.config import (
+from avia.application.usecases.tickets.pdf.strategies.default.config import (
     DefaultPdfTicketAdapterConfig,
 )
-from src.application.usecases.tickets.pdf.strategies.default.generator import (
+from avia.application.usecases.tickets.pdf.strategies.default.generator import (
     DefaultPdfTicketGenerator,
 )
-from src.entities.user_ticket.user_ticket import UserTicket
-from src.infrastructure.pdf_service.service import PdfService
-from src.infrastructure.persistence.dao.tickets_dao import TicketDAO
-from src.infrastructure.persistence.repositories.user_repository import UserRepository
+from avia.entities.user_ticket.user_ticket import UserTicket
+from avia.infrastructure.pdf_service.service import PdfService
+from avia.infrastructure.persistence.dao.tickets_dao import TicketDAO
+from avia.infrastructure.persistence.repositories.user_repository import UserRepository
 
 
 @pytest.fixture
@@ -98,7 +98,7 @@ async def test_default_pdf_template_adapter(
 
     expected_result = [
         PdfFieldsAdapter(
-            template_name="pdf_templates/default/top.pdf",
+            template_name="../pdf_templates/default/top.pdf",
             data_fields_list=[
                 [
                     AdapterPdfField(name="reservationCode", value="Not Available"),
@@ -112,7 +112,7 @@ async def test_default_pdf_template_adapter(
             ],
         ),
         PdfFieldsAdapter(
-            template_name="pdf_templates/default/new-single-ticket.pdf",
+            template_name="../pdf_templates/default/new-single-ticket.pdf",
             data_fields_list=[
                 [
                     AdapterPdfField(name="originFlight", value="QR-338"),
@@ -188,7 +188,7 @@ async def test_default_pdf_template_adapter(
                 ],
             ],
         ),
-        PdfFieldsAdapter(template_name="pdf_templates/default/bottom.pdf", data_fields_list=[]),
+        PdfFieldsAdapter(template_name="../pdf_templates/default/bottom.pdf", data_fields_list=[]),
     ]
 
     result = await pdf_ticket_adapter.execute(mock_user_ticket_dto)
