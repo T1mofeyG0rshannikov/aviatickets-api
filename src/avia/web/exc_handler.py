@@ -3,6 +3,7 @@ from fastapi.responses import JSONResponse
 
 from avia.entities.exceptions import (
     AccessDeniedError,
+    DomainError,
     InvalidCredentialsError,
     RecordNotFoundError,
 )
@@ -20,7 +21,12 @@ async def invalid_credentials_exc_handler(request: Request, exc: InvalidCredenti
     return JSONResponse(status_code=400, content={"message": str(exc)})
 
 
+async def domain_exc_handler(request: Request, exc: DomainError) -> JSONResponse:
+    return JSONResponse(status_code=400, content={"message": str(exc)})
+
+
 def init_exc_handlers(app: FastAPI) -> None:
     app.add_exception_handler(RecordNotFoundError, record_not_found_exc_handler)
     app.add_exception_handler(AccessDeniedError, access_denied_exc_handler)
     app.add_exception_handler(InvalidCredentialsError, invalid_credentials_exc_handler)
+    app.add_exception_handler(DomainError, domain_exc_handler)

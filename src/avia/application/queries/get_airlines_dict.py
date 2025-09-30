@@ -18,12 +18,12 @@ class GetAirlinesDict:
         if key == "iata":
 
             def key_func(a):
-                return a.iata
+                return a.iata.value
 
         elif key == "id":
 
             def key_func(a):
-                return a.id
+                return a.id.value
 
         else:
             raise ValueError(f"invalid key - '{key}'")

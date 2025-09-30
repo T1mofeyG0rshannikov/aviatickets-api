@@ -115,7 +115,7 @@ MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
                             country=CountryDTO(
                                 id=UUID("c2a801cb-1ec0-421b-ba4b-975dabc8567e"),
                                 iso="AE",
-                                name="Объединенные Арабские Эмираты",
+                                name="ОАЭ",
                                 name_english="United Arab Emirates",
                             ),
                             city=CityDTO(
@@ -213,7 +213,7 @@ MOCK_USER_TICKET_DTO = UserTicketFullInfoDTO(
                             country=CountryDTO(
                                 id=UUID("c2a801cb-1ec0-421b-ba4b-975dabc8567e"),
                                 iso="AE",
-                                name="Объединенные Арабские Эмираты",
+                                name="ОАЭ",
                                 name_english="United Arab Emirates",
                             ),
                             city=CityDTO(

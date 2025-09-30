@@ -88,7 +88,7 @@ ALL_TICKETS_MOCK = [
                             "country": {
                                 "id": "c2a801cb-1ec0-421b-ba4b-975dabc8567e",
                                 "iso": "AE",
-                                "name": "Объединенные Арабские Эмираты",
+                                "name": "ОАЭ",
                                 "name_english": "United Arab Emirates",
                             },
                             "city": {
@@ -192,7 +192,7 @@ ALL_TICKETS_MOCK = [
                             "country": {
                                 "id": "c2a801cb-1ec0-421b-ba4b-975dabc8567e",
                                 "iso": "AE",
-                                "name": "Объединенные Арабские Эмираты",
+                                "name": "ОАЭ",
                                 "name_english": "United Arab Emirates",
                             },
                             "city": {
@@ -391,7 +391,7 @@ ALL_TICKETS_MOCK = [
                             "country": {
                                 "id": "c2a801cb-1ec0-421b-ba4b-975dabc8567e",
                                 "iso": "AE",
-                                "name": "Объединенные Арабские Эмираты",
+                                "name": "ОАЭ",
                                 "name_english": "United Arab Emirates",
                             },
                             "city": {
@@ -495,7 +495,7 @@ ALL_TICKETS_MOCK = [
                             "country": {
                                 "id": "c2a801cb-1ec0-421b-ba4b-975dabc8567e",
                                 "iso": "AE",
-                                "name": "Объединенные Арабские Эмираты",
+                                "name": "ОАЭ",
                                 "name_english": "United Arab Emirates",
                             },
                             "city": {
@@ -692,7 +692,7 @@ MOCK_TICKET = {
                         "country": {
                             "id": "c2a801cb-1ec0-421b-ba4b-975dabc8567e",
                             "iso": "AE",
-                            "name": "Объединенные Арабские Эмираты",
+                            "name": "ОАЭ",
                             "name_english": "United Arab Emirates",
                         },
                         "city": {
@@ -788,7 +788,7 @@ MOCK_TICKET = {
                         "country": {
                             "id": "c2a801cb-1ec0-421b-ba4b-975dabc8567e",
                             "iso": "AE",
-                            "name": "Объединенные Арабские Эмираты",
+                            "name": "ОАЭ",
                             "name_english": "United Arab Emirates",
                         },
                         "city": {

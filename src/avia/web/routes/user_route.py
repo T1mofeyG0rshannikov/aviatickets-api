@@ -3,8 +3,9 @@ from typing import Annotated
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, Request
-from fastapi.responses import StreamingResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 
+from avia.application.dto.user import RegisterUserDTO
 from avia.application.dto.user_ticket import CreatePassengerDTO
 from avia.application.usecases.create_user_ticket import CreateUserTicket
 from avia.application.usecases.insurance.create import CreateInsurance
@@ -13,6 +14,11 @@ from avia.application.usecases.tickets.email import SendPdfTicketToEmail
 from avia.application.usecases.tickets.pdf.get import GetPdfTicket
 from avia.application.usecases.user.auth.login import Login
 from avia.application.usecases.user.auth.register import Register
+from avia.entities.user.exceptions import (
+    InvalidEmailError,
+    InvalidFirstNameError,
+    UserWithEmailAlreadyExistError,
+)
 from avia.entities.user.value_objects.email import Email
 from avia.entities.user.value_objects.password import Password
 from avia.entities.value_objects.entity_id import EntityId
@@ -71,9 +77,14 @@ async def send_pdf_ticket_on_email(
 async def register(
     request: Request, data: RegisterRequest, usecase: Annotated[Register, Depends(get_register_interactor)]
 ):
-    access_token = await usecase(data)
-    request.session.update({"token": access_token})
-    return access_token
+    try:
+        access_token = await usecase(RegisterUserDTO(**data.__dict__))
+        request.session.update({"token": access_token})
+        return access_token
+    except (InvalidEmailError, UserWithEmailAlreadyExistError) as e:
+        return JSONResponse(status_code=400, content={"errors": {"email": str(e)}})
+    except InvalidFirstNameError as e:
+        return JSONResponse(status_code=400, content={"errors": {"firstName": str(e)}})
 
 
 @router.post("/login", status_code=200, response_model=LoginResponse)

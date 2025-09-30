@@ -20,7 +20,7 @@ class UserFactory:
         is_active: bool = True,
     ) -> User:
         return User.create(
-            first_name=FirstName(first_name),
+            first_name=FirstName.create(first_name),
             second_name=SecondName(second_name),
             email=Email(email),
             hash_password=hash_password,

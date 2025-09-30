@@ -32,7 +32,7 @@ def init_admin(app: FastAPI) -> None:
         app=app,
         engine=engine,
         authentication_backend=authentication_backend,
-        templates_dir="src/infrastructure/admin/templates",
+        templates_dir="avia/infrastructure/admin/templates",
     )
 
     admin.add_view(AircraftAdmin)

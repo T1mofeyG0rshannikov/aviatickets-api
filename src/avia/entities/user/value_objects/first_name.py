@@ -15,12 +15,15 @@ class FirstName:
     @staticmethod
     def validation(value: str) -> bool:
         pattern = re.compile(r"^[А-Яa-яЁё]+$")
-        return bool(pattern.fullmatch(value))
+        return bool(pattern.fullmatch(value)) and len(value) > 0
 
-    def __pre_save__(self):
-        if not FirstName.validation(self.value):
-            raise InvalidFirstNameError(f"{self.value} is not valid user first name")
-        self.value = self.value.capitalize()
+    @classmethod
+    def create(cls, value: str):
+        print(value, "VALUE")
+        if not cls.validation(value):
+            raise InvalidFirstNameError(f"{value} is not valid user first name")
+
+        return FirstName(value.capitalize())
 
     def __str__(self) -> str:
         return self.value

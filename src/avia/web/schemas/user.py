@@ -24,6 +24,7 @@ class RegisterRequest(BaseModel):
     password: str
     first_name: str
     second_name: str
+    birth_date: date
 
 
 class LoginRequest(BaseModel):
