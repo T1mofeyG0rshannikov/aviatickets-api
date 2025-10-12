@@ -44,6 +44,7 @@ async def get_user(
     jwt_processor: Annotated[JwtProcessor, Depends(get_jwt_processor)],
 ) -> User | None:
     token = request.session.get("token")
+
     if token is None:
         token_header = request.headers.get("Authorization")
         if token_header.startswith("Bearer "):

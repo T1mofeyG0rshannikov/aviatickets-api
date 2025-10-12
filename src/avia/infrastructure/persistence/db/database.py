@@ -28,8 +28,3 @@ async def delete_tables() -> None:
 async def db_generator():
     async with new_session() as session:
         yield session
-
-
-async def get_session():
-    async for db in db_generator():
-        yield db

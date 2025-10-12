@@ -30,5 +30,5 @@ class GetAirlinesDict:
 
         for airline in airlines:
             airlines_dict[key_func(airline)] = airline
-        #  print(airlines_dict)
+
         return airlines_dict

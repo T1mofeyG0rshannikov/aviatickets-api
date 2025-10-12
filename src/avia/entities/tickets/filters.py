@@ -12,6 +12,6 @@ class TicketsFilter:
     destination_airport_ids: list[UUID] | None = None
     duration_min: int | None = None
     duration_max: int | None = None
-    transfers: int | None = None
+    transfers: list[int] | None = None
     departure_at: datetime | None = None
     return_at: datetime | None = None

@@ -8,7 +8,7 @@ class AircraftAdmin(BaseModelView, model=AircraftOrm):  # type: ignore
     page_size = 100
     list_template = "sqladmin/list-aircrafts.html"
 
-    column_searchable_list = ["icao", "iata"]
+    column_searchable_list = ["iata"]
 
     name = "Самолёт"
     name_plural = "Самолёты"

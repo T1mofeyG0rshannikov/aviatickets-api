@@ -52,7 +52,7 @@ class TicketFullInfoDTOBuilder:
     def from_orm(cls, ticket: TicketOrm) -> TicketFullInfoDTO:
         return TicketFullInfoDTO(
             id=ticket.id,
-            itineraries=[cls.from_orm_to_itinerary(segment) for segment in ticket.itineraries],
+            itineraries=[cls.from_orm_to_itinerary(itinerary) for itinerary in ticket.itineraries],
             price=Decimal(ticket.price),
             currency=ticket.currency,
         )

@@ -58,6 +58,8 @@ from avia.infrastructure.persistence.data_mappers.ticket_files_data_mapper impor
 )
 from avia.infrastructure.persistence.file_manager import FileManager
 from avia.infrastructure.redis.config import RedisConfig
+from avia.infrastructure.tg_notifier.config import TelegramSenderConfig
+from avia.infrastructure.tg_notifier.notifier import TgNotifier
 from avia.infrastructure.timezone_resolver import TimezoneResolver
 from avia.web.depends.annotations.annotations import (
     AircraftRepositoryAnnotation,
@@ -99,8 +101,16 @@ def get_aviasales_ticket_parser(
     return AviasalesTicketParser(session, config, repository, adapter)
 
 
-def get_timezone_resolver() -> TimezoneResolver:
-    return TimezoneResolver()
+def get_redis(redis_config: Annotated[RedisConfig, Depends(get_redis_config)]) -> Redis:
+    return Redis(
+        host=redis_config.host,
+        port=redis_config.port,
+        db=redis_config.db,
+        decode_responses=True,
+    )
+
+def get_timezone_resolver(redis: Annotated[Redis, Depends(get_redis)]) -> TimezoneResolver:
+    return TimezoneResolver(redis=redis)
 
 
 def get_airports_dict(repository: AirportRepositoryAnnotation) -> GetAirportsDict:
@@ -114,11 +124,19 @@ def get_airlines_dict(repository: AirlineRepositoryAnnotation) -> GetAirlinesDic
 def get_aircrafts_dict(repository: AircraftRepositoryAnnotation) -> GetAircraftsDict:
     return GetAircraftsDict(repository)
 
+@lru_cache
+def get_tg_config() -> TelegramSenderConfig:
+    return TelegramSenderConfig()
+
+
+def get_tg_notifier(config: Annotated[TelegramSenderConfig, Depends(get_tg_config)]) -> TgNotifier:
+    return TgNotifier(config=config)
 
 def get_amadeus_ticket_adapter(
     airports_query: Annotated[GetAirportsDict, Depends(get_airports_dict)],
     airlines_query: Annotated[GetAirlinesDict, Depends(get_airlines_dict)],
     aircrafts_query: Annotated[GetAircraftsDict, Depends(get_aircrafts_dict)],
+    error_notifier: Annotated[TgNotifier, Depends(get_tg_notifier)],
     timezone_resolver: Annotated[TimezoneResolver, Depends(get_timezone_resolver)],
 ) -> AmadeusTicketAdapter:
     return AmadeusTicketAdapter(
@@ -126,6 +144,7 @@ def get_amadeus_ticket_adapter(
         airlines_query=airlines_query,
         timezone_resolver=timezone_resolver,
         aircrafts_query=aircrafts_query,
+        error_notifier=error_notifier
     )
 
 

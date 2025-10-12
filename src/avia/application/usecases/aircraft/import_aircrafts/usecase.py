@@ -7,7 +7,9 @@ from avia.application.persistence.transaction import Transaction
 from avia.application.usecases.aircraft.import_aircrafts.loader import AircraftsLoader
 from avia.entities.aircraft.entity import Aircraft
 from avia.entities.aircraft.repository import AircraftRepositoryInterface
+from avia.entities.aircraft.value_objects.iata import IATACode
 from avia.entities.exceptions import DomainError
+from avia.entities.value_objects.entity_id import EntityId
 
 
 class ImportAircrafts:
@@ -36,8 +38,7 @@ class ImportAircrafts:
         exist_codes = await self.repository.all_iata_codes()
 
         for aircraft in aircrafts:
-            # print(airport.iata, exist_codes, airport.iata in exist_codes)
-            if aircraft.iata in exist_codes:
+            if IATACode(value=aircraft.iata) in exist_codes:
                 skipped += 1
             else:
                 try:

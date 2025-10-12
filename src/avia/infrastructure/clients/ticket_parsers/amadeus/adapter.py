@@ -11,6 +11,7 @@ from avia.application.dto.ticket import (
 from avia.application.queries.get_aircrafts_dict import GetAircraftsDict
 from avia.application.queries.get_airlines_dict import GetAirlinesDict
 from avia.application.queries.get_airports_dict import GetAirportsDict
+from avia.application.services.error_notifier import ErrorNotifierInterface
 from avia.entities.tickets.value_objects.seat_class.enum import SeatClassEnum
 from avia.infrastructure.timezone_resolver import TimezoneResolver
 
@@ -22,11 +23,13 @@ class AmadeusTicketAdapter:
         timezone_resolver: TimezoneResolver,
         airports_query: GetAirportsDict,
         aircrafts_query: GetAircraftsDict,
+        error_notifier: ErrorNotifierInterface
     ) -> None:
         self.airports_query = airports_query
         self.airlines_query = airlines_query
         self.timezone_resolver = timezone_resolver
         self.aircrafts_query = aircrafts_query
+        self.error_notifier = error_notifier
 
     def iso_time_to_minutes(self, iso_time_string: str) -> int:
         duration = isodate.parse_duration(iso_time_string)
@@ -60,13 +63,11 @@ class AmadeusTicketAdapter:
                     airports_iata.add(segment["departure"]["iataCode"])
                     airports_iata.add(segment["arrival"]["iataCode"])
                     airlines_iata.add(segment["carrierCode"])
-                    print(segment["aircraft"])
                     aircrafts_iata.add(segment["aircraft"]["code"])
 
         airlines_dict = await self.airlines_query(codes=airlines_iata, key="iata")
         airports_dict = await self.airports_query(codes=airports_iata, key="iata")
         aircrafts_dict = await self.aircrafts_query(codes=aircrafts_iata, key="iata")
-        print(aircrafts_dict)
 
         for t in response_data:
             itineraries_dto = []
@@ -78,19 +79,30 @@ class AmadeusTicketAdapter:
                         origin_airport = airports_dict[segment["departure"]["iataCode"]]
                     except KeyError:
                         print(f'''no airport with iata "{segment["departure"]["iataCode"]}"''')
+                        await self.error_notifier.notify(error_message=f'''no airport with iata "{segment["departure"]["iataCode"]}"''')
                         continue
 
                     try:
                         destination_airport = airports_dict[segment["arrival"]["iataCode"]]
                     except KeyError:
+                        await self.error_notifier.notify(error_message=f'''no airport with iata "{segment["arrival"]["iataCode"]}"''')
                         print(f'''no airport with iata "{segment["arrival"]["iataCode"]}"''')
                         continue
-
+                        
                     try:
                         aircraft = aircrafts_dict[segment["aircraft"]["code"]]
                     except KeyError:
+                        await self.error_notifier.notify(error_message=f'''no aircraft with iata "{segment["aircraft"]["code"]}"''')
                         print(f'''no aircraft with iata "{segment["aircraft"]["code"]}"''')
                         continue
+
+                    try:
+                        airline = airlines_dict[segment["carrierCode"]]
+                    except KeyError:
+                        await self.error_notifier.notify(error_message=f'''no airline with iata "{segment["carrierCode"]}"''')
+                        print(f'''no airline with iata "{segment["carrierCode"]}"''')
+                        continue
+
 
                     departure_at = datetime.fromisoformat(segment["departure"]["at"]).replace(
                         tzinfo=self.timezone_resolver.get_timezone(origin_airport.iata)
@@ -101,11 +113,11 @@ class AmadeusTicketAdapter:
 
                     segments_dto.append(
                         CreateTicketSegmentDTO(
-                            flight_number=f"""{airlines_dict[segment["carrierCode"]].iata}-{segment["number"]}""",
+                            flight_number=f"""{airline.iata}-{segment["number"]}""",
                             segment_number=ind + 1,
                             origin_airport_id=origin_airport.id.value,
                             destination_airport_id=destination_airport.id.value,
-                            airline_id=airlines_dict[segment["carrierCode"]].id.value,
+                            airline_id=airline.id.value,
                             departure_at=departure_at,
                             return_at=arrival_at,
                             duration=self.iso_time_to_minutes(segment["duration"]),

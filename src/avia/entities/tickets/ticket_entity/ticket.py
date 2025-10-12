@@ -37,3 +37,6 @@ class Ticket:
             price=price,
             itineraries=itineraries,
         )
+    
+    def __hash__(self):
+        return hash(self.unique_key.value)

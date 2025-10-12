@@ -1,3 +1,4 @@
+from functools import lru_cache
 from typing import Annotated
 
 from fastapi import Depends
@@ -85,6 +86,9 @@ from avia.infrastructure.persistence.data_mappers.ticket_files_data_mapper impor
 )
 from avia.infrastructure.persistence.file_manager import FileManager
 from avia.infrastructure.security.password_hasher import PasswordHasher
+from avia.infrastructure.tg_notifier.config import TelegramSenderConfig
+from avia.infrastructure.tg_notifier.notifier import TgNotifier
+from avia.infrastructure.timezone_resolver import TimezoneResolver
 from avia.web.depends.annotations.annotations import (
     AircraftRepositoryAnnotation,
     AirlineRepositoryAnnotation,
@@ -118,6 +122,7 @@ from avia.web.depends.depends import (  # get_aviasales_ticket_parser,
     get_insurance_data_mapper,
     get_pdf_generator_config,
     get_ticket_files_data_mapper,
+    get_timezone_resolver,
     get_user_ticket_assembler,
 )
 from avia.web.depends.etl_loaders import (
@@ -249,12 +254,17 @@ def get_parse_tickets_interactor(
 def get_filter_tickets_interactor(
     ticket_repository: TicketDAOAnnotation,
     currency_converter: Annotated[CurrencyConverter, Depends(get_currency_converter)],
+    timezone_resolver: Annotated[TimezoneResolver, Depends(get_timezone_resolver)]
 ) -> FilterTickets:
-    return FilterTickets(ticket_repository, currency_converter)
+    return FilterTickets(dao=ticket_repository, currency_converter=currency_converter, timezone_resolver=timezone_resolver)
 
 
-def get_ticket_interactor(ticket_repository: TicketDAOAnnotation) -> GetTicket:
-    return GetTicket(ticket_repository)
+def get_ticket_interactor(
+    ticket_repository: TicketDAOAnnotation,
+    currency_converter: Annotated[CurrencyConverter, Depends(get_currency_converter)],
+    timezone_resolver: Annotated[TimezoneResolver, Depends(get_timezone_resolver)]
+) -> GetTicket:
+    return GetTicket(ticket_repository, currency_converter=currency_converter, timezone_resolver=timezone_resolver)
 
 
 def get_generate_pdf_ticket_interactor(

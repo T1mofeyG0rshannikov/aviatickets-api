@@ -1,5 +1,6 @@
 from avia.application.dto.airports.full_info import AirportFullInfoDTO
 from avia.application.dto.location import CityDTO, CountryDTO, RegionDTO
+from avia.entities.airport.airport import Airport
 from avia.infrastructure.persistence.db.models.models import AirportOrm
 
 

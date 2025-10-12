@@ -9,7 +9,6 @@ from avia.main import app
 
 @pytest.fixture
 def client():
-    print(app.dependency_overrides)
     SQLALCHEMY_DATABASE_URL = get_db_config().DATABASE_URL
     engine = create_async_engine(SQLALCHEMY_DATABASE_URL, pool_size=15, max_overflow=50, pool_timeout=30)
     new_session = async_sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)

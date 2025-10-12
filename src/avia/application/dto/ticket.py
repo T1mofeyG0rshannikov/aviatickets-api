@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, time
 from decimal import Decimal
 from uuid import UUID
 
@@ -9,6 +9,7 @@ from avia.application.dto.aircraft import AircraftDTO
 from avia.application.dto.airline import AirlineDTO
 from avia.application.dto.airports.full_info import AirportFullInfoDTO
 from avia.entities.value_objects.price.currency_enum import CurrencyEnum
+from avia.infrastructure.persistence.dao.airport_dao import AirportDAO
 
 
 @dataclass
@@ -34,11 +35,30 @@ class TicketItineraryFullInfoDTO:
 
 
 @dataclass
+class ListTicketItineraryDTO:
+    transfers: int
+    duration: int
+    origin_airport: AirportFullInfoDTO
+    destination_airport: AirportFullInfoDTO
+    departure_at: time
+    return_at: time
+    airline: AirlineDTO
+
+
+@dataclass
 class TicketFullInfoDTO:
     id: UUID
     price: Decimal
     currency: CurrencyEnum
     itineraries: list[TicketItineraryFullInfoDTO]
+
+
+@dataclass
+class ListTicketDTO:
+    id: UUID
+    price: Decimal
+    currency: CurrencyEnum
+    itineraries: list[ListTicketItineraryDTO]
 
 
 class CreateTicketSegmentDTO(BaseModel):

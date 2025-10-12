@@ -5,7 +5,7 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse, StreamingResponse
 
-from avia.application.dto.user import RegisterUserDTO
+from avia.application.dto.user import RegisterUserDTO, UserDTO
 from avia.application.dto.user_ticket import CreatePassengerDTO
 from avia.application.usecases.create_user_ticket import CreateUserTicket
 from avia.application.usecases.insurance.create import CreateInsurance
@@ -14,13 +14,17 @@ from avia.application.usecases.tickets.email import SendPdfTicketToEmail
 from avia.application.usecases.tickets.pdf.get import GetPdfTicket
 from avia.application.usecases.user.auth.login import Login
 from avia.application.usecases.user.auth.register import Register
+from avia.entities.exceptions import AccessDeniedError
 from avia.entities.user.exceptions import (
     InvalidEmailError,
     InvalidFirstNameError,
+    InvalidPasswordError,
+    UserNotFoundError,
     UserWithEmailAlreadyExistError,
 )
 from avia.entities.user.value_objects.email import Email
 from avia.entities.user.value_objects.password import Password
+from avia.entities.user_ticket.exceptions import ExpiredInternationalPassportError, InvalidInternationalPassportError
 from avia.entities.value_objects.entity_id import EntityId
 from avia.web.depends.annotations.user_annotation import UserAnnotation
 from avia.web.depends.usecases import (
@@ -46,10 +50,37 @@ async def add_user_ticket(
     data: CreateUserTicketRequest,
     usecase: Annotated[CreateUserTicket, Depends(get_create_user_ticket_interactor)],
 ):
-    passengers_dto = [CreatePassengerDTO(**passenger.model_dump()) for passenger in data.passengers]
+    try:
+        passengers_dto = [CreatePassengerDTO(**passenger.model_dump()) for passenger in data.passengers]
 
-    return await usecase(EntityId(data.ticket_id), passengers_dto, user)
+        user_ticket_id = await usecase(EntityId(data.ticket_id), passengers_dto, user)
+        return JSONResponse(status_code=201, content={"user_ticket_id": str(user_ticket_id.value)})
 
+    except InvalidInternationalPassportError as e:
+        error_string = str(e)
+
+        passenger = error_string.split(":")[0]
+        error_message = error_string.split(":")[1].split("-")[0].strip()
+        
+        return JSONResponse(status_code=400, content={"errors": {
+                passenger: {
+                    "passport": error_message
+                }
+            }
+        })
+    
+    except ExpiredInternationalPassportError as e:
+        error_string = str(e)
+
+        passenger = error_string.split(":")[0]
+        error_message = error_string.split(":")[1].split("-")[0].strip()
+        
+        return JSONResponse(status_code=400, content={"errors": {
+                passenger: {
+                    "expiration_date": error_message
+                }
+            }
+        })
 
 @router.get("/pdf-ticket", status_code=200, response_class=StreamingResponse)
 @user_required
@@ -91,9 +122,14 @@ async def register(
 async def login(
     request: Request, data: LoginRequest, usecase: Annotated[Login, Depends(get_login_interactor)]
 ) -> LoginResponse:
-    access_token = await usecase(Email(data.email), Password(data.password))
-    request.session.update({"token": access_token})
-    return LoginResponse(access_token=access_token)
+    try:
+        access_token = await usecase(Email(data.email), Password(data.password))
+        request.session.update({"token": access_token})
+        return LoginResponse(access_token=access_token)
+    except InvalidPasswordError as e:
+        return JSONResponse(status_code=403, content={"errors": {"password": str(e)}})
+    except UserNotFoundError as e:
+        return JSONResponse(status_code=404, content={"errors": {"email": str(e)}})
 
 
 @router.get("/pdf-insurance", status_code=200, response_class=StreamingResponse)
@@ -103,9 +139,12 @@ async def get_pdf_insurance(
     insurance_id: UUID,
     usecase: Annotated[GetPdfInsurance, Depends(get_pdf_insurance_interactor)],
 ) -> StreamingResponse:
-    file = await usecase(EntityId(insurance_id), user)
-    headers = {"Content-Disposition": f"attachment; filename={file.name}"}
-    return StreamingResponse(BytesIO(file.content), media_type="application/pdf", headers=headers)
+    try:
+        file = await usecase(EntityId(insurance_id), user)
+        headers = {"Content-Disposition": f"attachment; filename={file.name}"}
+        return StreamingResponse(BytesIO(file.content), media_type="application/pdf", headers=headers)
+    except AccessDeniedError as e:
+        return JSONResponse(status_code=403, content={"message": str(e)})
 
 
 @router.post("/insurance", status_code=201)
@@ -115,4 +154,11 @@ async def create_insurance(
     user_ticket_id: UUID,
     usecase: Annotated[CreateInsurance, Depends(get_create_insurance_interactor)],
 ):
-    return await usecase(EntityId(user_ticket_id), user)
+    insurance = await usecase(EntityId(user_ticket_id), user)
+    return JSONResponse(status_code=201, content={"insurance_id": str(insurance.id.value)})
+
+@router.get("/user", status_code=200)
+async def get_user(
+    user: UserAnnotation
+):
+    return UserDTO.from_entity(user) if user else None

@@ -664,7 +664,7 @@ WU	CWU	Wuhan Airline	Вухан Аирлине
 WW	 	Rutas Aereas de Venezuela RAV S.A.	Рутас Эреас Де Венезуела Рав Са
 WW*	 	MJets	Мджетс
 WX	BCY	Cityjet	Китйджет
-WY	OAS	Oman Air (S.A.O.C)	Oman Air
+WY	OAS	Oman Air (S.A.O.C)	Оман Эйр
 WZ	RWZ	Red Wings	Ред Вингс
 W2	FXT	FlexFlight	Флексфлигхт
 W3	ARA	Arik Air	Арик Аир

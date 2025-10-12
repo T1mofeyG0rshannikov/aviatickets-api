@@ -12,9 +12,8 @@ class AircraftCsvParser(AircraftsLoader):
     async def load(self) -> AircraftsLoaderResponse:
         data = []
         invalid = 0
-        print(self._data)
+
         for row in self._data:
-            print(row)
             try:
                 data.append(CreateAircraftDTO(iata=row[0], name=row[2], wtc=row[3]))
             except (ValueError, KeyError, IndexError):

@@ -19,7 +19,6 @@ class FirstName:
 
     @classmethod
     def create(cls, value: str):
-        print(value, "VALUE")
         if not cls.validation(value):
             raise InvalidFirstNameError(f"{value} is not valid user first name")
 

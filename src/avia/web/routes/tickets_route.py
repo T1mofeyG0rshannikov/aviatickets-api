@@ -3,7 +3,7 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends
 
-from avia.application.dto.ticket import TicketFullInfoDTO
+from avia.application.dto.ticket import ListTicketDTO, TicketFullInfoDTO
 from avia.application.usecases.aircraft.import_aircrafts.usecase import ImportAircrafts
 from avia.application.usecases.airline.import_airlines.usecase import ImportAirlines
 from avia.application.usecases.airports.get.usecase import GetAirports
@@ -95,10 +95,10 @@ async def parse_tickets(
     return await usecase(**data.model_dump())
 
 
-@router.post("/filter-tickets", status_code=200, response_model=list[TicketFullInfoDTO])
+@router.post("/filter-tickets", status_code=200, response_model=list[ListTicketDTO])
 async def filter_tickets(
     data: FilterTicketsRequest, usecase: Annotated[FilterTickets, Depends(get_filter_tickets_interactor)]
-) -> list[TicketFullInfoDTO]:
+) -> list[ListTicketDTO]:
     return await usecase(TicketsFilter(**data.model_dump()))
 
 

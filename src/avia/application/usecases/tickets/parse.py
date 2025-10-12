@@ -6,7 +6,7 @@ from avia.application.factories.ticket.ticket_factory import TicketFactory
 from avia.application.persistence.transaction import Transaction
 from avia.application.tickets_parser import TicketsParseParams, TicketsParser
 from avia.entities.airport.airport_repository import AirportRepositoryInterface
-from avia.entities.exceptions import AirportNotFoundError
+from avia.entities.exceptions import AirportNotFoundError, RecordNotFoundError
 from avia.entities.tickets.ticket_entity.ticket import Ticket
 from avia.entities.tickets.tickets_repository import TicketRepositoryInterface
 from avia.entities.value_objects.entity_id import EntityId
@@ -63,15 +63,20 @@ class ParseAviaTickets:
                                 infants=infants,
                             )
                         )
+
                     except FetchAPIError:
                         print("error while fetching api")
                         continue
 
+                    tickets = set()
                     for ticket_dto in tickets_dto:
                         ticket = await self.ticket_factory.create(ticket_dto)
+                        tickets.add(ticket)
 
+                    for ticket in tickets:
                         if ticket.unique_key not in exist_tickets_unique_keys:
                             parsed_tickets.append(ticket)
+                            exist_tickets_unique_keys.add(ticket.unique_key)
 
         await self.ticket_repository.save_many(parsed_tickets)
         await self.transaction.commit()

@@ -24,10 +24,8 @@ class GetOrCreateCountriesByISO:
             country_from_db = countries_from_db_dict.get(country_iso)
 
             if country_from_db is None:
-                print(country_iso, "ISO")
                 pyc_country = pycountry.subdivisions.get(code=country_iso)
                 if pyc_country is not None:
-                    print(pyc_country, "PYC")
                     country = Country.create(iso=pyc_country.code, name_english=pyc_country.name)  # type: ignore
 
                     countries_to_save.add(country)
