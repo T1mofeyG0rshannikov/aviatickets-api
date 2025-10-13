@@ -4,7 +4,11 @@ from sqlalchemy import Select, and_, or_
 from sqlalchemy.orm import aliased
 
 from avia.entities.tickets.filters import TicketsFilter
-from avia.infrastructure.persistence.db.models.models import TicketItineraryOrm, TicketOrm, TicketSegmentOrm
+from avia.infrastructure.persistence.db.models.models import (
+    TicketItineraryOrm,
+    TicketOrm,
+    TicketSegmentOrm,
+)
 
 
 class SqlalchemyTicketsFilter:
@@ -65,13 +69,13 @@ class SqlalchemyTicketsFilter:
         if self._filter.return_at:
             query &= and_(
                 TicketSegmentOrm.ticket_itinerary_id == self._LastItinerary.id,
-                TicketSegmentOrm.return_at <= self._filter.return_at
+                TicketSegmentOrm.return_at <= self._filter.return_at,
             )
 
         if self._filter.departure_at:
             query &= and_(
                 TicketSegmentOrm.ticket_itinerary_id == self._FirstItinerary.id,
-                TicketSegmentOrm.departure_at >= self._filter.departure_at
+                TicketSegmentOrm.departure_at >= self._filter.departure_at,
             )
 
         price_queries = await self.build_price_query(exchange_rates)

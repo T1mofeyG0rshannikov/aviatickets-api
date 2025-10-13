@@ -24,7 +24,10 @@ from avia.entities.user.exceptions import (
 )
 from avia.entities.user.value_objects.email import Email
 from avia.entities.user.value_objects.password import Password
-from avia.entities.user_ticket.exceptions import ExpiredInternationalPassportError, InvalidInternationalPassportError
+from avia.entities.user_ticket.exceptions import (
+    ExpiredInternationalPassportError,
+    InvalidInternationalPassportError,
+)
 from avia.entities.value_objects.entity_id import EntityId
 from avia.web.depends.annotations.user_annotation import UserAnnotation
 from avia.web.depends.usecases import (
@@ -61,26 +64,17 @@ async def add_user_ticket(
 
         passenger = error_string.split(":")[0]
         error_message = error_string.split(":")[1].split("-")[0].strip()
-        
-        return JSONResponse(status_code=400, content={"errors": {
-                passenger: {
-                    "passport": error_message
-                }
-            }
-        })
-    
+
+        return JSONResponse(status_code=400, content={"errors": {passenger: {"passport": error_message}}})
+
     except ExpiredInternationalPassportError as e:
         error_string = str(e)
 
         passenger = error_string.split(":")[0]
         error_message = error_string.split(":")[1].split("-")[0].strip()
-        
-        return JSONResponse(status_code=400, content={"errors": {
-                passenger: {
-                    "expiration_date": error_message
-                }
-            }
-        })
+
+        return JSONResponse(status_code=400, content={"errors": {passenger: {"expiration_date": error_message}}})
+
 
 @router.get("/pdf-ticket", status_code=200, response_class=StreamingResponse)
 @user_required
@@ -157,8 +151,7 @@ async def create_insurance(
     insurance = await usecase(EntityId(user_ticket_id), user)
     return JSONResponse(status_code=201, content={"insurance_id": str(insurance.id.value)})
 
+
 @router.get("/user", status_code=200)
-async def get_user(
-    user: UserAnnotation
-):
+async def get_user(user: UserAnnotation):
     return UserDTO.from_entity(user) if user else None

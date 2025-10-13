@@ -21,7 +21,9 @@ class CreateUserTicket:
         self.ticket_repository = ticket_repository
         self.transaction = transaction
 
-    async def __call__(self, ticket_id: EntityId, passengers_to_create: list[CreatePassengerDTO], user: User) -> EntityId:
+    async def __call__(
+        self, ticket_id: EntityId, passengers_to_create: list[CreatePassengerDTO], user: User
+    ) -> EntityId:
         ticket = await self.ticket_repository.get(id=ticket_id)
         if ticket is None:
             raise TicketNotFoundError(f"Нет билета с id='{ticket_id}'")

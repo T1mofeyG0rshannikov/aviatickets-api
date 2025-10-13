@@ -109,6 +109,7 @@ def get_redis(redis_config: Annotated[RedisConfig, Depends(get_redis_config)]) -
         decode_responses=True,
     )
 
+
 def get_timezone_resolver(redis: Annotated[Redis, Depends(get_redis)]) -> TimezoneResolver:
     return TimezoneResolver(redis=redis)
 
@@ -124,6 +125,7 @@ def get_airlines_dict(repository: AirlineRepositoryAnnotation) -> GetAirlinesDic
 def get_aircrafts_dict(repository: AircraftRepositoryAnnotation) -> GetAircraftsDict:
     return GetAircraftsDict(repository)
 
+
 @lru_cache
 def get_tg_config() -> TelegramSenderConfig:
     return TelegramSenderConfig()
@@ -131,6 +133,7 @@ def get_tg_config() -> TelegramSenderConfig:
 
 def get_tg_notifier(config: Annotated[TelegramSenderConfig, Depends(get_tg_config)]) -> TgNotifier:
     return TgNotifier(config=config)
+
 
 def get_amadeus_ticket_adapter(
     airports_query: Annotated[GetAirportsDict, Depends(get_airports_dict)],
@@ -144,7 +147,7 @@ def get_amadeus_ticket_adapter(
         airlines_query=airlines_query,
         timezone_resolver=timezone_resolver,
         aircrafts_query=aircrafts_query,
-        error_notifier=error_notifier
+        error_notifier=error_notifier,
     )
 
 

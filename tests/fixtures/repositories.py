@@ -1,5 +1,6 @@
 import pytest
 
+from avia.infrastructure.persistence.dao.filters.filters import SqlalchemyTicketsFilter
 from avia.infrastructure.persistence.dao.tickets_dao import TicketDAO
 from avia.infrastructure.persistence.repositories.airport_repository import (
     AirportRepository,
@@ -17,8 +18,13 @@ from avia.infrastructure.persistence.repositories.user_ticket_repository import 
 
 
 @pytest.fixture
-async def ticket_dao(db):
-    return TicketDAO(db)
+def filter_builder() -> SqlalchemyTicketsFilter:
+    return SqlalchemyTicketsFilter()
+
+
+@pytest.fixture
+async def ticket_dao(db, filter_builder: SqlalchemyTicketsFilter):
+    return TicketDAO(db, filter_builder=filter_builder)
 
 
 @pytest.fixture

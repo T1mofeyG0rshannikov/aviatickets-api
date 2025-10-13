@@ -16,7 +16,7 @@ class TicketItinerary:
     @property
     def origin_airport(self) -> Airport:
         return self.segments[0].origin_airport
-    
+
     @property
     def destination_airport(self) -> Airport:
         return self.segments[-1].destination_airport

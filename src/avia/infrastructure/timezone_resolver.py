@@ -2,10 +2,10 @@ import json
 from zoneinfo import ZoneInfo
 
 import airportsdata
+from redis import Redis  # type: ignore
 
 from avia.application.services.timezone_resolver import TimezoneResolverInterface
 from avia.entities.airport.value_objects.iata_code import IATACode
-from redis import Redis # type: ignore
 
 
 class TimezoneResolver(TimezoneResolverInterface):

@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from zoneinfo import ZoneInfo
+
 from avia.entities.airport.value_objects.iata_code import IATACode
 
 

@@ -23,7 +23,7 @@ class AmadeusTicketAdapter:
         timezone_resolver: TimezoneResolver,
         airports_query: GetAirportsDict,
         aircrafts_query: GetAircraftsDict,
-        error_notifier: ErrorNotifierInterface
+        error_notifier: ErrorNotifierInterface,
     ) -> None:
         self.airports_query = airports_query
         self.airlines_query = airlines_query
@@ -79,30 +79,37 @@ class AmadeusTicketAdapter:
                         origin_airport = airports_dict[segment["departure"]["iataCode"]]
                     except KeyError:
                         print(f'''no airport with iata "{segment["departure"]["iataCode"]}"''')
-                        await self.error_notifier.notify(error_message=f'''no airport with iata "{segment["departure"]["iataCode"]}"''')
+                        await self.error_notifier.notify(
+                            error_message=f'''no airport with iata "{segment["departure"]["iataCode"]}"'''
+                        )
                         continue
 
                     try:
                         destination_airport = airports_dict[segment["arrival"]["iataCode"]]
                     except KeyError:
-                        await self.error_notifier.notify(error_message=f'''no airport with iata "{segment["arrival"]["iataCode"]}"''')
+                        await self.error_notifier.notify(
+                            error_message=f'''no airport with iata "{segment["arrival"]["iataCode"]}"'''
+                        )
                         print(f'''no airport with iata "{segment["arrival"]["iataCode"]}"''')
                         continue
-                        
+
                     try:
                         aircraft = aircrafts_dict[segment["aircraft"]["code"]]
                     except KeyError:
-                        await self.error_notifier.notify(error_message=f'''no aircraft with iata "{segment["aircraft"]["code"]}"''')
+                        await self.error_notifier.notify(
+                            error_message=f'''no aircraft with iata "{segment["aircraft"]["code"]}"'''
+                        )
                         print(f'''no aircraft with iata "{segment["aircraft"]["code"]}"''')
                         continue
 
                     try:
                         airline = airlines_dict[segment["carrierCode"]]
                     except KeyError:
-                        await self.error_notifier.notify(error_message=f'''no airline with iata "{segment["carrierCode"]}"''')
+                        await self.error_notifier.notify(
+                            error_message=f'''no airline with iata "{segment["carrierCode"]}"'''
+                        )
                         print(f'''no airline with iata "{segment["carrierCode"]}"''')
                         continue
-
 
                     departure_at = datetime.fromisoformat(segment["departure"]["at"]).replace(
                         tzinfo=self.timezone_resolver.get_timezone(origin_airport.iata)

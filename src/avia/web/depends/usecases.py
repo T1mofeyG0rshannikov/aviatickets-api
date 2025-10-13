@@ -254,15 +254,17 @@ def get_parse_tickets_interactor(
 def get_filter_tickets_interactor(
     ticket_repository: TicketDAOAnnotation,
     currency_converter: Annotated[CurrencyConverter, Depends(get_currency_converter)],
-    timezone_resolver: Annotated[TimezoneResolver, Depends(get_timezone_resolver)]
+    timezone_resolver: Annotated[TimezoneResolver, Depends(get_timezone_resolver)],
 ) -> FilterTickets:
-    return FilterTickets(dao=ticket_repository, currency_converter=currency_converter, timezone_resolver=timezone_resolver)
+    return FilterTickets(
+        dao=ticket_repository, currency_converter=currency_converter, timezone_resolver=timezone_resolver
+    )
 
 
 def get_ticket_interactor(
     ticket_repository: TicketDAOAnnotation,
     currency_converter: Annotated[CurrencyConverter, Depends(get_currency_converter)],
-    timezone_resolver: Annotated[TimezoneResolver, Depends(get_timezone_resolver)]
+    timezone_resolver: Annotated[TimezoneResolver, Depends(get_timezone_resolver)],
 ) -> GetTicket:
     return GetTicket(ticket_repository, currency_converter=currency_converter, timezone_resolver=timezone_resolver)
 

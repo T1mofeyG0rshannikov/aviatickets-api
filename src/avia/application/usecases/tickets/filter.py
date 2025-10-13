@@ -7,7 +7,12 @@ from avia.entities.value_objects.price.currency_enum import CurrencyEnum
 
 
 class FilterTickets:
-    def __init__(self, dao: TicketDAOInterface, timezone_resolver: TimezoneResolverInterface, currency_converter: CurrencyConverter) -> None:
+    def __init__(
+        self,
+        dao: TicketDAOInterface,
+        timezone_resolver: TimezoneResolverInterface,
+        currency_converter: CurrencyConverter,
+    ) -> None:
         self.dao = dao
         self.currency_converter = currency_converter
         self.timezone_resolver = timezone_resolver

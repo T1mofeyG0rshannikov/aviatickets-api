@@ -36,9 +36,7 @@ class PassengerFactory:
             )
 
         except ExpiredInternationalPassportError:
-            raise ExpiredInternationalPassportError(
-                f"{first_name} {second_name}: истёк срок загран. паспорта"
-            )
+            raise ExpiredInternationalPassportError(f"{first_name} {second_name}: истёк срок загран. паспорта")
 
 
 class UserTicketFactory:

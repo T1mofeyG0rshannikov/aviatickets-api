@@ -1,14 +1,19 @@
 from avia.application.dto.ticket import TicketFullInfoDTO
 from avia.application.persistence.dao.ticket_dao import TicketDAOInterface
+from avia.application.services.currency_converter import CurrencyConverter
 from avia.application.services.timezone_resolver import TimezoneResolverInterface
 from avia.entities.tickets.exceptions import TicketNotFoundError
 from avia.entities.value_objects.entity_id import EntityId
-from avia.application.services.currency_converter import CurrencyConverter
 from avia.entities.value_objects.price.currency_enum import CurrencyEnum
 
 
 class GetTicket:
-    def __init__(self, ticket_dao: TicketDAOInterface, currency_converter: CurrencyConverter, timezone_resolver: TimezoneResolverInterface) -> None:
+    def __init__(
+        self,
+        ticket_dao: TicketDAOInterface,
+        currency_converter: CurrencyConverter,
+        timezone_resolver: TimezoneResolverInterface,
+    ) -> None:
         self.dao = ticket_dao
         self.timezone_resolver = timezone_resolver
         self.currency_converter = currency_converter

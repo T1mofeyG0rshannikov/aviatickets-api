@@ -1,6 +1,7 @@
 from typing import Annotated
 
 from fastapi import Depends
+
 from avia.infrastructure.persistence.dao.airport_dao import AirportDAO
 from avia.infrastructure.persistence.dao.cities_dao import CitiestDAO
 from avia.infrastructure.persistence.dao.countries_dao import CountriesDAO
@@ -13,7 +14,9 @@ def get_filter_builder() -> SqlalchemyTicketsFilter:
     return SqlalchemyTicketsFilter()
 
 
-def get_ticket_dao(db: DbAnnotation, filter_builder: Annotated[SqlalchemyTicketsFilter, Depends(get_filter_builder)]) -> TicketDAO:
+def get_ticket_dao(
+    db: DbAnnotation, filter_builder: Annotated[SqlalchemyTicketsFilter, Depends(get_filter_builder)]
+) -> TicketDAO:
     return TicketDAO(db, filter_builder=filter_builder)
 
 

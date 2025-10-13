@@ -29,7 +29,7 @@ async def test_create_user_ticket(create_user_ticket: CreateUserTicket, populate
         user=user_mock,
     )
 
-    assert result is None
+    assert isinstance(result, EntityId)
 
 
 @pytest.fixture
