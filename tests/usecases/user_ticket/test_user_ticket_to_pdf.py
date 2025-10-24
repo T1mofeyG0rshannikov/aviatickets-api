@@ -117,7 +117,7 @@ async def test_default_pdf_template_adapter(
                 [
                     AdapterPdfField(name="originFlight", value="QR-338"),
                     AdapterPdfField(name="originDepartingTime", value="20:50"),
-                    AdapterPdfField(name="originDepartingDate", value="19 SEPTEMBER 2025"),
+                    AdapterPdfField(name="originDepartingDate", value="19 September 2025"),
                     AdapterPdfField(name="originArrivingDate", value="20 Sep 2025"),
                     AdapterPdfField(name="originArrivingTime", value="02:15"),
                     AdapterPdfField(name="Text-AUYa372fuH", value="SATURDAY 20 SEPTEMBER 2025"),
@@ -135,7 +135,7 @@ async def test_default_pdf_template_adapter(
                 [
                     AdapterPdfField(name="originFlight", value="QR-1022"),
                     AdapterPdfField(name="originDepartingTime", value="06:20"),
-                    AdapterPdfField(name="originDepartingDate", value="20 SEPTEMBER 2025"),
+                    AdapterPdfField(name="originDepartingDate", value="20 September 2025"),
                     AdapterPdfField(name="originArrivingDate", value="20 Sep 2025"),
                     AdapterPdfField(name="originArrivingTime", value="07:40"),
                     AdapterPdfField(name="Text-AUYa372fuH", value="SATURDAY 20 SEPTEMBER 2025"),
@@ -153,7 +153,7 @@ async def test_default_pdf_template_adapter(
                 [
                     AdapterPdfField(name="originFlight", value="QR-1007"),
                     AdapterPdfField(name="originDepartingTime", value="07:45"),
-                    AdapterPdfField(name="originDepartingDate", value="27 SEPTEMBER 2025"),
+                    AdapterPdfField(name="originDepartingDate", value="27 September 2025"),
                     AdapterPdfField(name="originArrivingDate", value="27 Sep 2025"),
                     AdapterPdfField(name="originArrivingTime", value="09:00"),
                     AdapterPdfField(name="Text-AUYa372fuH", value="SATURDAY 27 SEPTEMBER 2025"),
@@ -171,7 +171,7 @@ async def test_default_pdf_template_adapter(
                 [
                     AdapterPdfField(name="originFlight", value="QR-337"),
                     AdapterPdfField(name="originDepartingTime", value="12:50"),
-                    AdapterPdfField(name="originDepartingDate", value="27 SEPTEMBER 2025"),
+                    AdapterPdfField(name="originDepartingDate", value="27 September 2025"),
                     AdapterPdfField(name="originArrivingDate", value="27 Sep 2025"),
                     AdapterPdfField(name="originArrivingTime", value="18:20"),
                     AdapterPdfField(name="Text-AUYa372fuH", value="SATURDAY 27 SEPTEMBER 2025"),

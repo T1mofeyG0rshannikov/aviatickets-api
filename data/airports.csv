@@ -10472,7 +10472,6 @@
 42881,"AR-0459","small_airport","Savesa Airport",-33.7792,-61.9775,360,"SA","AR","AR-S","Venado Tuerto","no",,,,"VTS",,,
 42882,"AR-0460","small_airport","Sigfrido Rohr Aviagro S.R.L. Airport",-34.8306,-62.4678,360,"SA","AR","AR-B","Ameghino","no",,,"SA51","AME",,,
 42883,"AR-0461","small_airport","Skare Airport",-34.3571833134,-60.1559829712,196,"SA","AR","AR-B","Salto","no",,,,"SSK",,,
-42885,"AR-0463","small_airport","Timboy Airport",-30.2236,-57.8444,213,"SA","AR","AR-W","Monte Caseros","no",,,,"MCT",,,
 42886,"AR-0464","small_airport","Trevelin Airport",-43.08797,-71.47868,1245,"SA","AR","AR-U","Trevelin","no",,,,"TVN",,,
 45161,"AR-0465","small_airport","Casilda Fumigaciones Airport",-33.176429,-61.20299,259,"SA","AR","AR-S","Sanford","no",,,,"SCF",,,
 42888,"AR-0466","small_airport","Yapeyú Airport",-29.44393,-56.823915,214,"SA","AR","AR-W","Yapeyú","no",,,,"YPY",,,
@@ -22769,7 +22768,7 @@
 2154,"EBBL","medium_airport","Kleine Brogel Air Base",51.168301,5.47,200,"EU","BE","BE-VLI","Kleine Brogel","no",,,"EBBL",,,"https://en.wikipedia.org/wiki/Kleine_Brogel_Air_Base",
 323793,"EBBM","heliport","Michelbeke Heliport",50.830885,3.774096,,"EU","BE","BE-VOV","Brakel","no",,,"EBBM",,,,
 30965,"EBBN","small_airport","Büllingen Airfield",50.415001,6.27639,2067,"EU","BE","BE-WLG","Büllingen","no",,,"EBBN",,"http://www.feuervogel.be/","https://en.wikipedia.org/wiki/B%C3%BCllingen_Airfield","Büllingen ULM"
-2155,"EBBR","large_airport","Brussels Airport",50.901402,4.48444,175,"EU","BE","BE-VBR","Zaventem","yes","EBBR","BRU","EBBR",,"http://www.brusselsairport.be/en/","https://en.wikipedia.org/wiki/Brussels_Airport","Brussels National, Zaventem, EBMB"
+2155,"EBBR","large_airport","Brussels Airport",50.901402,4.48444,175,"EU","BE","BE-VBR","Zaventem","yes","EBBR","BRU","EBBR",,"http://www.brusselsairport.be/en/","https://en.wikipedia.org/wiki/Brussels_Airport","Brussels National, Аэропорт Брюссель"
 29031,"EBBT","small_airport","Brasschaat Airfield",51.34259,4.503451,76,"EU","BE","BE-VAN","Brasschaat","no","EBBT",,"EBBT",,"http://www.aeroclub-brasschaat.be/","https://en.wikipedia.org/wiki/Brasschaat_Airfield",
 2156,"EBBX","small_airport","Jehonville Air Base",49.891483,5.227405,1514,"EU","BE","BE-WLX","Bertrix","no",,,"EBBX",,,"https://en.wikipedia.org/wiki/Jehonville_Air_Base",
 43748,"EBBY","small_airport","Baisy-Thy Ultralight Airfield",50.568611,4.434722,525,"EU","BE","BE-WBR","Genappe","no",,,"EBBY",,"http://www.ulm.be/",,"ULM Baisy-Thy"
@@ -30048,7 +30047,7 @@
 3180,"HEBA","medium_airport","Borj El Arab International Airport",30.93249,29.696437,171,"AF","EG","EG-ALX","Alexandria","yes","HEBA","HBE","HEBA",,,"https://en.wikipedia.org/wiki/Borg_El_Arab_Airport",
 3181,"HEBL","medium_airport","Abu Simbel Airport",22.367657,31.609962,614,"AF","EG","EG-ASN","Abu Simbel","yes","HEBL","ABS","HEBL",,,"https://en.wikipedia.org/wiki/Abu_Simbel_Airport",
 3182,"HEBS","medium_airport","Bani Sweif Air Base",29.20224,31.013471,102,"AF","EG","EG-BNS","Bani Sweif","no",,,"HEBS",,,,
-3183,"HECA","large_airport","Cairo International Airport",30.111534,31.396694,322,"AF","EG","EG-C","Cairo","yes","HECA","CAI","HECA",,,"https://en.wikipedia.org/wiki/Cairo_International_Airport",
+3183,"HECA","large_airport","Cairo International Airport",30.111534,31.396694,322,"AF","EG","EG-C","Cairo","yes","HECA","CAI","HECA",,,"https://en.wikipedia.org/wiki/Cairo_International_Airport"," , Международный аэропорт Каира",
 2356,"HECP","medium_airport","Capital International Airport",30.074293,31.84296,761,"AF","EG","EG-C","New Cairo","no",,"CCE","HECP",,"http://www.avit.com.eg/index.php/projects/item/138-katameya-airport","https://en.wikipedia.org/wiki/Capital_International_Airport_(Egypt)","HECP"
 3184,"HECW","medium_airport","Cairo West Air Base",30.116431,30.915535,557,"AF","EG","EG-GZ","Cairo","no","HECW",,"HECW",,,"https://en.wikipedia.org/wiki/Cairo_West_Air_Base","CWE"
 3185,"HEDK","small_airport","Ad Dakhla Airport",25.41116,29.003273,551,"AF","EG","EG-WAD","Dakhla Oases","no","HEDK","DAK","HEDK",,,"https://en.wikipedia.org/wiki/Dakhla_Oasis_Airport",
@@ -42598,7 +42597,7 @@
 30083,"LELO","medium_airport","Logroño-Agoncillo Airport",42.460953,-2.322235,1161,"EU","ES","ES-RI","Logroño","no",,"RJL","LERJ",,"https://www.aena.es/en/logrono-agoncillo.html","https://en.wikipedia.org/wiki/Logro%C3%B1o%E2%80%93Agoncillo_Airport","LELO"
 43279,"LELT","small_airport","Lillo Airfield",39.7169,-3.32056,2272,"EU","ES","ES-CM","Lillo","no",,,"LELT",,,"https://es.wikipedia.org/wiki/Aer%C3%B3dromo_de_Lillo",
 549915,"LELV","heliport","Infanta Leonor University Hospital Heliport",40.386565,-3.615839,2145,"EU","ES","ES-MD","Madrid","no",,,"LELV",,,"https://en.wikipedia.org/wiki/Hospital_Universitario_Infanta_Leonor",
-4019,"LEMD","large_airport","Adolfo Suárez Madrid–Barajas Airport",40.471926,-3.56264,1998,"EU","ES","ES-MD","Madrid","yes","LEMD","MAD","LEMD",,"https://www.aena.es/en/adolfo-suarez-madrid-barajas.html","https://en.wikipedia.org/wiki/Adolfo_Su%C3%A1rez_Madrid%E2%80%93Barajas_Airport","Leganés, Madrid Barajas International Airport"
+4019,"LEMD","large_airport","Madrid-Barajas Airport",40.471926,-3.56264,1998,"EU","ES","ES-MD","Madrid","yes","LEMD","MAD","LEMD",,"https://www.aena.es/en/adolfo-suarez-madrid-barajas.html","https://en.wikipedia.org/wiki/Adolfo_Su%C3%A1rez_Madrid%E2%80%93Barajas_Airport","Leganés, Международный аэропорт Мадрид"
 550119,"LEME","heliport","S'Arangi Heliport",39.968221,4.093734,429,"EU","ES","ES-IB","Es Mercadal","no",,,"LEME",,,,"Menorca"
 43283,"LEMF","small_airport","Mafé - Gibraleón Airfield",37.3643,-6.92094,86,"EU","ES","ES-AN","Gibraleón","no",,,"LEMF",,,,
 4020,"LEMG","large_airport","Málaga-Costa del Sol Airport",36.6749,-4.49911,53,"EU","ES","ES-AN","Málaga","yes","LEMG","AGP","LEMG",,"https://www.aena.es/en/malaga-costa-del-sol.html","https://en.wikipedia.org/wiki/M%C3%A1laga_Airport","Costa del Sol, Malaga"
@@ -64838,7 +64837,7 @@
 76,"UB16","small_airport","Balakan Airport",41.733048,46.355677,935,"AS","AZ","AZ-BAL","Balakan","no",,,"UB0G","UB16",,"https://en.wikipedia.org/wiki/Balakan_Airport","Аэропорт Белоканы, UB16, Belokany"
 77,"UB18","medium_airport","Baku Kala Air Base",40.408409,50.200287,40,"AS","AZ","AZ-BA","Baku","no",,,,,,"https://en.wikipedia.org/wiki/Baku_Kala_Air_Base","UB18"
 35339,"UBBA","small_airport","Akstafa Airport",41.123616,45.420793,1085,"AS","AZ","AZ-AGA","Akstafa","no",,,"UBBA",,,"https://en.wikipedia.org/wiki/Akstafa_Airport","Aghstafa Airport, Agstafa Airport, UB17"
-6440,"UBBB","large_airport","Heydar Aliyev International Airport",40.467498779296875,50.04669952392578,10,"AS","AZ","AZ-BA","Baku","yes","UBBB","GYD","UBBB",,"http://www.airport-baku.com/","https://en.wikipedia.org/wiki/Heydar_Aliyev_International_Airport","BAK, Bina International Airport, Heydər Əliyev adına beynəlxalq hava limanı"
+6440,"UBBB","large_airport","Heydar Aliyev International Airport",40.467498779296875,50.04669952392578,10,"AS","AZ","AZ-BA","Baku","yes","UBBB","GYD","UBBB",,"http://www.airport-baku.com/","https://en.wikipedia.org/wiki/Heydar_Aliyev_International_Airport","BAK, Международный аэропорт Гейдар Алиев , Heydər Əliyev adına beynəlxalq hava limanı"
 44952,"UBBF","small_airport","Fuzuli International Airport",39.594578,47.196128,1247,"AS","AZ","AZ-FUZ","Fuzuli","no","UBBF","FZL","UBBF",,,"https://en.wikipedia.org/wiki/Fuzuli_International_Airport",
 6441,"UBBG","medium_airport","Ganja International Airport",40.738935,46.320067,1083,"AS","AZ","AZ-GA","Ganja","yes","UBBG","GNJ","UBBG",,,"https://en.wikipedia.org/wiki/Ganja_International_Airport","KVD, Kirovabad, Gyandzha Airport, Аэропорт Гянджа, Ganca, Gəncə"
 72,"UBBL","small_airport","Lankaran International Airport",38.757919,48.807042,30,"AS","AZ","AZ-LA","Lankaran","yes","UBBL","LLK","UBBL",,,"https://en.wikipedia.org/wiki/Lankaran_International_Airport","UB10, Lenkoran"
@@ -83100,7 +83099,7 @@
 323907,"ZHXY","medium_airport","Xinyang Minggang Airport",32.540819,114.079141,312,"AS","CN","CN-41","Xinyang","yes","ZHXY","XAI","ZHXY",,,"https://en.wikipedia.org/wiki/Xinyang_Minggang_Airport","Queshan Air Base, 信阳明港机场"
 32723,"ZHYC","medium_airport","Yichang Sanxia Airport",30.554132,111.482563,673,"AS","CN","CN-42","Yichang (Xiaoting)","yes","ZHYC","YIH","ZHYC",,"http://www.sanxiaairport.com/","https://en.wikipedia.org/wiki/Yichang_Sanxia_Airport",
 301278,"ZIZ","heliport","Zamzama Heliport",26.710944444400003,67.66725,128,"AS","PK","PK-SD","Zamzama Gas Field","no",,"ZIZ",,,,,
-27201,"ZJHK","large_airport","Haikou Meilan International Airport",19.9349,110.459,75,"AS","CN","CN-46","Haikou (Meilan)","yes","ZJHK","HAK","ZJHK",,,"https://en.wikipedia.org/wiki/Haikou_Meilan_International_Airport","ZGHK"
+27201,"ZJHK","large_airport","Haikou Meilan International Airport",19.9349,110.459,75,"AS","CN","CN-46","Haikou (Meilan)","yes","ZJHK","HAK","ZJHK",,,"https://en.wikipedia.org/wiki/Haikou_Meilan_International_Airport","ZGHK, Международный аэропорт"
 323220,"ZJQH","medium_airport","Qionghai Bo'ao Airport",19.140951,110.452766,30,"AS","CN","CN-46","Qionghai (Basuo)","yes","ZJQH","BAR","ZJQH",,,"https://en.wikipedia.org/wiki/Qionghai_Bo%27ao_Airport",
 27202,"ZJSY","large_airport","Sanya Phoenix International Airport",18.3029,109.412003,92,"AS","CN","CN-46","Sanya (Tianya)","yes","ZJSY","SYX","ZJSY",,,"https://en.wikipedia.org/wiki/Sanya_Phoenix_International_Airport",
 35242,"ZKHM","medium_airport","Orang (Chongjin) Airport",41.428538,129.647555,12,"AS","KP","KP-09","Hoemun-ri","yes","ZKHM","RGO","ZKHM",,,"https://en.wikipedia.org/wiki/Chongjin_Airport","K-33, Hoemun Airfield"

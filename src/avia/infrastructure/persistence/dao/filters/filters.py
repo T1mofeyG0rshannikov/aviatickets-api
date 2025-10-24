@@ -46,7 +46,7 @@ class SqlalchemyTicketsFilter:
 
     async def build_query(self, exchange_rates: dict[str, Decimal]) -> Select:
         query = and_()
-        print(self._filter)
+        print(self._filter, "filter")
 
         if self._filter.airline_ids:
             query &= and_(TicketSegmentOrm.airline_id.in_(self._filter.airline_ids))
@@ -77,6 +77,18 @@ class SqlalchemyTicketsFilter:
                 TicketSegmentOrm.ticket_itinerary_id == self._FirstItinerary.id,
                 TicketSegmentOrm.departure_at >= self._filter.departure_at,
             )
+
+        """if self._filter.departure_at_time:
+            query &= and_(
+                TicketSegmentOrm.ticket_itinerary_id == self._FirstItinerary.id,
+                func.cast(TicketSegmentOrm.departure_at, Time) >= time(self._filter.departure_at_time // 60, self._filter.departure_at_time % 60)
+            )
+
+        if self._filter.return_at_time:
+            query &= and_(
+                TicketSegmentOrm.ticket_itinerary_id == self._FirstItinerary.id,
+                func.cast(TicketSegmentOrm.return_at, Time) <= time(self._filter.return_at_time // 60, self._filter.return_at_time % 60)
+            )"""
 
         price_queries = await self.build_price_query(exchange_rates)
         for price_query in price_queries:

@@ -35,7 +35,8 @@ class AirportsCsvParser(AirportsLoader):
                         name_russian=self.get_russian_name(row[18]),
                     )
                 )
-            except (ValueError, KeyError):
+            except (ValueError, KeyError) as e:
+                print(row[12], e)
                 invalid += 1
 
         return AirportsLoaderResponse(airports=data, invalid=invalid)

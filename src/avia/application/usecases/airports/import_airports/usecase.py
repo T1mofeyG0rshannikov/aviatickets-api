@@ -34,15 +34,16 @@ class ImportAirports:
         return {airport.iata for airport in airports}
 
     async def __call__(self) -> BulkResult:
-        skipped = 0
+        import time
 
+        start = time.time()
+        skipped = 0
         loader_response = await self.loader.load()
 
         airports = loader_response.airports
         invalid = loader_response.invalid
 
         adapter_response = await self.converter(airports=airports)
-
         create_airports_dto = adapter_response.airports
         invalid += adapter_response.invalid
 
@@ -70,10 +71,9 @@ class ImportAirports:
                         )
                     )
                 except DomainError as e:
+                    print(e)
                     invalid += 1
-                except DomainError:
-                    continue
-
         await self.saver.add_many(create_data)
         await self.transaction.commit()
+        print(time.time() - start)
         return BulkResult(skipped=skipped, inserted=len(create_data), invalid=invalid)

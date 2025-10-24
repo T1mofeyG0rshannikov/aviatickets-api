@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from decimal import Decimal
 
 from transliterate import translit
@@ -53,8 +53,11 @@ class DefaultPdfTicketAdapter(PdfTicketAdapter):
     def get_arriving_time(self, ticket: TicketSegmentFullInfoDTO) -> datetime:
         return ticket.departure_at + timedelta(minutes=ticket.duration)
 
-    def get_origin_arriving_date(self, ticket: TicketSegmentFullInfoDTO) -> str:
-        return self.get_arriving_time(ticket).strftime("%d %b %Y")
+    def get_date_with_long_eng_date(self, date: date) -> str:
+        return date.strftime("%d %b %Y")
+
+    def get_arriving_date(self, ticket: TicketSegmentFullInfoDTO) -> str:
+        return self.get_date_with_long_eng_date(self.get_arriving_time(ticket))
 
     def get_origin_arriving_time(self, ticket: TicketSegmentFullInfoDTO) -> str:
         return self.get_arriving_time(ticket).strftime("%H:%M")
@@ -89,8 +92,8 @@ class DefaultPdfTicketAdapter(PdfTicketAdapter):
                 ticket_fields = [
                     AdapterPdfField(name="originFlight", value=ticket.flight_number),
                     AdapterPdfField(name="originDepartingTime", value=ticket.departure_at.strftime("%H:%M").upper()),
-                    AdapterPdfField(name="originDepartingDate", value=ticket.departure_at.strftime("%d %B %Y").upper()),
-                    AdapterPdfField(name="originArrivingDate", value=self.get_origin_arriving_date(ticket)),
+                    AdapterPdfField(name="originDepartingDate", value=ticket.departure_at.strftime("%d %B %Y")),
+                    AdapterPdfField(name="originArrivingDate", value=self.get_arriving_date(ticket)),
                     AdapterPdfField(name="originArrivingTime", value=self.get_origin_arriving_time(ticket)),
                     AdapterPdfField(name="Text-AUYa372fuH", value=self.format_date(ticket.return_at)),
                     AdapterPdfField(name="originDate", value=self.format_date(ticket.departure_at)),

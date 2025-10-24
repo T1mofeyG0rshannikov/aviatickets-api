@@ -14,4 +14,8 @@ class TicketsFilter:
     duration_max: int | None = None
     transfers: list[int] | None = None
     departure_at: datetime | None = None
+    departure_at_time_min: int = 0  # in minutes
+    departure_at_time_max: int = 24 * 60 - 1  # in minutes
     return_at: datetime | None = None
+    return_at_time_min: int = 0  # in minutes
+    return_at_time_max: int = 24 * 60 - 1  # in minutes

@@ -36,7 +36,8 @@ class ConvertAirportLoadDataToCreateData:
             try:
                 regions_iso.add(RegionISO(load_data.region_iso))
             except DomainError as e:
-                print(f"Error while building region iso: {e}")
+                if load_data.iata == "HAK":
+                    print(f"Error while building region iso: {e}", load_data.iata)
 
             try:
                 countries_iso.add(CountryISO(load_data.country_iso))

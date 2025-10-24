@@ -11,7 +11,6 @@ class UserAdmin(ModelView, model=UserOrm):  # type: ignore
         UserOrm.second_name,
         UserOrm.email,
         UserOrm.is_superuser,
-        UserOrm.hash_password,
     ]
 
     form = UserCreateForm

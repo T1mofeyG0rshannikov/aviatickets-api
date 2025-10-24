@@ -9,8 +9,6 @@ class PdfService(PdfServiceInterface):
     def set_file(self, file_path: str) -> None:
         self._file = fitz.open(file_path)
 
-    #        font = self._file.insert_font(fontfile=r"C:\Users\tgors\Downloads\Helvetica CY", fontname="F1")  # имя "F1" любое
-
     def _get_file(self) -> fitz.Document:
         file = self._file
         if file is None:
@@ -54,37 +52,23 @@ class PdfService(PdfServiceInterface):
     def flatten_pdf_to_bytes(self) -> bytes:
         doc = self._get_file()
 
+        new_doc = fitz.open()
+
         for page in doc:
-            widgets = page.widgets()
-            for widget in widgets:
-                rect = widget.rect
-                rect.x1 += 150
-                rect.y1 += 150
-                font = fitz.Font("helv")
-                page.insert_font(fontname="F0", fontbuffer=font.buffer)
-                # page.insert_text((50, 250), "ToUnicode Привет Hello", fontname="F0", fontsize=50, overlay=False)
+            # Рендер страницы в пиксмап
+            dpi: int = 150
+            pix = page.get_pixmap(dpi=dpi)
 
-                page.insert_textbox(
-                    rect,
-                    widget.field_value,
-                    fontsize=widget.text_fontsize,
-                    color=widget.text_color,
-                    fontname="F0",
-                    align=fitz.TEXT_ALIGN_LEFT,
-                    #   overlay=False
-                )
+            # Создаём пустой PDF и вставляем изображение как страницу
+            img_pdf = fitz.open()  # пустой документ
+            rect = fitz.Rect(0, 0, pix.width, pix.height)
+            page_img = img_pdf.new_page(width=rect.width, height=rect.height)
+            page_img.insert_image(rect, pixmap=pix)
 
-                #                page.insert_textbox(
-                #                   rect,
-                #                  widget.field_value,
-                #                 fontsize=widget.text_fontsize,
-                #                color=widget.text_color,
-                #               fontname="tiro",
-                #              align=fitz.TEXT_ALIGN_LEFT,
-                #         )
-                page.delete_widget(widget)
+            # Вставляем сгенерированную страницу в итоговый PDF
+            new_doc.insert_pdf(img_pdf)
 
-        pdf_bytes = doc.write(garbage=4)
+        pdf_bytes = new_doc.write()
         doc.close()
         return pdf_bytes
 

@@ -145,5 +145,5 @@ async def test_assecc_denied_create_pdf_ticket(get_pdf_ticket: GetPdfTicket):
         await get_pdf_ticket(
             user_ticket_id=EntityId(value=UUID("b9baccfa-2ddf-4564-808a-0f4eebd6ed6f")), user=mock_user
         )
-    print(str(excinfo.value), "Error")
+
     assert "Вы можете получать только свои билеты в pdf" in str(excinfo.value)

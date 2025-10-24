@@ -28,8 +28,14 @@ class AirportLoadDataToCreateDTOAdapter:
 
         for load_data in data:
             country = countries_dict.get(load_data.country_iso)  # type: ignore
+            if country is None:
+                print(f"No country with iso: {load_data.country_iso}")
             region = regions_dict.get(load_data.region_iso)  # type: ignore
+            if region is None:
+                print(f"No region with iso: {load_data.region_iso}")
             city = cities_dict.get(load_data.municipality)  # type: ignore
+            if city is None:
+                print(f"No city with iso: {load_data.municipality}")
 
             if country is None or region is None or city is None:
                 invalid += 1

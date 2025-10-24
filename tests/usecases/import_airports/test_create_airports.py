@@ -1,5 +1,6 @@
 import mocks
 import pytest
+from redis import Redis  # type: ignore
 
 from avia.application.dto.bulk_result import BulkResult
 from avia.application.persistence.bulk_savers.airport_saver import (
@@ -65,16 +66,18 @@ def countries_bulk_saver(db) -> CountryBulkSaver:
 
 @pytest.fixture
 def get_or_create_regions(
-    regions_bulk_saver: RegionBulkSaverInterface, location_repository: LocationRepositoryInterface
+    regions_bulk_saver: RegionBulkSaverInterface, location_repository: LocationRepositoryInterface, redis: Redis
 ) -> GetOrCreateRegionsByISO:
-    return GetOrCreateRegionsByISO(regions_bulk_saver=regions_bulk_saver, location_repository=location_repository)
+    return GetOrCreateRegionsByISO(
+        regions_bulk_saver=regions_bulk_saver, location_repository=location_repository, redis=redis
+    )
 
 
 @pytest.fixture
 def get_or_create_countries(
-    countries_bulk_saver: CountryBulkSaverInterface, location_repository: LocationRepositoryInterface
+    countries_bulk_saver: CountryBulkSaverInterface, location_repository: LocationRepositoryInterface, redis: Redis
 ) -> GetOrCreateCountriesByISO:
-    return GetOrCreateCountriesByISO(saver=countries_bulk_saver, location_repository=location_repository)
+    return GetOrCreateCountriesByISO(saver=countries_bulk_saver, location_repository=location_repository, redis=redis)
 
 
 @pytest.fixture

@@ -148,7 +148,7 @@ EU	UEA	Chengdu Airlines	Ченгду Аирлинес
 EV	ASQ	ExpressJet Airlines, Inc.	Експрессджет Аирлинес Инк
 EW	EWG	Eurowings GmbH	Еуровингс Гмбх
 EX	5AH	Avianca Express	Avianca Express
-EY	ETD	Etihad Airways	Etihad Airways
+EY	ETD	Etihad Airways	Этихад Эйрвейз
 EZ	SUS	Sun Air of Scandinavia A.S.	Сун Аир Оф Скандинавиа Ас
 E3	VGO	New Gen Airways (Ceased)	Нев Ген Аирвайс
 E4	ENT	Enter Air	Ентер Аир
@@ -506,7 +506,7 @@ RF	 	Erofey Airline	Ерофей Аирлине
 RG	RJD	Rotana Jet	Ротана Джет
 RH	 	Hong Kong Air Cargo Carrier Limited	Хонг Конг Аир Карго Карриер Лимитед
 RI	MDL	Tigerair Mandala	Тигераир Мандала
-RJ	RJA	Royal Jordanian	Royal Jordanian
+RJ	RJA	Royal Jordanian	Роял Джорданиан
 RL	ABG	JSC Royal Flight Airlines	Джск Роял Флигхт Аирлинес
 RM	NGT	Aircompany Armenia	Аиркомпанй Армениа
 RO	ROT	TAROM - Romanian Air Transport	Таром - Романиан Аир Транспорт

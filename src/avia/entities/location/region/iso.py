@@ -13,5 +13,5 @@ class ISOCode(str):
 
     @staticmethod
     def is_valid_iata(value):
-        regex = r"^[A-Z]{2}-[A-Z0-9]{2,3}$"
+        regex = r"^[A-Z]{2}-[A-Z0-9]{1,3}$"
         return isinstance(value, str) and (re.match(regex, value) is not None)

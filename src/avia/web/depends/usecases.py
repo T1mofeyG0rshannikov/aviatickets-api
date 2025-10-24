@@ -1,6 +1,6 @@
-from functools import lru_cache
 from typing import Annotated
 
+from aioredis import Redis
 from fastapi import Depends
 
 from avia.application.builders.user_ticket import UserTicketFullInfoAssembler
@@ -86,8 +86,6 @@ from avia.infrastructure.persistence.data_mappers.ticket_files_data_mapper impor
 )
 from avia.infrastructure.persistence.file_manager import FileManager
 from avia.infrastructure.security.password_hasher import PasswordHasher
-from avia.infrastructure.tg_notifier.config import TelegramSenderConfig
-from avia.infrastructure.tg_notifier.notifier import TgNotifier
 from avia.infrastructure.timezone_resolver import TimezoneResolver
 from avia.web.depends.annotations.annotations import (
     AircraftRepositoryAnnotation,
@@ -121,6 +119,7 @@ from avia.web.depends.depends import (  # get_aviasales_ticket_parser,
     get_file_manager,
     get_insurance_data_mapper,
     get_pdf_generator_config,
+    get_redis,
     get_ticket_files_data_mapper,
     get_timezone_resolver,
     get_user_ticket_assembler,
@@ -142,15 +141,17 @@ def get_airport_load_data_to_create_data_adapter() -> AirportLoadDataToCreateDTO
 def get_or_create_countries(
     persist_countries: Annotated[CountryBulkSaverInterface, Depends(get_country_importer)],
     location_repository: LocationRepositoryAnnotation,
+    redis: Annotated[Redis, Depends(get_redis)],
 ) -> GetOrCreateCountriesByISO:
-    return GetOrCreateCountriesByISO(persist_countries, location_repository)
+    return GetOrCreateCountriesByISO(persist_countries, location_repository, redis=redis)
 
 
 def get_or_create_regions(
     persist_regions: Annotated[RegionBulkSaverInterface, Depends(get_region_importer)],
     location_repository: LocationRepositoryAnnotation,
+    redis: Annotated[Redis, Depends(get_redis)],
 ) -> GetOrCreateRegionsByISO:
-    return GetOrCreateRegionsByISO(persist_regions, location_repository)
+    return GetOrCreateRegionsByISO(persist_regions, location_repository, redis=redis)
 
 
 def get_convert_airport_load_data_to_create_data(

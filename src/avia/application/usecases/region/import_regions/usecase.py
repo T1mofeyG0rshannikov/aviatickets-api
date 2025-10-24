@@ -40,6 +40,7 @@ class ImportRegions:
                             iso=data.iso, country_id=data.country_id, name=data.name, name_english=data.name_english
                         )
                     )
+
                 except DomainError as e:
                     print(f"Error while building Region: {e}")
 

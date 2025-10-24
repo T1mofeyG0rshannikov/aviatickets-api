@@ -33,5 +33,5 @@ class CreateCities:
             if data.name not in exist_names
         ]
 
-        await self.importer.add_many(cities=create_data)
+        await self.importer.add_many(create_data)
         await self.transaction.commit()
